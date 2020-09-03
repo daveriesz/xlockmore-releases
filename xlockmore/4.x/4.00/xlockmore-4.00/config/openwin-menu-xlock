@@ -1,0 +1,114 @@
+# put this in your $OPENWINHOME/lib, usually $OPENWINHOME is /usr/openwin
+
+	"Lock Screen" TITLE PIN
+	"Cellular-Automata" MENU
+	  "Automata" TITLE
+		"Ant"			exec xlock -mode ant -neighbors 4 +truchet
+		"Ant Truchet"		exec xlock -mode ant -neighbors 4 -truchet
+		"Bee"			exec xlock -mode ant -neighbors 6 +truchet
+		"Bee Truchet"		exec xlock -mode ant -neighbors 6 -truchet
+		"Bug"			exec xlock -mode bug
+		"Demon"			exec xlock -mode demon
+		"Life"		DEFAULT exec xlock -mode life
+		"Life1d"		exec xlock -mode life1d
+		"Life3d"		exec xlock -mode life3d
+		"Loop"			exec xlock -mode loop
+		"Wator"			exec xlock -mode wator
+		"Wire"			exec xlock -mode wire
+		"Random Automata"	exec xlock -mode random -modelist ant,bug,demon,life,life1d,life3d,loop,wator,wire -neighbors 0
+	"Cellular-Automata" END
+	"Fractal" MENU
+	  "Fractal" TITLE
+		"Drift"		exec xlock -mode drift +grow +liss
+		"Drift Grow"		exec xlock -mode drift -grow
+		"Drift Niss"		exec xlock -mode drift +grow -liss
+		"Flame"			exec xlock -mode flame
+		"Forest"		exec xlock -mode forest
+		"Hop"		DEFAULT exec xlock -mode hop
+		"Julia"			exec xlock -mode julia
+		"Lightning"		exec xlock -mode lightning
+		"Mountain"		exec xlock -mode mountain
+		"Tri"			exec xlock -mode tri
+		"Triangle"		exec xlock -mode triangle
+		"Turtle"		exec xlock -mode turtle
+		"Random Fractal"	exec xlock -mode random -modelist drift,flame,forest,hop,julia,lightning,mountain,tri,triangle,turtle
+	"Fractal" END
+	"Geometry" MENU
+	  "Geometry" TITLE
+		"Braid"			exec xlock -mode braid
+#		"Gear"			exec xlock -mode gear
+		"Geometry"		exec xlock -mode geometry
+		"Helix"			exec xlock -mode helix
+		"Hyper"			exec xlock -mode hyper
+		"Kaleid"		exec xlock -mode kaleid
+		"Laser"			exec xlock -mode laser
+		"Lissie"		exec xlock -mode lissie
+		"Penrose"		exec xlock -mode penrose +ammann
+		"Penrose Ammann"	exec xlock -mode penrose -ammann
+		"Petal"			exec xlock -mode petal
+		"Qix"		DEFAULT exec xlock -mode qix
+		"Shape"			exec xlock -mode shape
+		"Sphere"		exec xlock -mode sphere
+		"Spiral"		exec xlock -mode spiral
+		"Spline"		exec xlock -mode spline
+		"Random Geometry"	exec xlock -mode random -modelist braid,geometry,helix,hyper,kaleid,laser,lissie,penrose,petal,qix,shape,sphere,spiral,spline
+	"Geometry" END
+	"Space" MENU
+	  "Space" TITLE
+		"Bouboule"		exec xlock -mode bouboule +use3d
+		"Bouboule3d"		exec xlock -mode bouboule -use3d
+		"Galaxy"		exec xlock -mode galaxy
+		"Grav"			exec xlock -mode grav +trail +grav
+		"Grav Trail"		exec xlock -mode grav -trail
+		"Grav Decay"		exec xlock -mode grav -grav
+		"Rock"			exec xlock -mode star -rock
+		"Star"			exec xlock -mode star +rock +use3d -trek 0
+		"Star3d"		exec xlock -mode star -use3d
+		"Star Trek"	DEFAULT	exec xlock -mode star -trek 100
+		"World"			exec xlock -mode world
+		"Random Space"		exec xlock -mode random -modelist bouboule,galaxy,grav,star,world
+	"Space" END
+	"Assorted" MENU
+	  "Assorted" TITLE
+		"Ball"			exec xlock -mode ball
+		"Bat"			exec xlock -mode bat
+		"Blot"			exec xlock -mode blot
+		"Bounce"		exec xlock -mode bounce
+		"Clock"			exec xlock -mode clock
+		"Cartoon"		exec xlock -mode cartoon
+		"Daisy"			exec xlock -mode daisy
+		"Dclock"		exec xlock -mode dclock
+		"Eyes"			exec xlock -mode eyes
+		"Flag"			exec xlock -mode flag 
+		"Image"			exec xlock -mode image
+		"Marquee"		exec xlock -mode marquee
+		"Maze"			exec xlock -mode maze
+		"Nose"			exec xlock -mode nose
+		"Pacman"		exec xlock -mode pacman
+		"Puzzle"	DEFAULT exec xlock -mode puzzle
+		"Pyro"			exec xlock -mode pyro +use3d
+		"Pyro3d"		exec xlock -mode pyro -use3d
+		"Roll"			exec xlock -mode roll
+		"Rotor"			exec xlock -mode rotor
+		"Slip"			exec xlock -mode slip
+		"Swarm"			exec xlock -mode swarm
+		"Swirl"			exec xlock -mode swirl -install
+		"Worm"			exec xlock -mode worm +use3d
+		"Worm3d"		exec xlock -mode worm -use3d
+	"Assorted" END
+	"Messages" MENU
+	  "Marquee/Nose" TITLE
+		"Back Soon"	DEFAULT	exec xlock -mode marquee -message "$LOGNAME will be back soon."
+		"Overnight"		exec xlock -mode marquee -message "$LOGNAME will be back in the morning."
+		"Rude"			exec xlock -mode marquee -message "$LOGNAME not here, please go away! "
+		SEPARATOR
+		"Back Soon"		exec xlock -mode nose -message "$LOGNAME will be back soon."
+		"Overnight"		exec xlock -mode nose -message "$LOGNAME will be back in the morning."
+		"Rude"			exec xlock -mode nose -message "$LOGNAME not here, please go away! "
+	"Messages" END
+	"Special" DEFAULT MENU
+	  "Special" TITLE
+		"Blank"			exec xlock -mode blank
+#		"Bomb"			exec xlock -mode bomb
+		"Random"	DEFAULT	exec xlock -mode random -neighbors 0
+	"Special" END

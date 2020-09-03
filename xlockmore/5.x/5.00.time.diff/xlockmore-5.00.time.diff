@@ -1,0 +1,22 @@
+--- ./modes/glx/fire.c.orig	Sun Mar 11 12:11:14 2001
++++ ./modes/glx/fire.c	Sun Mar 11 12:12:45 2001
+@@ -91,6 +91,8 @@
+ #include <GL/glx.h>
+ #include <GL/glu.h>
+ 
++#include <time.h>
++
+ #include "xpm-ximage.h"
+ 
+ #ifdef STANDALONE
+--- ./modes/glx/sballs.c.orig	Sun Mar 11 12:18:35 2001
++++ ./modes/glx/sballs.c	Sun Mar 11 12:18:49 2001
+@@ -64,6 +64,8 @@
+ #include <GL/glx.h>
+ #include <GL/glu.h>
+ 
++#include <time.h>
++
+ #include "xpm-ximage.h"
+ 
+ #ifdef STANDALONE

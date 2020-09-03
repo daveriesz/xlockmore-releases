@@ -1,0 +1,59 @@
+# Previously written for xscreensaver-2.17 and xscreensaver-5.10.
+This is now for getting xlockmore modes running in xscreensaver-5.43.
+Previous version is way out of date, see below.
+
+First figure out how to compile xscreensaver without my changes.
+For me I had to do this:
+  install intltool 0.51.0
+  libglade-2.0 not found... no demo it warns and no jpeg
+
+Then...
+  cp -rp xlockmore-5.59ALPHA5 xsreensaver-5.43/xlockmore
+  cd xsreensaver-5.43
+  edit configure.in replace 
+for d in utils jwxyz hacks hacks/glx driver ; do
+for d in utils jwxyz hacks xlockmore/xlock xlockmore/modes xlockmore/modes/glx hacks/glx driver; do
+   similar for AC_OUTPUT add these 2 lines after hacks/Makefile
+          xlockmore/xlock/Makefile
+          xlockmore/modes/Makefile
+          xlockmore/modes/glx/Makefile
+
+   autoconf
+(I made copies configure.in and configure in this directory, but may go out of date)
+  cd xlockmore/xlock
+  mv Makefile.inxs Makefile.in
+  cd ../modes
+  mv Makefile.inxs Makefile.in
+  cd glx
+  mv Makefile.inxs Makefile.in
+  cd ../../..
+  ./configure
+For me I had to edit the config.h and comment out
+/*#define HAVE_GDK_PIXBUF 1*/
+add next line
+#define HAVE_GTK2 1
+
+ make
+ cd hacks
+ cp ../xlockmore/xscreensaver/xlockmore.h .  # just edited to add common.h, stuff Jamie forgot about I guess
+ cp ../xlockmore/xscreensaver/xlockmoreI.h .  # small edit for recursion_depth
+ cp ../xlockmore/xscreensaver/xlockmore.c .  # small edit for blank mode for the completionist
+ make xlockmore.o
+ cd hacks/glx
+ make # may fails so need this also
+ make gears
+ make rubik
+ cd ../../xlockmore/xlock
+ make
+gives a few warnings
+ cd ../modes
+ make
+New automata.c and automata.h supplied and all automata modes should use this.
+(Makefile.inxs modified to use this version already rather than the one in xscreensaver.)
+ball, bat, pacman, puzzle converted though it runs it is not working correctly yet
+The build should stop with random.c... (no reason to convert that one I guess).
+ cd glx
+ rm *track* # confuses build
+ make
+Just a few modes like skewb and biof, for now.  Will stop at cage for wood images.
+fire needs its trees and ground images.

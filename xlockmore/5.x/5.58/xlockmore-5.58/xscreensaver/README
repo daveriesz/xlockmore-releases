@@ -1,0 +1,116 @@
+# Previously written for xscreensaver-2.17 and xscreensaver-5.10.
+This is now for getting xlockmore modes running in xscreensaver-5.43.
+Previous version is way out of date, see below.
+
+First figure out how to compile xscreensaver without my changes.
+For me I had to do this:
+  install intltool 0.51.0
+  libglade-2.0 not found... no demo it warns
+  no jpeg
+
+  cp -rp xlockmore-5.58 xsreensaver-5.43/xlockmore
+  cd xsreensaver-5.43
+  edit configure.in replace 
+for d in utils jwxyz hacks hacks/glx driver ; do
+for d in utils jwxyz hacks xlockmore/xlock xlockmore/modes hacks/glx driver; do
+   similar for AC_OUTPUT add these 2 lines after hacks/Makefile
+          xlockmore/xlock/Makefile
+          xlockmore/modes/Makefile
+
+   autoconf
+(I made copies configure.in and configure in this directory, but may go out of date)
+  cd xlockmore/xlock
+  mv Makefile.inxs Makefile.in
+  cd ../modes
+  mv Makefile.inxs Makefile.in
+  cd ../..
+  ./configure
+For me I had to edit the config.h and comment out
+/*#define HAVE_GDK_PIXBUF 1*/
+add next line
+#define HAVE_GTK2 1
+
+  make
+For me I get en error in blitspin in xscreensaver... so need to build xlockmore.o
+
+Not necessary yet but MI_BITMAP not there...
+MI_BITMAP is not present in hacks/xlockmoreI.h and hacks/xlockmore.h
+(more work needs to be done)
+   add "char *bitmap;" after wireframe_p in ModeInfo in hacks/xlockmoreI.h
+   add "#define MI_BITMAP(MI)           ((MI)->bitmap)" after xgwa.screen in hacks/xlockmore.h
+
+ make
+ cd hacks
+ make xlockmore.o
+ cd ../xlockmore/xlock
+ make
+gives a few warnings
+ cd ../modes
+ make
+New automata.c and automata.h supplied and all automata modes should use this
+rather than the one in xscreensaver.
+ball and bat converted though it runs it is not working correctly yet
+bouboule will not build and will stop there, (can do one extra make braid if you wish)
+bouboule will require some changes in xlockmore.h and xlocmoreI.h to do right.
+Future
+Want to do bomb dragon life scooter
+
+old instructions after this... probably do not apply any more...
+
+------------------------------------------------
+xlockmore-modes will install first ...
+So during an installation these executables will be overwritten
+if there is a conflict with the xscreensavers modes.
+
+See docs/TODO for current problems.
+
+0. OK say you have xscreensaver-5.10/ .  Drop a version of xlockmore in that
+   directory and change the name of xlockmore to "xlockmore".
+   (This is not 100% tested so it would be wise to read it first!)
+
+      cd xscreensaver-5.10/xlockmore/xscreensaver
+
+1. Makefile.in replaces ../../Makefile.in
+   configure.in replaces ../../configure.in
+   need autoconf to replace configure... (pick it from your favorite gnu site)
+
+      mv ../../configure.in ../../configure.in.orig
+      mv ../../Makefile.in ../../Makefile.in.orig
+      cp ./configure.in ../../configure.in
+      cp ./Makefile.in ../../Makefile.in
+      cd ../..
+      autoconf
+      cd xlockmore/xscreensaver
+
+2. modes/glx directory goes in xscreensaver/hacks/glx with the old
+   Makefile.in (do not write over this file!) and xlock-gl.c
+
+      mv ../../hacks/glx ../../hacks/glx.orig
+      cp -R ../modes/glx ../../hacks/glx
+      cp ../../hacks/glx.orig/Makefile.in ../../hacks/glx/
+#      cp ../../hacks/glx.orig/xlock-gl.c ../../hacks/glx/
+
+
+3. change Makefiles... make backups
+
+     cp ../xlock/Makefile.in ../xlock/Makefile.inxl
+     cp ../modes/Makefile.in ../modes/Makefile.inxl
+     cp ../xlock/Makefile.inxs ../xlock/Makefile.in
+     cp ../modes/Makefile.inxs ../modes/Makefile.in
+
+
+4. Then its all ready...
+
+     cd ../..
+     ./configure
+     make
+
+driver/Makefile
+#@INTLTOOL_DESKTOP_RULE@
+#GL_SRCS         = @SAVER_GL_SRCS@
+#GL_OBJS         = @SAVER_GL_OBJS@
+#GL_LIBS         = @SAVER_GL_LIBS@
+#XMU_LIBS       = @XMU_LIBS@
+#XDPMS_LIBS      = @XDPMS_LIBS@
+#XINERAMA_LIBS   = @XINERAMA_LIBS@
+

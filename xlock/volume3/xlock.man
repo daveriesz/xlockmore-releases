@@ -1,0 +1,126 @@
+.\" @(#)xlock.man 1.4 89/02/16; Copyright (c) 1989 - Sun Microsystems, Inc.
+.TH XLOCK 1 "16 Feb 1989" "X11/NeWS 1.0"
+.SH NAME
+xlock \- Locks the local X display till a password is entered.
+.SH SYNOPSIS
+.B xlock
+[
+.BI \-time " timeout"
+]
+[
+.BI \-count " pixelcount"
+]
+[
+.B \-font " fontname"
+]
+[
+.B \-mono
+]
+[
+.B \-saver
+]
+[
+.B \-root
+]
+[
+.B \-v
+]
+.SH DESCRIPTION
+.B xlock
+locks the X server till the user enters their password at the keyboard.
+While
+.B xlock
+is running,
+all new server connections are refused.
+The screen saver is disabled.
+The mouse cursor is turned off.
+The screen is blanked and the "real plane" iterative fractals from
+the September 1986 issue of Scientific American are put on the screen.
+The pattern changes after
+.I timeout
+seconds. 
+If a key or a mouse button is pressed then the user is prompted for the
+password of the user who started
+.B xlock.
+
+If the correct password is typed, then the screen is unlocked and the X
+server is restored.  When typing the password, characters are not echoed
+to the screen, but Control-U and Control-H are active as kill and erase
+respectively. 
+
+.SH OPTIONS
+.TP 5
+.B \-time " timeout"
+The
+.I time
+option sets the number of seconds that each unique fractal will remain on
+the screen before being replaced by the next one to
+.I timeout.
+.TP 5
+.B \-count " pixelcount"
+The
+.I count
+option sets the number of pixels to draw in each color.  The coordinates are
+calculated in batches of
+.I pixelcount
+pixels, then sent to the screen in a single color.  Faster machines,
+expecially machines with floating point hardware can set this to a
+higher number and still have fast changing fractals.
+.TP 5
+.B \-font " fontname"
+The
+.I font
+option sets the font to be used on the prompt screen.
+.TP 5
+.B \-mono
+The
+.I mono
+option causes xlock to display monochrome, (black and white) pixels rather
+than the default colored ones.
+.TP 5
+.B \-saver
+The
+.I saver
+option causes xlock to only draw the fractals and not lock the display.
+A keypress or a mouse click will terminate the screen saver.
+.TP 5
+.B \-root
+The
+.I root
+option allows the root password to unlock the server as well as the user
+who started xlock.
+.SH BUGS
+"kill -KILL
+.B xlock
+" causes server to be unusable, since
+.B xlock
+has removed all hosts (including localhost) from the access control list
+to lock out all new X clients, and SIGKILL cannot be caught by any program,
+.B xlock
+will terminate before restoring the access control list.  This will
+leave the X server in a state where
+\fI "you can no longer connect to that server, and this operation cannot be
+reversed short of resetting the server."\fP
+		-From the X11R2 Xlib Documentation page 140. 
+.SH SEE ALSO
+X(1), Xlib Documentation.
+
+.SH AUTHOR
+ Patrick J. Naughton	 (naughton@wind.sun.com)
+ Window Systems Group
+ Sun Microsystems, Inc.
+ Mountain View, CA  94043
+ 415/336-1080
+
+.SH COPYRIGHT
+ Copyright (c) 1989 by Sun Microsystems, Inc.
+
+Permission to use, copy, modify, and distribute this software and its
+documentation for any purpose and without fee is hereby granted,
+provided that the above copyright notice appear in all copies and that
+both that copyright notice and this permission notice appear in
+supporting documentation. 
+
+.SH CONTRIBUTORS
+  milliken@heron.bbn.com	karlton@wsl.dec.com
+  dana@thumper.bellcore.com	vesper@3d.dec.com

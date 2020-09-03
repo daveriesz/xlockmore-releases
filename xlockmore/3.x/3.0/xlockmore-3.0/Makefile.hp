@@ -1,0 +1,163 @@
+# @(#)Makefile	1.9 91/09/27 XLOCK
+
+BITMAPTYPE	= hp
+PIXMAPTYPE	= hp
+LIFEBITMAP	= ${BITMAPTYPE}
+MAZEBITMAP	= ${BITMAPTYPE}
+IMAGEBITMAP	= ${BITMAPTYPE}
+IMAGEPIXMAP	= ${PIXMAPTYPE}
+
+# Set your C compiler
+#CC		= gcc -Wall
+CC		= cc
+
+LINT		= lint
+
+# X include files
+#XINCLUDEPATH	= /usr/local/include
+#XINCLUDEPATH	= /usr/include/X11R4
+XINCLUDEPATH	= /usr/include/X11R5
+#XINCLUDEPATH	= ${OPENWINHOME}/include
+#XINCLUDEPATH	= ${MOTIFHOME}/include
+
+# X libraries
+#XLIBPATH	= /usr/local/lib
+#XLIBPATH	= /usr/lib/X11R4
+XLIBPATH	= /usr/lib/X11R5
+#XLIBPATH	= ${OPENWINHOME}/lib
+#XLIBPATH	= ${MOTIFHOME}/lib
+
+# If you have libXpm, you can uncomment and set the folowing XPM* variables.
+# XPM include path.  Below is a guess.  No modes use this yet, see README.
+XPMINCLUDEPATH	= /usr/local/include
+#XTRA_INCLUDEPATH	= -I${XPMINCLUDEPATH}
+XTRA_INCLUDEPATH	=
+
+# XPM library path.  Below is a guess.
+XPMLIBPATH	= /usr/local/lib
+#XTRA_LIBPATH	= -L${XPMLIBPATH}
+XTRA_LIBPATH	=
+
+# XPM library.  Default is no xpm library.
+XPMLIB	= -lXpm
+#XTRA_LIB	= ${XPMLIB}
+XTRA_LIB	=
+
+ICONEXT         = xbm
+#ICONEXT         = xpm
+
+BITMAPDIR       = ./bitmaps
+PIXMAPDIR       = ./pixmaps
+##############################################################
+
+# The directory where your app-defaults directory is:
+LIBDIR		= /usr/local/lib/X11
+ 
+INCLUDES	= -I${XINCLUDEPATH} -I. ${XTRA_INCLUDEPATH}
+LIBRARIES	= -L${XLIBPATH} ${XTRA_LIBPATH}
+
+# Use -DHAS_SHADOW if you are using shadow passwords
+# Use -DHAS_XPM to use xpm images
+# Use -DHPUX_SECURE_PASSWD if you are using HP-UX with Secured Passwords
+# Use -DHP_PASSWDETC if you are using Passwd Etc
+#
+# For personal use you may want to consider:
+#  -DUSE_XLOCKRC        paranoid admin or unknown shadow passwd alg
+#
+# For labs you may want to consider:
+#  -DAUTO_LOGOUT	enable auto-logout code
+#  -DLOGOUT_BUTTON	enable logout button
+#  -DLO_BUTTON_TIME=5	minutes until logout button appears
+#  -DALWAYS_ALLOW_ROOT	users can't turn off allowroot
+#  -DSTAFF_FILE=\"/etc/xlock.staff\"	file of staff who are exempt
+
+DEFINES		= -DUSE_VROOT -DALWAYS_ALLOW_ROOT\
+	-DDEF_FILESEARCHPATH=\"$(LIBDIR)/%T/%N%S\"
+#	-DUSE_XLOCKRC\
+#	-DAUTO_LOGOUT -DLOGOUT_BUTTON -DLO_BUTTON_TIME=5\
+#	-DSTAFF_FILE=\"/etc/xlock.staff\"
+#	-DHAS_SHADOW\
+#	-DHAS_XPM\
+
+COPT		= -O
+CFLAGS		= ${COPT} ${DEFINES} ${INCLUDES} -DSYSV -D__hpux
+
+# Use -lcrypt if using special encryption
+# Use -lshadow if you are using shadow passwords
+# Use -lrgy -lnck -lndbm if you are using PasswdEtc
+LIBS		= ${LIBRARIES} -lXhp11 -lX11 ${XTRA_LIB} -lm
+#LIBS		= ${LIBRARIES} -lXhp11 -lX11 ${XTRA_LIB} -lm -lcrypt -lshadow
+#LIBS		= ${LIBRARIES} -lrgy -lnck -lndbm -lXhp11 -lX11 ${XTRA_LIB} -lm
+
+HDRS		= xlock.h mode.h vroot.h
+SRCS		= xlock.c passwd.c resource.c utils.c opt.c\
+	bat.c blot.c bounce.c clock.c flame.c forest.c\
+	galaxy.c geometry.c grav.c helix.c hop.c hyper.c\
+	image.c kaleid.c laser.c life.c life3d.c\
+	maze.c mountain.c pyro.c qix.c rect.c rock.c rotor.c\
+	sphere.c spiral.c spline.c swarm.c\
+	wator.c world.c worm.c\
+	swirl.c blank.c
+OBJS		=${SRCS:.c=.o}
+PROGRAM         = xlock
+VER             = ${PROGRAM}more
+
+
+all:		${OBJS}
+		${CC} ${COPT} -o ${PROGRAM} ${OBJS} ${LIBS}
+
+debug:	xlock
+#debug:=COPT=-g -DDEBUG
+
+#resource.o:=DEFINES=-DDEF_FILESEARCHPATH=\"$(LIBDIR)/%T/%N%S\"
+
+life.c:	life.xbm
+maze.c:	maze.xbm
+image.c:	image.$(ICONEXT)
+ 
+life.xbm:
+	rm -f life.xbm
+	ln -s ${BITMAPDIR}/life-$(LIFEBITMAP).xbm life.xbm
+
+maze.xbm:
+	rm -f maze.xbm
+	ln -s ${BITMAPDIR}/maze-$(MAZEBITMAP).xbm maze.xbm
+ 
+image.xbm:
+	rm -f image.xbm
+	ln -s ${BITMAPDIR}/image-$(IMAGEBITMAP).xbm image.xbm
+
+image.xpm:
+	rm -f image.xpm
+	ln -s ${PIXMAPDIR}/image-$(IMAGEPIXMAP).xpm image.xpm
+
+tar:	clean.all
+	cd .. ; tar cvf ${VER}.tar ${VER}/*
+
+compress:	tar
+	cd .. ; compress -f ${VER}.tar
+
+gzip:	tar
+	cd .. ; gzip -f ${VER}.tar
+
+tgz:	tar
+	cd .. ; gzip -c ${VER}.tar > `echo ${VER} | cut -c1-8`.tgz ;\
+		rm -f ${VER}.tar
+
+man:
+	nroff -man ${PROGRAM}.man | more
+
+read:
+	more README
+
+lint:
+	${LINT} -ax -DLINT ${DEFINES} ${INCLUDES} ${SRCS}
+
+clean:
+	rm -f *.o ${PROGRAM} core *~ *% *.bak life.xbm maze.xbm image.xbm image.xpm
+
+clean.all:	clean
+	rm -f Makefile
+
+install:	${PROGRAM}
+	install ${PROGRAM} /usr/local/bin

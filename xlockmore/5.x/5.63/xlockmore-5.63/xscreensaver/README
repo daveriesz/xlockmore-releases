@@ -1,0 +1,179 @@
+# Previously written for xscreensaver-2.17 and xscreensaver-5.10.
+Currently this is for getting xlockmore modes running in xscreensaver-5.43.
+
+First figure out how to compile xscreensaver without my changes.
+For me I had to do this:
+  install intltool 0.51.0
+  libglade-2.0 not found... no demo it warns and no jpeg
+
+Then...
+  cp -rp xlockmore-5.63 xsreensaver-5.43/xlockmore
+  cd xsreensaver-5.43
+  edit configure.in replace 
+for d in utils jwxyz hacks hacks/glx driver ; do
+for d in utils jwxyz hacks xlockmore/xlock xlockmore/modes xlockmore/modes/glx hacks/glx driver; do
+   similar for AC_OUTPUT add these 2 lines after hacks/Makefile
+          xlockmore/xlock/Makefile
+          xlockmore/modes/Makefile
+          xlockmore/modes/glx/Makefile
+
+   autoconf
+(I made copies configure.in and configure in this directory, but may go out of date)
+  cd xlockmore/xlock
+  mv Makefile.inxs Makefile.in
+  cd ../modes
+  mv Makefile.inxs Makefile.in
+  cd glx
+  mv Makefile.inxs Makefile.in
+  cd ../../..
+  ./configure
+For me I had to edit the config.h and comment out
+/*#define HAVE_GDK_PIXBUF 1*/
+add next line
+#define HAVE_GTK2 1
+
+I had to add -lpng16 to the end of HACK_POST in many Makefiles
+
+ make
+ cd hacks
+ cp ../xlockmore/xscreensaver/xlockmore.h .  # just edited to add common.h, stuff Jamie forgot about I guess
+ cp ../xlockmore/xscreensaver/xlockmoreI.h .  # small edit for recursion_depth
+ cp ../xlockmore/xscreensaver/xlockmore.c .  # small edit for blank mode for the completionist
+ make xlockmore.o
+ cd glx
+ make # fails so need this also
+ make gears
+ make rubik
+ cd ../../xlockmore/xlock
+ make
+gives a few warnings
+ cd ../modes
+ make
+New automata.c and automata.h supplied and all automata modes should use this.
+(Makefile.inxs modified to use this version already rather than the one in xscreensaver.)
+ball, bat, pacman, puzzle converted though it runs it is not working correctly yet
+The build should stop with random.c... (no reason to convert that one I guess).
+ cd glx
+ rm *track* # confuses build
+ make
+Just a few modes like skewb and biof, for now.  Will stop at cage for wood images.
+fire needs its trees and ground images.
+
+
+Some warnings to clean up:
+deluxe.c: In function ‘init_deluxe’:
+deluxe.c:462:7: warning: implicit declaration of function ‘allocate_alpha_colors’; did you mean ‘allocate_writable_colors’? [-Wimplicit-function-declaration]
+       allocate_alpha_colors (dlp->xgwa.screen, dlp->xgwa.visual,
+       ^~~~~~~~~~~~~~~~~~~~~
+       allocate_writable_colors
+deluxe.c:462:7: warning: nested extern declaration of ‘allocate_alpha_colors’ [-Wnested-externs]
+
+fzort.c:557:14: warning: no previous prototype for ‘fill_triangle_1bpp_lsb_to_msb’ [-Wmissing-prototypes]
+ #define NAME fill_triangle_1bpp_lsb_to_msb
+              ^
+fz_filler.h:7:1: note: in expansion of macro ‘NAME’
+ NAME(fzort_ctx *ctx, struct pvertex *v1,
+ ^~~~
+fzort.c:563:14: warning: no previous prototype for ‘fill_triangle_1bpp_msb_to_lsb’ [-Wmissing-prototypes]
+ #define NAME fill_triangle_1bpp_msb_to_lsb
+              ^
+fz_filler.h:7:1: note: in expansion of macro ‘NAME’
+ NAME(fzort_ctx *ctx, struct pvertex *v1,
+ ^~~~
+fzort.c:568:14: warning: no previous prototype for ‘fill_triangle_8bpp’ [-Wmissing-prototypes]
+ #define NAME fill_triangle_8bpp
+              ^
+fz_filler.h:7:1: note: in expansion of macro ‘NAME’
+ NAME(fzort_ctx *ctx, struct pvertex *v1,
+ ^~~~
+fzort.c:572:14: warning: no previous prototype for ‘fill_triangle_16bpp’ [-Wmissing-prototypes]
+ #define NAME fill_triangle_16bpp
+              ^
+fz_filler.h:7:1: note: in expansion of macro ‘NAME’
+ NAME(fzort_ctx *ctx, struct pvertex *v1,
+ ^~~~
+fzort.c:576:14: warning: no previous prototype for ‘fill_triangle_32bpp’ [-Wmissing-prototypes]
+ #define NAME fill_triangle_32bpp
+              ^
+fz_filler.h:7:1: note: in expansion of macro ‘NAME’
+ NAME(fzort_ctx *ctx, struct pvertex *v1,
+ ^~~~
+
+xjack.c: In function ‘draw_xjack’:
+xjack.c:374:9: warning: implicit declaration of function ‘tolower’ [-Wimplicit-function-declaration]
+    if ((tolower(c) != tolower(*(jp->s)))
+         ^~~~~~~
+
+run.c: In function ‘free_run_screen’:
+run.c:107:10: warning: implicit declaration of function ‘kill’; did you mean ‘ceill’? [-Wimplicit-function-declaration]
+   (void) kill(rp->numberprocess, SIGKILL);
+          ^~~~
+          ceill
+run.c:107:10: warning: nested extern declaration of ‘kill’ [-Wnested-externs]
+run.c:108:10: warning: implicit declaration of function ‘wait’; did you mean ‘write’? [-Wimplicit-function-declaration]
+   (void) wait(&n);
+          ^~~~
+          write
+run.c:108:10: warning: nested extern declaration of ‘wait’ [-Wnested-externs]
+
+rubik.c: In function ‘rubik_handle_event’:
+rubik.c:2001:6: warning: implicit declaration of function ‘gltrackball_event_handler’; did you mean ‘gltrackball_rotate’? [-Wimplicit-function-declaration]
+  if (gltrackball_event_handler (event, rp->trackball,
+      ^~~~~~~~~~~~~~~~~~~~~~~~~
+      gltrackball_rotate
+rubik.c:2001:6: warning: nested extern declaration of ‘gltrackball_event_handler’ [-Wnested-externs]
+rubik.c: In function ‘free_rubik_screen’:
+rubik.c:2052:3: warning: implicit declaration of function ‘gltrackball_free’; did you mean ‘gltrackball_reset’? [-Wimplicit-function-declaration]
+   gltrackball_free (rp->trackball);
+   ^~~~~~~~~~~~~~~~
+   gltrackball_reset
+rubik.c:2052:3: warning: nested extern declaration of ‘gltrackball_free’ [-Wnested-externs]
+
+skewb.c: In function ‘skewb_handle_event’:
+skewb.c:1421:6: warning: implicit declaration of function ‘gltrackball_event_handler’; did you mean ‘gltrackball_rotate’? [-Wimplicit-function-declaration]
+  if (gltrackball_event_handler (event, sp->trackball,
+      ^~~~~~~~~~~~~~~~~~~~~~~~~
+      gltrackball_rotate
+skewb.c:1421:6: warning: nested extern declaration of ‘gltrackball_event_handler’ [-Wnested-externs]
+skewb.c: In function ‘free_skewb_screen’:
+skewb.c:1470:3: warning: implicit declaration of function ‘gltrackball_free’; did you mean ‘gltrackball_reset’? [-Wimplicit-function-declaration]
+   gltrackball_free (sp->trackball);
+   ^~~~~~~~~~~~~~~~
+   gltrackball_reset
+skewb.c:1470:3: warning: nested extern declaration of ‘gltrackball_free’ [-Wnested-externs]
+
+sproingies.c:606:1: warning: no previous prototype for ‘DisplaySproingies’ [-Wmissing-prototypes]
+ DisplaySproingies(int screen)
+ ^~~~~~~~~~~~~~~~~
+sproingies.c:661:1: warning: no previous prototype for ‘NextSproingieDisplay’ [-Wmissing-prototypes]
+ NextSproingieDisplay(int screen)
+ ^~~~~~~~~~~~~~~~~~~~
+sproingies.c:683:1: warning: no previous prototype for ‘CleanupSproingies’ [-Wmissing-prototypes]
+ CleanupSproingies(int screen)
+ ^~~~~~~~~~~~~~~~~
+sproingies.c:713:1: warning: no previous prototype for ‘InitSproingies’ [-Wmissing-prototypes]
+ InitSproingies(int wfmode, int grnd, int mspr, int screen, int numscreens,
+ ^~~~~~~~~~~~~~
+sproingiewrap.c:125:1: warning: no previous prototype for ‘SproingieSwap’ [-Wmissing-prototypes]
+ SproingieSwap(void)
+ ^~~~~~~~~~~~~
+
+
+My attempt at compiling solitaire so far...
+g++ -pedantic -Wall -fpermissive -Wno-overlength-strings -U__STRICT_ANSI__ -c -I.. -I. -I./../../utils -I../.. -I./../../xlockmore/xlock -I./../../hacks -I.  -pthread -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libpng16 -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/include/freetype2 -I/usr/include/libpng16 -DSTANDALONE -DHAVE_CONFIG_H  -g -O2 ../../hacks/xlockmore.o solitaire.cc
+
+g++ -pedantic -Wall -Wno-overlength-strings -U__STRICT_ANSI__ -L/usr/local/lib -o solitaire solitaire.o ../../hacks/screenhack.o ../../hacks/xlockmore.o ../../utils/hsv.o ../../utils/colors.o ../../hacks/fps.o ../../utils/resources.o ../../utils/visual.o ../../utils/usleep.o ../../utils/yarandom.o ../../utils/utf8wc.o ../../utils/font-retry-xft.o  ../../utils/erase.o ./../../xlockmore/xlock/automata.o     -lSM -lICE -lXft -lXt -lX11 -lXmu -lXext  -lm
+solitaire.o: In function `DealPile::shuffle(CardPile*)':
+/home/bagleyd/Projects/xlock/xscreensaver-5.43/xlockmore/modes/solitaire.cc:656: undefined reference to `ya_random()'
+solitaire.o:(.data.rel+0x18): undefined reference to `xlockmore_setup(xscreensaver_function_table*, void*)'
+solitaire.o:(.data.rel+0x50): undefined reference to `xlockmore_do_fps(_XDisplay*, unsigned long, fps_state*, void*)'
+solitaire.o:(.data.rel+0x58): undefined reference to `fps_free(fps_state*)'
+collect2: error: ld returned 1 exit status
+
+
+Ran this for each i_*.cc substituting last file name
+g++ -Wall -Wno-overlength-strings -U__STRICT_ANSI__ -c -I./../../../hacks/glx -I. -I. -I./../../../utils -I./../../..jwxyz -I./../../../hacks -I../../../hacks -I../.. -I../../..  -pthread -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libpng16 -I/usr/include/glib-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/freetype2 -I/usr/include/libpng16 -I/usr/include/freetype2 -I/usr/include/libpng16 -DSTANDALONE -DUSE_GL -DHAVE_CONFIG_H  -g -O2 i_twojet.cc 
+
+My link for invert
+g++ -pedantic -Wall -Wno-overlength-strings -U__STRICT_ANSI__ -L/usr/local/lib -o invert invert.o i_figureeight.o i_linkage.o i_sphere.o i_spline.o i_threejet.o i_threejetvec.o  i_twojet.o i_twojetvec.o ../../../hacks/screenhack.o ../../../hacks/xlockmore.o ../../../hacks/glx/xlock-gl-utils.o ../../../hacks/glx/erase-gl.o ../../../hacks/glx/texfont.o ../../../hacks/fps.o ../../../hacks/glx/fps-gl.o  ../../../utils/resources.o ../../../utils/visual.o ../../../utils/visual-gl.o ../../../utils/usleep.o ../../../utils/yarandom.o ../../../utils/hsv.o ../../../utils/colors.o ../../../utils/async_netdb.o ../../../utils/aligned_malloc.o ../../../utils/thread_util.o ../../../utils/utf8wc.o ../../../utils/pow2.o ../../../utils/font-retry-xft.o  ../../../hacks/glx/rotator.o ../../../hacks/glx/trackball.o ../../../hacks/glx/gltrackball.o              -lGL -lGLU -lXxf86vm -lpthread  -lSM -lICE -lXft -lXt -lX11 -lXmu -lXext  -lm -lpng16
+

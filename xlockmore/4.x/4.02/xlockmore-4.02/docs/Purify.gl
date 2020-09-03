@@ -1,0 +1,1032 @@
+--------------FF6D5DFABD322C31DFF4F5
+Content-Type: text/plain; charset=us-ascii; name="xlock.plog.gears"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline; filename="xlock.plog.gears"
+
+****  Purify instrumented ./xlock (pid 919 at Wed Apr 16 11:33:45 1997)
+  * Purify 3.0a SunOS 4.1, Copyright 1992-1994 Pure Software Inc.
+  * For contact information type: "purify -help"
+  * For TTY output, use the option "-windows=no"
+  * Command-line: ./xlock -mode gears -inwindow 
+  * Options settings: -chain-length=15 -purify -user-path=GL \
+    -purify-home=/net/rndlb1-fddi/usr1/puresoft/purify-3.0a-sunos4 
+  * Purify licensed to Micron Semiconductor Inc
+  * Purify checking enabled.
+
+****  Purify instrumented ./xlock (pid 919)  ****
+Current file descriptors in use: 6
+FIU: file descriptor 0: <stdin>
+FIU: file descriptor 1: <stdout>
+FIU: file descriptor 2: <stderr>
+FIU: file descriptor 5: <unnamed socket>, O_RDWR
+   * This file descriptor was allocated from:
+	socket         [rtlib.o]
+	clntudp_bufcreate [libc.so.1.8]
+	load_dom_binding [libc.so.1.8]
+	_yp_dobind_soft [libc.so.1.8]
+	_yp_dobind     [libc.so.1.8]
+	yp_match       [libc.so.1.8]
+	getnamefromyellow [libc.so.1.8]
+	matchname      [libc.so.1.8]
+	getpwnam       [libc.so.1.8]
+	my_passwd_entry [passwd.c:279]
+	getUserName    [passwd.c:364]
+	initPasswd     [passwd.c:1493]
+	main           [xlock.c:1699]
+	start          [crt0.o]
+FIU: file descriptor 26: <reserved for Purify internal use>
+FIU: file descriptor 27: <reserved for Purify internal use>
+
+****  Purify instrumented ./xlock (pid 919)  ****
+Purify: Searching for all memory leaks...
+
+Memory leaked: 20209 bytes (1.02%); potentially leaked: 2000 bytes (0.101%)
+
+MLK: 2000 bytes leaked at 0x35edc0
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3f     [api.c:3069]
+	gear           [gears.c:127]
+	pinit          [gears.c:336]
+	init_gears     [gears.c:436]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x36f550
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_NewList     [dlist.c:2864]
+	glNewList      [api.c:1766]
+	pinit          [gears.c:331]
+	init_gears     [gears.c:436]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x546838
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_NewList     [dlist.c:2864]
+	glNewList      [api.c:1766]
+	pinit          [gears.c:342]
+	init_gears     [gears.c:436]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x547078
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3f     [api.c:3069]
+	gear           [gears.c:151]
+	pinit          [gears.c:347]
+	init_gears     [gears.c:436]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x5478b8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [dlist.c:325]
+	glNormal3f     [api.c:1793]
+	gear           [gears.c:197]
+	pinit          [gears.c:347]
+	init_gears     [gears.c:436]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x5480f8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [dlist.c:325]
+	glNormal3f     [api.c:1793]
+	gear           [gears.c:228]
+	pinit          [gears.c:347]
+	init_gears     [gears.c:436]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x548938
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_NewList     [dlist.c:2864]
+	glNewList      [api.c:1766]
+	pinit          [gears.c:353]
+	init_gears     [gears.c:436]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x549178
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3f     [api.c:3069]
+	gear           [gears.c:151]
+	pinit          [gears.c:358]
+	init_gears     [gears.c:436]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x5499b8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [dlist.c:325]
+	glNormal3f     [api.c:1793]
+	gear           [gears.c:197]
+	pinit          [gears.c:358]
+	init_gears     [gears.c:436]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x54a1f8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [dlist.c:325]
+	glNormal3f     [api.c:1793]
+	gear           [gears.c:228]
+	pinit          [gears.c:358]
+	init_gears     [gears.c:436]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 104 bytes leaked at 0x371e88
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	calloc         [rtlib.o]
+	gl_alloc_texture_object [texobj.c:62]
+	alloc_proxy_textures [context.c:950]
+	gl_create_context [context.c:1085]
+	XMesaCreateContext [xmesa1.c:1191]
+	glXCreateContext [glx.c:1103]
+	init_gears     [gears.c:425]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 104 bytes leaked at 0x38d0e8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	calloc         [rtlib.o]
+	gl_alloc_texture_object [texobj.c:62]
+	alloc_proxy_textures [context.c:950]
+	gl_create_context [context.c:1085]
+	XMesaCreateContext [xmesa1.c:1191]
+	glXCreateContext [glx.c:1103]
+	init_gears     [gears.c:425]
+	call_change_hook [mode.c:557]
+	justDisplay    [xlock.c:1428]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 1 byte leaked at 0x33dac0
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	GetResource    [resource.c:880]
+	getResources   [resource.c:1291]
+	main           [xlock.c:1697]
+	start          [crt0.o]
+
+PLK: 2000 bytes potentially leaked at 0x543ef8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3f     [api.c:3069]
+	gear           [gears.c:151]
+	pinit          [gears.c:336]
+	init_gears     [gears.c:436]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+Purify Heap Analysis (combining suppressed and unsuppressed chunks)
+                         Chunks      Bytes
+              Leaked         14      20221
+  Potentially Leaked          1       2000
+              In-Use        150    1958403
+  ----------------------------------------
+     Total Allocated        165    1980624
+
+****  Purify instrumented ./xlock (pid 919)  ****
+  * Program exited with status code 0.
+  * 0 access errors, 0 total occurrences.
+  * 20209 bytes leaked.
+  * 2000 bytes potentially leaked.
+  * Basic memory usage (including Purify overhead):
+     2994132 code
+      371440 data/bss
+     2191368 heap (peak use)
+        2152 stack
+  * Shared library memory usage (including Purify overhead):
+      327680 libX11_pure_p1_c0_300_413V.so.4.3 (shared code)
+       40960 libX11_pure_p1_c0_300_413V.so.4.3 (private data)
+      688128 libc_pure_p1_c0_300_413V.so.1.8 (shared code)
+       16384 libc_pure_p1_c0_300_413V.so.1.8 (private data)
+        8192 libdl.so.1.0 (shared code)
+        8192 libdl.so.1.0 (private data)
+        8192 libinternal_stubs.so.1.0 (shared code)
+        8192 libinternal_stubs.so.1.0 (private data)
+  * Memory mapped usage:
+          14 mmap'd at 0xef38d000
+
+
+--------------FF6D5DFABD322C31DFF4F5
+Content-Type: text/plain; charset=us-ascii; name="xlock.plog.sproingies"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline; filename="xlock.plog.sproingies"
+
+****  Purify instrumented ./xlock (pid 929 at Wed Apr 16 11:38:30 1997)
+  * Purify 3.0a SunOS 4.1, Copyright 1992-1994 Pure Software Inc.
+  * For contact information type: "purify -help"
+  * For TTY output, use the option "-windows=no"
+  * Command-line: ./xlock -mode sproingies -inwindow 
+  * Options settings: -chain-length=15 -purify -user-path=GL \
+    -purify-home=/net/rndlb1-fddi/usr1/puresoft/purify-3.0a-sunos4 
+  * Purify licensed to Micron Semiconductor Inc
+  * Purify checking enabled.
+
+****  Purify instrumented ./xlock (pid 929)  ****
+Current file descriptors in use: 6
+FIU: file descriptor 0: <stdin>
+FIU: file descriptor 1: <stdout>
+FIU: file descriptor 2: <stderr>
+FIU: file descriptor 5: <unnamed socket>, O_RDWR
+   * This file descriptor was allocated from:
+	socket         [rtlib.o]
+	clntudp_bufcreate [libc.so.1.8]
+	load_dom_binding [libc.so.1.8]
+	_yp_dobind_soft [libc.so.1.8]
+	_yp_dobind     [libc.so.1.8]
+	yp_match       [libc.so.1.8]
+	getnamefromyellow [libc.so.1.8]
+	matchname      [libc.so.1.8]
+	getpwnam       [libc.so.1.8]
+	my_passwd_entry [passwd.c:279]
+	getUserName    [passwd.c:364]
+	initPasswd     [passwd.c:1493]
+	main           [xlock.c:1699]
+	start          [crt0.o]
+FIU: file descriptor 26: <reserved for Purify internal use>
+FIU: file descriptor 27: <reserved for Purify internal use>
+
+****  Purify instrumented ./xlock (pid 929)  ****
+Purify: Searching for all memory leaks...
+
+Memory leaked: 90209 bytes (3.48%); potentially leaked: 12000 bytes (0.464%)
+
+MLK: 2000 bytes leaked at 0x557038
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3fv    [api.c:3157]
+	build_s1_2     [s1_2.c:2062]
+	InitSproingies [sproingies.c:719]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x35edc0
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_NewList     [dlist.c:2864]
+	glNewList      [api.c:1766]
+	build_TopsSides [sproingies.c:77]
+	InitSproingies [sproingies.c:714]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x36f550
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_NewList     [dlist.c:2864]
+	glNewList      [api.c:1766]
+	build_TopsSides [sproingies.c:65]
+	InitSproingies [sproingies.c:714]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x551578
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_NewList     [dlist.c:2864]
+	glNewList      [api.c:1766]
+	build_s1_2     [s1_2.c:328]
+	InitSproingies [sproingies.c:719]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x551db8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3fv    [api.c:3157]
+	build_s1_2     [s1_2.c:487]
+	InitSproingies [sproingies.c:719]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x5525f8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [dlist.c:325]
+	glNormal3f     [api.c:1793]
+	build_s1_2     [s1_2.c:645]
+	InitSproingies [sproingies.c:719]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x552e38
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3fv    [api.c:3157]
+	build_s1_2     [s1_2.c:802]
+	InitSproingies [sproingies.c:719]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x553678
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [dlist.c:325]
+	glNormal3f     [api.c:1793]
+	build_s1_2     [s1_2.c:960]
+	InitSproingies [sproingies.c:719]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x553eb8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3fv    [api.c:3157]
+	build_s1_2     [s1_2.c:1117]
+	InitSproingies [sproingies.c:719]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x5546f8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [dlist.c:325]
+	glNormal3f     [api.c:1793]
+	build_s1_2     [s1_2.c:1275]
+	InitSproingies [sproingies.c:719]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x554f38
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3fv    [api.c:3157]
+	build_s1_2     [s1_2.c:1432]
+	InitSproingies [sproingies.c:719]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x555778
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [dlist.c:325]
+	glNormal3f     [api.c:1793]
+	build_s1_2     [s1_2.c:1590]
+	InitSproingies [sproingies.c:719]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x555fb8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3fv    [api.c:3157]
+	build_s1_2     [s1_2.c:1747]
+	InitSproingies [sproingies.c:719]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x5567f8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [dlist.c:325]
+	glNormal3f     [api.c:1793]
+	build_s1_2     [s1_2.c:1905]
+	InitSproingies [sproingies.c:719]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x57c238
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3fv    [api.c:3157]
+	build_s1_5     [s1_5.c:1117]
+	InitSproingies [sproingies.c:725]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x557878
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [dlist.c:325]
+	glNormal3f     [api.c:1793]
+	build_s1_2     [s1_2.c:2220]
+	InitSproingies [sproingies.c:719]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x5580b8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3fv    [api.c:3157]
+	build_s1_2     [s1_2.c:2377]
+	InitSproingies [sproingies.c:719]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x5588f8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [dlist.c:325]
+	glNormal3f     [api.c:1793]
+	build_s1_2     [s1_2.c:2535]
+	InitSproingies [sproingies.c:719]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x559138
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3fv    [api.c:3157]
+	build_s1_2     [s1_2.c:2692]
+	InitSproingies [sproingies.c:719]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x55ebf8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_NewList     [dlist.c:2864]
+	glNewList      [api.c:1766]
+	build_s1_3     [s1_3.c:328]
+	InitSproingies [sproingies.c:721]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x55f438
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3fv    [api.c:3157]
+	build_s1_3     [s1_3.c:487]
+	InitSproingies [sproingies.c:721]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x56c278
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_NewList     [dlist.c:2864]
+	glNewList      [api.c:1766]
+	build_s1_4     [s1_4.c:328]
+	InitSproingies [sproingies.c:723]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x56cab8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3fv    [api.c:3157]
+	build_s1_4     [s1_4.c:487]
+	InitSproingies [sproingies.c:723]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x56d2f8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [dlist.c:325]
+	glNormal3f     [api.c:1793]
+	build_s1_4     [s1_4.c:645]
+	InitSproingies [sproingies.c:723]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x56db38
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3fv    [api.c:3157]
+	build_s1_4     [s1_4.c:802]
+	InitSproingies [sproingies.c:723]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x5798f8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_NewList     [dlist.c:2864]
+	glNewList      [api.c:1766]
+	build_s1_5     [s1_5.c:328]
+	InitSproingies [sproingies.c:725]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x57a138
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3fv    [api.c:3157]
+	build_s1_5     [s1_5.c:487]
+	InitSproingies [sproingies.c:725]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x57a978
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [dlist.c:325]
+	glNormal3f     [api.c:1793]
+	build_s1_5     [s1_5.c:645]
+	InitSproingies [sproingies.c:725]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x57b1b8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3fv    [api.c:3157]
+	build_s1_5     [s1_5.c:802]
+	InitSproingies [sproingies.c:725]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x57b9f8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [dlist.c:325]
+	glNormal3f     [api.c:1793]
+	build_s1_5     [s1_5.c:960]
+	InitSproingies [sproingies.c:725]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x57ca78
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [dlist.c:325]
+	glNormal3f     [api.c:1793]
+	build_s1_5     [s1_5.c:1275]
+	InitSproingies [sproingies.c:725]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x57d2b8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3fv    [api.c:3157]
+	build_s1_5     [s1_5.c:1432]
+	InitSproingies [sproingies.c:725]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x57daf8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [dlist.c:325]
+	glNormal3f     [api.c:1793]
+	build_s1_5     [s1_5.c:1590]
+	InitSproingies [sproingies.c:725]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x57e338
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3fv    [api.c:3157]
+	build_s1_5     [s1_5.c:1747]
+	InitSproingies [sproingies.c:725]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x57eb78
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [dlist.c:325]
+	glNormal3f     [api.c:1793]
+	build_s1_5     [s1_5.c:1905]
+	InitSproingies [sproingies.c:725]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x57f3b8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3fv    [api.c:3157]
+	build_s1_5     [s1_5.c:2062]
+	InitSproingies [sproingies.c:725]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x5945f8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_NewList     [dlist.c:2864]
+	glNewList      [api.c:1766]
+	build_s1_b     [s1_b.c:538]
+	InitSproingies [sproingies.c:730]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x594e38
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3fv    [api.c:3157]
+	build_s1_b     [s1_b.c:726]
+	InitSproingies [sproingies.c:730]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x595678
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3fv    [api.c:3157]
+	build_s1_b     [s1_b.c:912]
+	InitSproingies [sproingies.c:730]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x595eb8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3fv    [api.c:3157]
+	build_s1_b     [s1_b.c:1098]
+	InitSproingies [sproingies.c:730]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x5966f8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3fv    [api.c:3157]
+	build_s1_b     [s1_b.c:1284]
+	InitSproingies [sproingies.c:730]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x596f38
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3fv    [api.c:3157]
+	build_s1_b     [s1_b.c:1470]
+	InitSproingies [sproingies.c:730]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x597778
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3fv    [api.c:3157]
+	build_s1_b     [s1_b.c:1656]
+	InitSproingies [sproingies.c:730]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x597fb8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3fv    [api.c:3157]
+	build_s1_b     [s1_b.c:1842]
+	InitSproingies [sproingies.c:730]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 2000 bytes leaked at 0x5987f8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [dlist.c:325]
+	glVertex3fv    [api.c:3157]
+	build_s1_b     [s1_b.c:2028]
+	InitSproingies [sproingies.c:730]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 104 bytes leaked at 0x371f60
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	calloc         [rtlib.o]
+	gl_alloc_texture_object [texobj.c:62]
+	alloc_proxy_textures [context.c:950]
+	gl_create_context [context.c:1085]
+	XMesaCreateContext [xmesa1.c:1191]
+	glXCreateContext [glx.c:1103]
+	init_sproingies [sproingiewrap.c:180]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 104 bytes leaked at 0x383a98
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	calloc         [rtlib.o]
+	gl_alloc_texture_object [texobj.c:62]
+	alloc_proxy_textures [context.c:950]
+	gl_create_context [context.c:1085]
+	XMesaCreateContext [xmesa1.c:1191]
+	glXCreateContext [glx.c:1103]
+	init_sproingies [sproingiewrap.c:180]
+	call_change_hook [mode.c:557]
+	justDisplay    [xlock.c:1428]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+MLK: 1 byte leaked at 0x33dac0
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	GetResource    [resource.c:880]
+	getResources   [resource.c:1291]
+	main           [xlock.c:1697]
+	start          [crt0.o]
+
+PLK: 2000 bytes potentially leaked at 0x543ef8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_NewList     [dlist.c:2864]
+	glNewList      [api.c:1766]
+	build_s1_1     [s1_1.c:327]
+	InitSproingies [sproingies.c:717]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+PLK: 2000 bytes potentially leaked at 0x559978
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [dlist.c:325]
+	glNormal3f     [api.c:1793]
+	build_s1_2     [s1_2.c:2850]
+	InitSproingies [sproingies.c:719]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+PLK: 2000 bytes potentially leaked at 0x55fc78
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [dlist.c:325]
+	glNormal3f     [api.c:1793]
+	build_s1_3     [s1_3.c:645]
+	InitSproingies [sproingies.c:721]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+PLK: 2000 bytes potentially leaked at 0x56e378
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [dlist.c:325]
+	glNormal3f     [api.c:1793]
+	build_s1_4     [s1_4.c:960]
+	InitSproingies [sproingies.c:723]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+PLK: 2000 bytes potentially leaked at 0x57fbf8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [dlist.c:325]
+	glNormal3f     [api.c:1793]
+	build_s1_5     [s1_5.c:2220]
+	InitSproingies [sproingies.c:725]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+PLK: 2000 bytes potentially leaked at 0x586f78
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_NewList     [dlist.c:2864]
+	glNewList      [api.c:1766]
+	build_s1_6     [s1_6.c:328]
+	InitSproingies [sproingies.c:727]
+	init_sproingies [sproingiewrap.c:201]
+	call_init_hook [mode.c:457]
+	justDisplay    [xlock.c:1365]
+	main           [xlock.c:2037]
+	start          [crt0.o]
+
+Purify Heap Analysis (combining suppressed and unsuppressed chunks)
+                         Chunks      Bytes
+              Leaked         49      90221
+  Potentially Leaked          6      12000
+              In-Use        416    2486660
+  ----------------------------------------
+     Total Allocated        471    2588881
+
+****  Purify instrumented ./xlock (pid 929)  ****
+  * Program exited with status code 0.
+  * 0 access errors, 0 total occurrences.
+  * 90209 bytes leaked.
+  * 12000 bytes potentially leaked.
+  * Basic memory usage (including Purify overhead):
+     2994132 code
+      371440 data/bss
+     2801672 heap (peak use)
+        2152 stack
+  * Shared library memory usage (including Purify overhead):
+      327680 libX11_pure_p1_c0_300_413V.so.4.3 (shared code)
+       40960 libX11_pure_p1_c0_300_413V.so.4.3 (private data)
+      688128 libc_pure_p1_c0_300_413V.so.1.8 (shared code)
+       16384 libc_pure_p1_c0_300_413V.so.1.8 (private data)
+        8192 libdl.so.1.0 (shared code)
+        8192 libdl.so.1.0 (private data)
+        8192 libinternal_stubs.so.1.0 (shared code)
+        8192 libinternal_stubs.so.1.0 (private data)
+  * Memory mapped usage:
+          14 mmap'd at 0xef38d000
+
+
+--------------FF6D5DFABD322C31DFF4F5--
+
+

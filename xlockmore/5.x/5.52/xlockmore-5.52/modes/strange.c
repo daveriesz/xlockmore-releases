@@ -1,0 +1,791 @@
+/* -*- Mode: C; tab-width: 4 -*- */
+/* strange --- strange attractors */
+
+#if !defined( lint ) && !defined( SABER )
+static const char sccsid[] = "@(#)strange.c	5.00 2000/11/01 xlockmore";
+
+#endif
+
+/*-
+ * Copyright (c) 1997 by Massimino Pascal <Pascal.Massimon AT ens.fr>
+ *
+ * Permission to use, copy, modify, and distribute this software and its
+ * documentation for any purpose and without fee is hereby granted,
+ * provided that the above copyright notice appear in all copies and that
+ * both that copyright notice and this permission notice appear in
+ * supporting documentation.
+ *
+ * This file is provided AS IS with no warranties of any kind.  The author
+ * shall have no liability with respect to the infringement of copyrights,
+ * trade secrets or any patents by this file or any part thereof.  In no
+ * event will the author be liable for any lost revenue or profits or
+ * other special, indirect and consequential damages.
+ *
+ * Revision History:
+ * 08-Apr-2017: dmo2118 AT gmail.com: Merged with current xlockmore strange.c.
+ *              Also resurrected the -curve parameter from XScreenSaver 2.31.
+ *              Multi-monitor fixes.
+ *              More allocation checks.
+ * 13-Apr-2010: Added useAccumulator, VARY_SPEED_TO_AVOID_BOREDOM.
+ * 22-Dec-2004: TDA: Replace Gauss_Rand with a real Gaussian.
+ * 01-Nov-2000: Allocation checks
+ * 30-Jul-1998: sineswiper AT resonatorsoft.com: added curve factor (discovered
+ *              while experimenting with the Gauss_Rand function).
+ * 10-May-1997: jwz AT jwz.org: turned into a standalone program.
+ *              Made it render into an offscreen bitmap and then copy
+ *              that onto the screen, to reduce flicker.
+ *
+ * strange attractors are not so hard to find...
+ */
+
+#ifdef STANDALONE
+# define MODE_strange
+# define DEFAULTS	"*delay: 10000 \n" \
+					"*ncolors: 100 \n" \
+					"*fpsSolid: True \n" \
+					"*ignoreRotation: True \n" \
+
+# define SMOOTH_COLORS
+# define refresh_strange 0
+# include "xlockmore.h"		/* from the xscreensaver distribution */
+#else /* !STANDALONE */
+# include "xlock.h"		/* from the xlockmore distribution */
+# define ENTRYPOINT
+#endif /* !STANDALONE */
+
+#ifdef MODE_strange
+#define DEF_CURVE  "10"
+#define DEF_POINTS "5500"
+
+static int curve;
+static int points;
+
+static XrmOptionDescRec opts[] =
+{
+		{"-curve",  ".strange.curve",  XrmoptionSepArg, 0},
+		{"-points", ".strange.points", XrmoptionSepArg, 0},
+};
+static argtype vars[] =
+{
+		{&curve,  "curve",  "Curve",  DEF_CURVE,  t_Int},
+		{&points, "points", "Points", DEF_POINTS, t_Int},
+};
+static OptionStruct desc[] =
+{
+		{"-curve", "set the curve factor of the attractors"},
+		{"-points", "change the number of points/iterations each frame"},
+};
+ENTRYPOINT ModeSpecOpt strange_opts =
+{sizeof opts / sizeof opts[0], opts,
+sizeof vars / sizeof vars[0], vars, desc};
+
+#ifdef USE_MODULES
+ModStruct   strange_description =
+{"strange", "init_strange", "draw_strange", "release_strange",
+"init_strange", "init_strange", (char *) NULL, &strange_opts,
+10000, 1, 1, 1, 64, 1.0, "",
+"Shows strange attractors", 0, NULL};
+#endif
+
+#ifdef HAVE_JWXYZ
+# define NO_DBUF
+#endif
+
+typedef float DBL;
+typedef int PRM;
+
+#define UNIT (1<<12)
+#define UNIT2 (1<<14)
+/* #define UNIT2 (3140*UNIT/1000) */
+
+#define SKIP_FIRST      100
+#define DBL_To_PRM(x)  (PRM)( (DBL)(UNIT)*(x) )
+
+
+#define DO_FOLD(a) (a)<0 ? -A->Fold[ (-(a))&(UNIT2-1) ] : A->Fold[ (a)&(UNIT2-1) ]
+
+#if 0
+#define DO_FOLD(a) (a)<-UNIT2 ? -A->Fold[(-(a))%UNIT2] : (a)<0 ? -A->Fold[ -(a) ] :\
+(a)>UNIT2 ? A->Fold[ (a)%UNIT2 ] : A->Fold[ (a) ]
+#define DO_FOLD(a) DBL_To_PRM( sin( (DBL)(a)/UNIT ) )
+#define DO_FOLD(a) (a)<0 ? DBL_To_PRM( exp( 16.0*(a)/UNIT2 ) )-1.0 : \
+DBL_To_PRM( 1.0-exp( -16.0*(a)/UNIT2 ) )
+#endif
+
+/* useAccumulator performs two functions:
+* If it is defined, then support for the accumulator will be compiled.
+* It is also the condition for which the accumulator renderer will engage.
+*/
+#define useAccumulator (Root->Max_Pt > 6000)
+#define ACC_GAMMA 10.0
+#define NUM_COLS 150
+/* Extra options: */
+#define VARY_SPEED_TO_AVOID_BOREDOM
+#define POINTS_HISTORY
+#define MERGE_FRAMES 3
+
+/******************************************************************/
+
+#define MAX_PRM 3*5
+
+typedef struct _ATTRACTOR {
+	DBL         Prm1[MAX_PRM], Prm2[MAX_PRM];
+	PRM         Prm[MAX_PRM], *Fold;
+	void        (*Iterate) (struct _ATTRACTOR *, PRM, PRM, PRM *, PRM *);
+	XPoint     *Buffer1, *Buffer2;
+	int         Cur_Pt, Max_Pt;
+	int         Col, Count, Speed;
+	int         Width, Height;
+	Pixmap      dbuf;	/* jwz */
+	GC          dbuf_gc;
+	#ifdef useAccumulator
+		int **accMap;
+		#ifdef POINTS_HISTORY
+			int numOldPoints;
+			int* oldPointsX;
+			int* oldPointsY;
+			int oldPointsIndex;
+			int startedClearing;
+		#endif
+	#endif
+} ATTRACTOR;
+
+static ATTRACTOR *Root = (ATTRACTOR *) NULL;
+
+#ifdef useAccumulator
+static XColor* cols;
+#endif
+
+static DBL  Amp_Prm[MAX_PRM] =
+{
+	1.0, 3.5, 3.5, 2.5, 4.7,
+	1.0, 3.5, 3.6, 2.5, 4.7,
+	1.0, 1.5, 2.2, 2.1, 3.5
+};
+static DBL  Mid_Prm[MAX_PRM] =
+{
+	0.0, 1.5, 0.0, .5, 1.5,
+	0.0, 1.5, 0.0, .5, 1.5,
+	0.0, 1.5, -1.0, -.5, 2.5,
+};
+
+static      DBL
+Old_Gauss_Rand(DBL c, DBL A, DBL S)
+{
+	DBL         y,z;
+
+	y = (DBL) LRAND() / MAXRAND;
+	z = curve / 10;
+  	y = A * (z - exp(-y * y * S)) / (z - exp(-S));
+	if (NRAND(2))
+		return (c + y);
+	else
+		return (c - y);
+}
+
+/* I don't know that it makes a difference, but this one actually *is*
+   a Gaussian.  [TDA] */
+
+/* Generate Gaussian random number: mean c, "amplitude" A (actually
+   A is 3*standard deviation).  'S' is unused.  */
+
+/* Note this generates a pair of gaussian variables, so it saves one
+   to give out next time it's called */
+
+static double
+Gauss_Rand(DBL c, DBL A, DBL S)
+{
+	static double d;
+	static Bool ready = 0;
+	if(ready) {
+		ready = 0;
+		return c + A/3 * d;
+	} else {
+		double x, y, w;
+		do {
+			x = 2.0 * (double)LRAND() / MAXRAND - 1.0;
+			y = 2.0 * (double)LRAND() / MAXRAND - 1.0;
+			w = x*x + y*y;
+		} while(w >= 1.0);
+
+		w = sqrt((-2 * log(w))/w);
+		ready = 1;
+		d =          x * w;
+		return c + A/3 * y * w;
+	}
+}
+
+static void
+Random_Prm(DBL * Prm)
+{
+	int         i;
+
+	for (i = 0; i < MAX_PRM; ++i) {
+		if (curve == 10)
+			Prm[i] = Gauss_Rand (Mid_Prm[i], Amp_Prm[i], 4.0);
+		else
+			Prm[i] = Old_Gauss_Rand (Mid_Prm[i], Amp_Prm[i], 4.0);
+	}
+}
+
+/***************************************************************/
+
+  /* 2 examples of non-linear map */
+
+static void
+Iterate_X2(ATTRACTOR * A, PRM x, PRM y, PRM * xo, PRM * yo)
+{
+	PRM         xx, yy, xy, x2y, y2x, Tmp;
+
+	xx = (x * x) / UNIT;
+	x2y = (xx * y) / UNIT;
+	yy = (y * y) / UNIT;
+	y2x = (yy * x) / UNIT;
+	xy = (x * y) / UNIT;
+
+	Tmp = A->Prm[1] * xx + A->Prm[2] * xy + A->Prm[3] * yy + A->Prm[4] * x2y;
+	Tmp = A->Prm[0] - y + (Tmp / UNIT);
+	*xo = DO_FOLD(Tmp);
+	Tmp = A->Prm[6] * xx + A->Prm[7] * xy + A->Prm[8] * yy + A->Prm[9] * y2x;
+	Tmp = A->Prm[5] + x + (Tmp / UNIT);
+	*yo = DO_FOLD(Tmp);
+}
+
+static void
+Iterate_X3(ATTRACTOR * A, PRM x, PRM y, PRM * xo, PRM * yo)
+{
+	PRM         xx, yy, xy, x2y, y2x, Tmp_x, Tmp_y, Tmp_z;
+
+	xx = (x * x) / UNIT;
+	x2y = (xx * y) / UNIT;
+	yy = (y * y) / UNIT;
+	y2x = (yy * x) / UNIT;
+	xy = (x * y) / UNIT;
+
+	Tmp_x = A->Prm[1] * xx + A->Prm[2] * xy + A->Prm[3] * yy + A->Prm[4] * x2y;
+	Tmp_x = A->Prm[0] - y + (Tmp_x / UNIT);
+	Tmp_x = DO_FOLD(Tmp_x);
+
+	Tmp_y = A->Prm[6] * xx + A->Prm[7] * xy + A->Prm[8] * yy + A->Prm[9] * y2x;
+	Tmp_y = A->Prm[5] + x + (Tmp_y / UNIT);
+
+	Tmp_y = DO_FOLD(Tmp_y);
+
+	Tmp_z = A->Prm[11] * xx + A->Prm[12] * xy + A->Prm[13] * yy + A->Prm[14] * y2x;
+	Tmp_z = A->Prm[10] + x + (Tmp_z / UNIT);
+	Tmp_z = UNIT + Tmp_z * Tmp_z / UNIT;
+
+	/* Can happen with -curve 9. */
+	if (!Tmp_z)
+		Tmp_z = 1;
+
+	*xo = (Tmp_x * UNIT) / Tmp_z;
+	*yo = (Tmp_y * UNIT) / Tmp_z;
+}
+
+static void (*Funcs[2]) (ATTRACTOR *, PRM, PRM, PRM *, PRM *) = {
+	Iterate_X2, Iterate_X3
+};
+
+/***************************************************************/
+
+static void
+free_strange(Display *display, ATTRACTOR *A)
+{
+	if (A->Buffer1 != NULL) {
+		free(A->Buffer1);
+		A->Buffer1 = (XPoint *) NULL;
+	}
+	if (A->Buffer2 != NULL) {
+		free(A->Buffer2);
+		A->Buffer2 = (XPoint *) NULL;
+	}
+	if (A->dbuf) {
+		XFreePixmap(display, A->dbuf);
+		A->dbuf = None;
+	}
+	if (A->dbuf_gc) {
+		XFreeGC(display, A->dbuf_gc);
+		A->dbuf_gc = None;
+	}
+	if (A->Fold != NULL) {
+		free(A->Fold);
+		A->Fold = (PRM *) NULL;
+	}
+#ifdef POINTS_HISTORY
+	free(A->oldPointsX);
+	A->oldPointsX = NULL;
+
+	free(A->oldPointsY);
+	A->oldPointsY = NULL;
+
+	if (A->accMap) {
+		free(A->accMap[0]);
+		free(A->accMap);
+	}
+#endif
+}
+
+ENTRYPOINT void
+draw_strange(ModeInfo * mi)
+{
+	int         i, j, n, Cur_Pt;
+	PRM         x, y, xo, yo;
+	DBL         u;
+	XPoint     *Buf;
+	Display    *display = MI_DISPLAY(mi);
+	Window      window = MI_WINDOW(mi);
+	GC          gc = MI_GC(mi);
+	DBL         Lx, Ly;
+	void        (*Iterate) (ATTRACTOR *, PRM, PRM, PRM *, PRM *);
+	PRM         xmin, xmax, ymin, ymax;
+	ATTRACTOR  *A;
+
+	if (Root == NULL)
+		return;
+	A = &Root[MI_SCREEN(mi)];
+	if (A->Fold == NULL)
+		return;
+
+	Cur_Pt = A->Cur_Pt;
+	Iterate = A->Iterate;
+
+	u = (DBL) (A->Count) / 40000.0;
+	for (j = MAX_PRM - 1; j >= 0; --j)
+		A->Prm[j] = DBL_To_PRM((1.0 - u) * A->Prm1[j] + u * A->Prm2[j]);
+
+	/* We collect the accumulation of the orbits in the 2d int array field. */
+#ifndef POINTS_HISTORY
+	#ifdef useAccumulator
+		if (useAccumulator) {
+			for (i=0;i<A->Width;i++) {
+				for (j=0;j<A->Height;j++) {
+					A->accMap[i][j] = 0;
+
+				}
+			}
+		}
+	#endif
+#endif
+
+	x = y = DBL_To_PRM(.0);
+	for (n = SKIP_FIRST; n; --n) {
+		(*Iterate) (A, x, y, &xo, &yo);
+		x = xo + NRAND(8) - 4;
+		y = yo + NRAND(8) - 4;
+	}
+
+	xmax = 0;
+	xmin = UNIT * 4;
+	ymax = 0;
+	ymin = UNIT * 4;
+	A->Cur_Pt = 0;
+	Buf = A->Buffer2;
+	Lx = (DBL) A->Width / UNIT / 2.2;
+	Ly = (DBL) A->Height / UNIT / 2.2;
+	for (n = A->Max_Pt; n; --n) {
+		(*Iterate) (A, x, y, &xo, &yo);
+		#ifdef useAccumulator
+		if (useAccumulator) {
+			int mx,my;
+			mx = (short) ( A->Width*0.1 + A->Width*0.8 * (xo - xmin) / (xmax - xmin) );
+			my = (short) ( A->Width*0.1 + (A->Height - A->Width*0.2) * (yo - ymin) / (ymax - ymin) );
+			if (mx>=0 && my>=0 && mx<A->Width && my<A->Height) {
+				A->accMap[mx][my]++;
+			}
+#ifdef POINTS_HISTORY
+		/* #define clearOldPoint(i) { if (startedClearing) { field[oldPoints[i].x][oldPoints[i].y]--; } }
+		#define saveUnplot(X,Y) { clearOldPoint(oldPointsIndex) oldPoints[oldPointsIndex].x = X; oldPoints[oldPointsIndex].y = Y; oldPointsIndex = (oldPointsIndex + 1) % numOldPoints; if (oldPointsIndex==0) { startedClearing=1; } }
+		saveUnplot(mx,my) */
+		if (A->startedClearing) {
+			int oldX = A->oldPointsX[A->oldPointsIndex];
+			int oldY = A->oldPointsY[A->oldPointsIndex];
+			if (oldX>=0 && oldY>=0 && oldX<A->Width && oldY<A->Height) {
+				A->accMap[oldX][oldY]--;
+			}
+		}
+		A->oldPointsX[A->oldPointsIndex] = mx;
+		A->oldPointsY[A->oldPointsIndex] = my;
+		A->oldPointsIndex = (A->oldPointsIndex + 1) % A->numOldPoints;
+		if (A->oldPointsIndex==0) { A->startedClearing=1; }
+#endif
+		} else {
+		#endif
+			Buf->x = (int) (Lx * (x + DBL_To_PRM(1.1)));
+			Buf->y = (int) (Ly * (DBL_To_PRM(1.1) - y));
+			Buf++;
+			A->Cur_Pt++;
+		#ifdef useAccumulator
+		}
+		#endif
+		/* (void) fprintf( stderr, "X,Y: %d %d    ", Buf->x, Buf->y ); */
+		if (xo > xmax)
+			xmax = xo;
+		else if (xo < xmin)
+			xmin = xo;
+		if (yo > ymax)
+			ymax = yo;
+		else if (yo < ymin)
+			ymin = yo;
+		x = xo + NRAND(8) - 4;
+		y = yo + NRAND(8) - 4;
+	}
+
+	MI_IS_DRAWN(mi) = True;
+
+	XSetForeground(display, gc, MI_BLACK_PIXEL(mi));
+
+	#ifdef useAccumulator
+	if (useAccumulator) {
+		float colorScale;
+		int col;
+		#ifdef VARY_SPEED_TO_AVOID_BOREDOM
+		int pixelCount = 0;
+		#endif
+		colorScale = (A->Width*A->Height/640.0/480.0*800000.0/(float)A->Max_Pt*(float)NUM_COLS/256);
+		if (A->dbuf != None) {
+			XSetForeground(display, A->dbuf_gc, 0);
+			XFillRectangle(display, A->dbuf, A->dbuf_gc, 0, 0, A->Width, A->Height);
+		} else {
+			XSetForeground(display, gc, MI_BLACK_PIXEL(mi));
+			XFillRectangle(display, window, gc, 0, 0, A->Width, A->Height);
+		}
+		for (i=0;i<A->Width;i++) {
+			for (j=0;j<A->Height;j++) {
+				if (A->accMap[i][j]>0) {
+					col = (float)A->accMap[i][j] * colorScale;
+					if (col>NUM_COLS-1) {
+						col = NUM_COLS-1;
+					}
+					#ifdef VARY_SPEED_TO_AVOID_BOREDOM
+					if (col>0) {
+						if (col<NUM_COLS-1)  /* we don't count maxxed out pixels */
+							pixelCount++;
+					}
+					#endif
+					if (MI_NPIXELS(mi) < 2)
+						XSetForeground(display, gc, MI_WHITE_PIXEL(mi));
+					else
+						/*XSetForeground(display, gc, MI_PIXEL(mi, A->Col % MI_NPIXELS(mi)));*/
+						XSetForeground(display, gc, cols[col].pixel);
+					if (A->dbuf != None) {
+						XSetForeground(display, A->dbuf_gc, cols[col].pixel);
+						XDrawPoint(display, A->dbuf, A->dbuf_gc, i, j);
+					} else {
+						XSetForeground(display, gc, cols[col].pixel);
+						XDrawPoint(display, window, gc, i, j);
+					}
+				}
+			}
+		}
+		if (A->dbuf != None) {
+			XCopyArea(display, A->dbuf, window, gc, 0, 0, A->Width, A->Height, 0, 0);
+		}
+		#ifdef VARY_SPEED_TO_AVOID_BOREDOM
+			/* Increaase the rate of change of the parameters if the attractor has become visually boring. */
+			if ((xmax - xmin < DBL_To_PRM(.2)) && (ymax - ymin < DBL_To_PRM(.2))) {
+				A->Speed *= 1.25;
+			} else if (pixelCount>0 && pixelCount<A->Width*A->Height/1000) {
+				A->Speed *= 1.25;  /* A->Count = 1000; */
+			} else {
+				A->Speed = 4; /* reset to normal/default */
+			}
+			if (A->Speed > 32)
+				A->Speed = 32;
+			A->Count += A->Speed;
+			if (A->Count >= 1000) {
+				for (i = MAX_PRM - 1; i >= 0; --i)
+					A->Prm1[i] = A->Prm2[i];
+				Random_Prm(A->Prm2);
+				A->Count = 0;
+			}
+		#endif
+	} else {
+	#endif
+
+	if (A->dbuf != None) {		/* jwz */
+		XSetForeground(display, A->dbuf_gc, 0);
+/* XDrawPoints(display, A->dbuf, A->dbuf_gc, A->Buffer1,
+  Cur_Pt,CoordModeOrigin); */
+		XFillRectangle(display, A->dbuf, A->dbuf_gc, 0, 0, A->Width, A->Height);
+	} else
+		XDrawPoints(display, window, gc, A->Buffer1, Cur_Pt, CoordModeOrigin);
+
+	if (MI_NPIXELS(mi) < 2)
+		XSetForeground(display, gc, MI_WHITE_PIXEL(mi));
+	else
+		XSetForeground(display, gc, MI_PIXEL(mi, A->Col % MI_NPIXELS(mi)));
+
+	if (A->dbuf != None) {
+		XSetForeground(display, A->dbuf_gc, 1);
+		XDrawPoints(display, A->dbuf, A->dbuf_gc, A->Buffer2, A->Cur_Pt,
+			    CoordModeOrigin);
+		XCopyPlane(display, A->dbuf, window, gc, 0, 0, A->Width, A->Height, 0, 0, 1);
+	} else
+		XDrawPoints(display, window, gc, A->Buffer2, A->Cur_Pt, CoordModeOrigin);
+
+	#ifdef useAccumulator
+	}
+	#endif
+
+	Buf = A->Buffer1;
+	A->Buffer1 = A->Buffer2;
+	A->Buffer2 = Buf;
+
+	if ((xmax - xmin < DBL_To_PRM(.2)) && (ymax - ymin < DBL_To_PRM(.2)))
+		A->Count += 4 * A->Speed;
+	else
+		A->Count += A->Speed;
+	if (A->Count >= 1000) {
+		for (i = MAX_PRM - 1; i >= 0; --i)
+			A->Prm1[i] = A->Prm2[i];
+		Random_Prm(A->Prm2);
+		A->Count = 0;
+	}
+	A->Col++;
+#ifdef STANDALONE
+    mi->recursion_depth = A->Count;
+#endif
+}
+
+
+/***************************************************************/
+
+ENTRYPOINT void
+init_strange(ModeInfo * mi)
+{
+	Display    *display = MI_DISPLAY(mi);
+	Window      window = MI_WINDOW(mi);
+#ifndef NO_DBUF
+	GC          gc = MI_GC(mi);
+#endif
+	ATTRACTOR  *Attractor;
+
+	if (curve <= 0) curve = 10;
+
+	if (Root == NULL) {
+		if ((Root = (ATTRACTOR *) calloc(MI_NUM_SCREENS(mi),
+				sizeof (ATTRACTOR))) == NULL)
+			return;
+	}
+	Attractor = &Root[MI_SCREEN(mi)];
+
+#ifdef POINTS_HISTORY
+	Attractor->startedClearing=0;
+	Attractor->oldPointsIndex=0;
+#endif
+
+	if (Attractor->Fold == NULL) {
+		int         i;
+
+		if ((Attractor->Fold = (PRM *) calloc(UNIT2 + 1,
+				sizeof (PRM))) == NULL) {
+			free_strange(display, Attractor);
+			return;
+		}
+		for (i = 0; i <= UNIT2; ++i) {
+			DBL         x;
+
+			/* x = ( DBL )(i)/UNIT2; */
+			/* x = sin( M_PI/2.0*x ); */
+			/* x = sqrt( x ); */
+			/* x = x*x; */
+			/* x = x*(1.0-x)*4.0; */
+			x = (DBL) (i) / UNIT;
+			x = sin(x);
+			Attractor->Fold[i] = DBL_To_PRM(x);
+		}
+	}
+
+	Attractor->Max_Pt = points;
+
+	if (Attractor->Buffer1 == NULL)
+		if ((Attractor->Buffer1 = (XPoint *) calloc(Attractor->Max_Pt,
+				sizeof (XPoint))) == NULL) {
+			free_strange(display, Attractor);
+			return;
+		}
+	if (Attractor->Buffer2 == NULL)
+		if ((Attractor->Buffer2 = (XPoint *) calloc(Attractor->Max_Pt,
+				sizeof (XPoint))) == NULL) {
+			free_strange(display, Attractor);
+			return;
+		}
+
+	Attractor->Width = MI_WIDTH(mi);
+	Attractor->Height = MI_HEIGHT(mi);
+	Attractor->Cur_Pt = 0;
+	Attractor->Count = 0;
+	Attractor->Col = NRAND(MI_NPIXELS(mi));
+	Attractor->Speed = 4;
+
+	Attractor->Iterate = Funcs[NRAND(2)];
+	Random_Prm(Attractor->Prm1);
+	Random_Prm(Attractor->Prm2);
+#ifndef NO_DBUF
+	if (Attractor->dbuf != None)
+		XFreePixmap(display, Attractor->dbuf);
+#ifdef useAccumulator
+#define colorDepth ( useAccumulator ? MI_DEPTH(mi) : 1 )
+#else
+#define colorDepth 1
+#endif
+	Attractor->dbuf = XCreatePixmap(display, window,
+	     Attractor->Width, Attractor->Height, colorDepth);
+	/* Allocation checked */
+	if (Attractor->dbuf != None) {
+		XGCValues   gcv;
+
+		gcv.foreground = 0;
+		gcv.background = 0;
+#ifndef HAVE_JWXYZ
+		gcv.graphics_exposures = False;
+#endif /* HAVE_JWXYZ */
+		gcv.function = GXcopy;
+
+		if (Attractor->dbuf_gc != None)
+			XFreeGC(display, Attractor->dbuf_gc);
+
+		if ((Attractor->dbuf_gc = XCreateGC(display, Attractor->dbuf,
+#ifndef HAVE_JWXYZ
+				GCGraphicsExposures |
+#endif /* HAVE_JWXYZ */
+                               GCFunction | GCForeground | GCBackground,
+				&gcv)) == None) {
+			XFreePixmap(display, Attractor->dbuf);
+			Attractor->dbuf = None;
+		} else {
+			XFillRectangle(display, Attractor->dbuf, Attractor->dbuf_gc,
+				0, 0, Attractor->Width, Attractor->Height);
+			XSetBackground(display, gc, MI_BLACK_PIXEL(mi));
+			XSetFunction(display, gc, GXcopy);
+		}
+	}
+#endif
+
+
+#ifdef useAccumulator
+	#define A Attractor
+	if (useAccumulator) {
+		XWindowAttributes xgwa;
+		int i,j;
+		XGetWindowAttributes (display, window, &xgwa);
+		/* cmap = xgwa.colormap; */
+		/* cmap = XCreateColormap(display, window, MI_VISUAL(mi), AllocAll); */
+		if (Attractor->accMap) {
+			free (Attractor->accMap[0]);
+			free (Attractor->accMap);
+		}
+		Attractor->accMap = (int**)calloc(Attractor->Width,sizeof(int*));
+		if (!Attractor->accMap) {
+			free_strange(display, Attractor);
+			return;
+		}
+		Attractor->accMap[0] = calloc(Attractor->Width*Attractor->Height,sizeof(int));
+		if (!Attractor->accMap[0]) {
+			free_strange(display, Attractor);
+			return;
+		}
+		for (i=0;i<Attractor->Width;i++) {
+			Attractor->accMap[i] = Attractor->accMap[0] + Attractor->Height * i;
+			for (j=0;j<Attractor->Height;j++) {
+				Attractor->accMap[i][j] = 0;
+			}
+		}
+#ifdef POINTS_HISTORY
+		A->numOldPoints = A->Max_Pt * MERGE_FRAMES;
+		if (A->oldPointsX)
+			free (A->oldPointsX);
+		A->oldPointsX = (int*)calloc(A->numOldPoints,sizeof(int));
+		if (A->oldPointsY)
+			free (A->oldPointsY);
+		A->oldPointsY = (int*)calloc(A->numOldPoints,sizeof(int));
+#endif
+		if (!cols) {
+			cols = (XColor*)calloc(NUM_COLS,sizeof(XColor));
+			if (!cols) {
+				free_strange(display, A);
+				return;
+			}
+		}
+		for (i=0;i<NUM_COLS;i++) {
+			float li;
+			#define MINBLUE 1
+			#define FULLBLUE 128
+			li = MINBLUE + (255.0-MINBLUE) * log(1.0 + ACC_GAMMA*(float)i/NUM_COLS) / log(1.0 + ACC_GAMMA);
+			if (li<FULLBLUE) {
+				cols[i].red = 0;
+				cols[i].green = 0;
+				cols[i].blue = 65536*li/FULLBLUE;
+			} else {
+				cols[i].red = 65536*(li-FULLBLUE)/(256-FULLBLUE);
+				cols[i].green = 65536*(li-FULLBLUE)/(256-FULLBLUE);
+				cols[i].blue = 65535;
+			}
+			XAllocColor (display, xgwa.colormap, &cols[i]);
+			/*
+			if (!XAllocColor(MI_DISPLAY(mi), cmap, &cols[i])) {
+			if (!XAllocColor(display, cmap, &cols[i])) {
+				cols[i].pixel = WhitePixel (display, DefaultScreen (display));
+				cols[i].red = cols[i].green = cols[i].blue = 0xFFFF;
+			}
+			*/
+		}
+		/*
+		XSetWindowColormap(display, window, cmap);
+		(void) XSetWMColormapWindows(display, window, &window, 1);
+		XInstallColormap(display, cmap);
+		XStoreColors(display, cmap, cols, 256);
+		*/
+	}
+	#undef A
+#endif
+	MI_CLEARWINDOW(mi);
+
+	/* Do not want any exposure events from XCopyPlane */
+	XSetGraphicsExposures(display, MI_GC(mi), False);
+}
+
+ENTRYPOINT void
+reshape_strange(ModeInfo * mi, int width, int height)
+{
+  XClearWindow (MI_DISPLAY (mi), MI_WINDOW(mi));
+  init_strange (mi);
+}
+
+/***************************************************************/
+
+ENTRYPOINT void
+release_strange(ModeInfo * mi)
+{
+	if (Root != NULL) {
+		int         screen;
+
+#ifdef useAccumulator
+		if (useAccumulator)
+			(void) free((void *) cols);
+#endif
+		for (screen = 0; screen < MI_NUM_SCREENS(mi); ++screen)
+			free_strange(MI_DISPLAY(mi), &Root[screen]);
+		free(Root);
+		Root = (ATTRACTOR *) NULL;
+	}
+}
+
+#ifdef STANDALONE
+ENTRYPOINT Bool
+strange_handle_event (ModeInfo *mi, XEvent *event)
+{
+  if (screenhack_event_helper (MI_DISPLAY(mi), MI_WINDOW(mi), event))
+    {
+      reshape_strange (mi, MI_WIDTH(mi), MI_HEIGHT(mi));
+      return True;
+    }
+  return False;
+}
+
+
+XSCREENSAVER_MODULE ("Strange", strange)
+#endif
+
+#endif /* MODE_strange */

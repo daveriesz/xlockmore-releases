@@ -1,0 +1,225 @@
+XCOMM @(#)Imakefile	23.9 91/09/27
+XCOMM Imakefile - xlock
+XCOMM
+
+XCOMM      *** BEGIN XPM CONFIG SECTION ***
+
+XCOMM No modes use this yet, see README.
+XCOMM If your system has libXpm, remove the 'XCOMM ' from the next line.
+XCOMM #define XpmLibrary
+
+#ifdef XpmLibrary
+
+XCOMM If you get an error "Cannot find xpm.h" while compiling, set XPMINCLUDEDIR
+XCOMM to the directory xpm.h is in. Below is a guess.
+XPMINCLUDEDIR = /usr/local/include
+
+XCOMM If you get an error "Connot find libXpm" while linking, set XPMLIBPATH
+XCOMM to the directory libXpm.* is in.  Below is a guess.
+XPMLIBPATH = /usr/local/lib
+
+      DEFINE_XPM = -DHAS_XPM -I$(XPMINCLUDEDIR)
+      XPMLIB   = -L$(XPMLIBPATH) -lXpm
+      ICONEXT  = xpm
+#else
+      ICONEXT  = xbm
+#endif
+
+XCOMM      *** END XPM CONFIG SECTION ***
+
+      BITMAPDIR = ./bitmaps
+      PIXMAPDIR = ./pixmaps
+
+#ifndef __QNX__
+#ifndef MathLibrary
+#define MathLibrary -lm
+#endif
+#else
+#define MathLibrary
+  DEFINE_SHADOW = -DHAS_SHADOW -Dlinux
+      SHADOWLIB = -l/src/util/Lib/util
+#endif
+
+#ifdef UltrixArchitecture
+EXTRA_LIBRARIES = -lauth
+#endif
+
+#ifdef SunArchitecture
+#if SystemV4
+  DEFINE_SHADOW = -DSOLARIS_SHADOW
+
+XCOMM Solaris may not have its own correct OSMinorVersion
+XCOMM compare with uname -a, correct if wrong at /usr/openwin/lib/config/sun.cf
+XCOMM If just using gcc, you may want to remove -xF references in sun.cf and
+XCOMM Imake.tmpl if you get a
+XCOMM cc: language F not recognized
+
+XCOMM If SunOS 5.2 or less, do not have nanosleep
+#if OSMajorVersion > 5 || (OSMajorVersion == 5 && OSMinorVersion > 2)
+   DEFINE_SLEEP = -DHAS_NANOSLEEP
+EXTRA_LIBRARIES += -lposix4 -lthread
+#else
+EXTRA_LIBRARIES = -lnsl -lposix4
+#endif
+     PIXMAPTYPE = sol
+#else
+     DEFINE_SLEEP = -DHAS_USLEEP
+#if HasShadowPasswd
+     DEFINE_SHADOW = -DHAS_SHADOW
+#endif
+     PIXMAPTYPE = sun
+#endif
+     BITMAPTYPE = sun
+#else 
+#if HasShadowPasswd
+  DEFINE_SHADOW = -DHAS_SHADOW
+      SHADOWLIB = -lshadow
+#endif
+#if defined(HPArchitecture) || defined(ApolloArchitecture)
+#ifdef HPArchitecture
+XCOMM If your site is using Secured Passwords,
+XCOMM  add -DHPUX_SECURE_PASSWD to DEFINES
+XCOMM If your site is using Passwd Etc, add -DHP_PASSWDETC to DEFINES
+      CCOPTIONS = -Aa
+  DEFINE_SYSTEM = -D_HPUX_SOURCE -DSYSV
+#else
+   DEFINE_SLEEP = -DHAS_USLEEP
+#endif
+EXTRA_LIBRARIES = -lXhp11
+XCOMM Use this one instead if your site is using Passwd Etc:
+XCOMM EXTRA_LIBRARIES = -lrgy -lnck -lndbm -lXhp11
+     BITMAPTYPE = hp
+     PIXMAPTYPE = hp
+#else
+#if defined(FreeBSDArchitecture) || defined(NetBSDArchitecture) || defined(i386BsdArchitecture)
+   DEFINE_SLEEP = -DHAS_USLEEP
+     BITMAPTYPE = bsd
+     PIXMAPTYPE = bsd
+#else
+#ifdef LinuxArchitecture
+   DEFINE_SLEEP = -DHAS_USLEEP
+     BITMAPTYPE = linux
+     PIXMAPTYPE = linux
+#if HasShadowPasswd
+EXTRA_LIBRARIES = -lgdbm
+#endif
+#else
+#ifdef SGIArchitecture
+     BITMAPTYPE = sgi
+     PIXMAPTYPE = sgi
+#else
+#ifdef AIXArchitecture
+     BITMAPTYPE = x11
+     PIXMAPTYPE = x11
+XCOMM If AIX 3.1 or less, do not have struct passwd and other things
+#if OSMajorVersion < 3 || (OSMajorVersion == 3 && OSMinorVersion < 2)
+   DEFINE_SYSTEM = -DLESS_THAN_AIX3_2
+#endif
+XCOMM Use this if your site is using AFS:
+XCOMM     DEFINE_SYSTEM = -DAFS
+XCOMM       CCOPTIONS = -I/usr/afsws/include
+XCOMM EXTRA_LIBRARIES = -L/usr/afsws/lib -L/usr/afsws/lib/afs -lkauth -lubik -lprot -lrxkad -lrx -llwp -lauth -lsys -ldes -lcmd -lcom_err /usr/afsws/lib/afs/util.a
+XCOMM or try
+XCOMM EXTRA_LIBRARIES = -L/usr/afsws/lib -L/usr/afsws/lib/afs -lkauth -lubik -lprot -lrxkad -lrx -llwp -lauth -lsys -ldes -lcmd -lcom_err /usr/afsws/lib/afs/util.a -laudit
+#else
+XCOMM         DEFINE_SYSTEM = -DOSF1_ENH_SEC
+     BITMAPTYPE = x11
+     PIXMAPTYPE = x11
+#endif
+#endif
+#endif
+#endif
+#endif
+#endif
+
+XCOMM  -DALWAYS_ALLOW_ROOT  users can't turn off allowroot
+XCOMM
+XCOMM For personal use you may want to consider:
+XCOMM  -DUSE_XLOCKRC        paranoid admin or unknown shadow passwd alg
+XCOMM
+XCOMM For labs you may want to consider:
+XCOMM  -DAUTO_LOGOUT        enable auto-logout code
+XCOMM  -DLOGOUT_BUTTON      enable logout button
+XCOMM  -DLO_BUTTON_TIME=5   minutes until logout button appears
+XCOMM  -DSTAFF_FILE=\"/etc/xlock.staff\"  file of staff who are exempt
+
+XCOMM May have to combine in one long line if "+=" does not work
+        DEFINE_OPT = -DALWAYS_ALLOW_ROOT
+XCOMM        DEFINE_OPT += -DUSE_XLOCKRC
+XCOMM        DEFINE_OPT += -DAUTO_LOGOUT
+XCOMM        DEFINE_OPT += -DLOGOUT_BUTTON -DLO_BUTTON_TIME=5
+XCOMM        DEFINE_OPT += -DSTAFF_FILE=\"/etc/xlock.staff\"
+
+XCOMM Here is your chance to override the default icon:
+     LIFEBITMAP = $(BITMAPTYPE)
+     MAZEBITMAP = $(BITMAPTYPE)
+    IMAGEBITMAP = $(BITMAPTYPE)
+    IMAGEPIXMAP = $(PIXMAPTYPE)
+
+        DEFINES = -DDEF_FILESEARCHPATH=\"$(LIBDIR)/%T/%N%S\" -DUSE_VROOT \
+$(DEFINE_SYSTEM) $(DEFINE_SLEEP) $(DEFINE_OPT) $(DEFINE_SHADOW) $(DEFINE_XPM)
+		
+        DEPLIBS = $(DEPXLIB)
+LOCAL_LIBRARIES = $(XLIB) $(XPMLIB)
+       LINTLIBS = $(LINTXLIB)
+#if HasLibCrypt
+       CRYPTLIB = -lcrypt
+#endif
+  SYS_LIBRARIES = MathLibrary $(CRYPTLIB) $(SHADOWLIB)
+#if defined(FreeBSDArchitecture) || defined(NetBSDArchitecture)
+   INSTPGMFLAGS = -s -m 4751
+#endif
+           HDRS = xlock.h
+           SRCS = xlock.c passwd.c resource.c utils.c opt.c\
+		bat.c blot.c bounce.c clock.c flame.c forest.c\
+		galaxy.c geometry.c grav.c helix.c hop.c hyper.c\
+                image.c kaleid.c laser.c life.c life3d.c\
+		maze.c mountain.c pyro.c qix.c rect.c rock.c rotor.c\
+		sphere.c spiral.c spline.c swarm.c\
+		wator.c world.c worm.c\
+		swirl.c blank.c
+           OBJS = xlock.o passwd.o resource.o utils.o opt.o\
+		bat.o blot.o bounce.o clock.o flame.o forest.o\
+		galaxy.o geometry.o grav.o helix.o hop.o hyper.o\
+                image.o kaleid.o laser.o life.o life3d.o\
+		maze.o mountain.o pyro.o qix.o rect.o rock.o rotor.o\
+		sphere.o spiral.o spline.o swarm.o\
+		wator.o world.o worm.o\
+		swirl.o blank.o
+
+AllTarget(xlock)
+depend:: life.xbm maze.xbm image.$(ICONEXT)
+ComplexProgramTarget(xlock)
+InstallAppDefaults(XLock)
+      MANSUFFIX = 1
+InstallManPage(xlock,$(MANDIR))
+
+clean::
+	$(RM) life.xbm maze.xbm image.xbm image.xpm
+
+clean.all::	clean
+	$(RM) Makefile
+
+#if ProjectX < 6
+life.c: life.xbm
+maze.c: maze.xbm
+image.c: image.$(ICONEXT)
+#endif
+
+life.xbm:
+	$(RM) life.xbm
+	$(LN) ${BITMAPDIR}/life-$(LIFEBITMAP).xbm life.xbm
+
+maze.xbm:
+	$(RM) maze.xbm
+	$(LN) ${BITMAPDIR}/maze-$(MAZEBITMAP).xbm maze.xbm
+
+#ifdef XpmLibrary
+image.xpm:
+	$(RM) image.xpm
+	$(LN) ${PIXMAPDIR}/image-$(IMAGEPIXMAP).xpm image.xpm
+#else
+image.xbm:
+	$(RM) image.xbm
+	$(LN) ${BITMAPDIR}/image-$(IMAGEBITMAP).xbm image.xbm
+#endif

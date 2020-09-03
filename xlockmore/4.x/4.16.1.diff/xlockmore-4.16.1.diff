@@ -1,0 +1,11 @@
+--- ./configure.in.orig	Sun May 28 14:33:42 2000
++++ ./configure.in	Sun May 28 14:34:25 2000
+@@ -2058,7 +2058,7 @@
+   if test "$gl" = no; then
+     gl=yes
+     AC_DEFINE(USE_GL)
+-    XLOCKLIBS="${XLOCKLIBS} -lMesaGL -lMesaGLU"
++    XLOCKLIBS="${XLOCKLIBS} -lGL -lGLU"
+     test "x$mesagl_includes" = xNONE && mesagl_includes=$ac_mesagl_includes
+     test "x$mesagl_libraries" = xNONE && mesagl_libraries=$ac_mesagl_libraries
+     case "${canonical}" in

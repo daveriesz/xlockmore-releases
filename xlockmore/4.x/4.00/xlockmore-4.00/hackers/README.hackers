@@ -1,0 +1,10 @@
+These modes are for hackers only.  They are not polished for general release
+or have not been adequately tested.  If you fix them up, mail them back to the
+xlockmore maintainer.
+
+To make using configure... after configure edit Makefile (find the spot)
+  and then run make.
+To make using Imakefile... edit Imakefile (find the spot) then do a 
+  xmkmf ; make depend ; make
+To make using make.com... edit make.com (find the spot) then do a 
+  @make

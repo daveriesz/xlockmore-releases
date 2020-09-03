@@ -1,0 +1,2285 @@
+Old Purify Problems (problems are now marked in code with "PURIFY")
+
+---
+Summary of unresolved problems with xlockmore-4.02
+gears - many memory leaks from GL calls, cumulative
+sproingies - 104 byte memory leak from glXCreateContext, cumulative, and
+  unitialized memory reads in the MesaGL 2.2 code (reported this to
+  Brian Paul and he will try to address it in MesaGL 2.3).
+morph3d - 104 byte memory leak from glXCreateContext, cumulative
+pipes - 104 byte memory leak from glXCreateContext, cumulative
+superquadrics - 104 byte memory leak from glXCreateContext, cumulative
+cartoon - 29756 byte memory leak from XPutImage
+life3d - 384 byte memory leak (solution found but too late for this release)
+swirl - 256 byte memory leak from XPutImage
+life - 132 byte memory leak from XPutImage
+resource.c - 1 byte memory leak
+
+cumulative means that the memory leaks occur each time the mode is run
+when in random mode, which is why after some time it may crash xlock
+since it runs out of available memory.  Only the GL modes have
+cumulative memory leaks.
+
+---
+
+uninitialized memory read (Solaris, OK now?):
+                            passwd.c[(void) strcpy(user, pw->pw_name);]
+                            passwd.c[pw = getpwnam(user);]
+                            passwd.c[if (pw && (pw->pw_uid != uid))]
+                            passwd.c[pw = getpwnam(ROOT);]
+                            logout.c[pwp = getpwuid(uid);]
+
+duplication of file descriptor (multiple opens but no close)
+(Solaris, OK now?):         nose.c[utils.c[if ((pp = popen(progrun, "r"))) {]]
+
+
+SOLVED since xlockmore-4.02
+leak:                       galaxy.c, (life3d solved but still another leak)
+
+SOLVED since xlockmore-3.12
+leak:                       clock.c laser.c marquee.c[gc]
+                            nose.c[text_fg_gc,text_bg_gc]
+                            puzzle.c swarm.c
+                            passwd.c[getspnam(pw->pw_name)]
+                            marquee.c[strdup]
+                            pacman.c[pp->eaten], roll.c
+unitialized memory read:    image.c world.c ball.c cartoon.c pacman.c worm.c
+beyond array bounds:        maze.c life.c
+duplication of file descriptor (multiple opens but no close):
+                            logout.c[if ((fp = fopen(STAFF_FILE, "r")) == NULL)]
+                            rplay[unnamed socket...]
+too many problems, removed: polygon.c
+
+Purify OK
+		ant.c bat.c blot.c bouboule.c bounce.c braid.c bug.c
+		daisy.c dclock.c demon.c eyes.c flag.c flame.c forest.c
+		geometry.c grav.c helix.c hop.c hyper.c kaleid.c
+		life1d.c lightning.c lissie.c mountain.c
+		penrose.c petal.c pyro.c qix.c rotor.c
+		tri.c triangle.c wator.c wire.c worm.c
+		penrose.c petal.c puzzle.c pyro.c qix.c rotor.c
+		shape.c slip.c sphere.c spiral.c spline.c star.c swirl.c
+    flamen.c huskers.c julia.c turtle.c
+    bomb
+
+---
+Summary of problems with xlockmore-4.01(ALPHA3)
+---
+UMR: Uninitialized memory read
+	gear.c, lines 209,215,221 (glCallList)
+	morph3d.c lines 295,300,306,311 (glCallList)
+
+MLK: Memory leaks
+	morph3d.c:763 (glXCreateContext)
+	mode.c:351 (XStringListToTextProperty) - documented
+	gear.c:316,326,336 (glNewList)
+	gear.c:113,129,141,164,187 (glVertex3f)
+	gear.c:160,168,186 (glNormal3f)
+	galaxy.c:145 (malloc) - documented
+	life3d.c:1279 (calloc) - documented
+	resource.c:883 (malloc) - documented
+	resource.c:1114 (malloc)
+
+PLK: Possible memory leaks
+	cartoon.c:186 (XPutImage) - documented
+
+
+-------------
+Purify log from MGB for xlockmore-3.12 with known solved problems removed
+Purify3.2 Solaris2 with XPM and HACKERS enabled.
+-------------
+
+****  Purify instrumented xlock (pid 13982 at Sat Nov 16 23:06:18 1996)
+  * Purify 3.2 Solaris 2, Copyright (C) 1992-1996 Pure Software Inc. All rights reserved. 
+  * For contact information type: "purify -help"
+  * For TTY output, use the option "-windows=no"
+  * Command-line: ./xlock -mode random +enablesaver 
+  * Options settings: -purify \
+    -purify-home=/private/projects/purify/purify-3.2-solaris2 
+PureLA: 7 simple licenses, 8 users.  Please remedy.
+  * Purify licensed to Universitaet Passau or FORWISS
+  * Purify checking enabled.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwuid_r     [libc.so.1]
+	fullLock       [logout.c:443]
+	getResources   [resource.c:1173]
+	main           [xlock.c:1590]
+	_start         [crt1.o]
+  * Reading 4 bytes from 0xefffd720 on the stack.
+  * Address 0xefffd720 is 992 bytes below frame pointer in function getpwuid_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwuid_r     [libc.so.1]
+	fullLock       [logout.c:443]
+	getResources   [resource.c:1173]
+	main           [xlock.c:1590]
+	_start         [crt1.o]
+  * Reading 4 bytes from 0xefffd71c on the stack.
+  * Address 0xefffd71c is 996 bytes below frame pointer in function getpwuid_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwuid_r     [libc.so.1]
+	fullLock       [logout.c:443]
+	getResources   [resource.c:1173]
+	main           [xlock.c:1590]
+	_start         [crt1.o]
+  * Reading 4 bytes from 0xefffd718 on the stack.
+  * Address 0xefffd718 is 1000 bytes below frame pointer in function getpwuid_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwuid_r     [libc.so.1]
+	fullLock       [logout.c:443]
+	getResources   [resource.c:1173]
+	main           [xlock.c:1590]
+	_start         [crt1.o]
+  * Reading 4 bytes from 0xefffd714 on the stack.
+  * Address 0xefffd714 is 1004 bytes below frame pointer in function getpwuid_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwuid_r     [libc.so.1]
+	fullLock       [logout.c:443]
+	getResources   [resource.c:1173]
+	main           [xlock.c:1590]
+	_start         [crt1.o]
+  * Reading 4 bytes from 0xefffd708 on the stack.
+  * Address 0xefffd708 is 1016 bytes below frame pointer in function getpwuid_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwuid_r     [libc.so.1]
+	fullLock       [logout.c:443]
+	getResources   [resource.c:1173]
+	main           [xlock.c:1590]
+	_start         [crt1.o]
+  * Reading 4 bytes from 0xefffd704 on the stack.
+  * Address 0xefffd704 is 1020 bytes below frame pointer in function getpwuid_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwuid_r     [libc.so.1]
+	fullLock       [logout.c:443]
+	getResources   [resource.c:1173]
+	main           [xlock.c:1590]
+	_start         [crt1.o]
+  * Reading 4 bytes from 0xefffd724 on the stack.
+  * Address 0xefffd724 is 988 bytes below frame pointer in function getpwuid_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	strcmp         [rtlib.o]
+	fullLock       [logout.c:460]
+	getResources   [resource.c:1173]
+	main           [xlock.c:1590]
+	_start         [crt1.o]
+  * Reading 9 bytes from 0x1a9798 in the heap.
+  * Address 0x1a9798 is 48 bytes into a malloc'd block at 0x1a9768 of 1072 bytes.
+  * This block was allocated from:
+	malloc         [rtlib.o]
+	_nss_XbyY_buf_alloc [libc.so.1]
+	getpwuid       [libc.so.1]
+	fullLock       [logout.c:443]
+	getResources   [resource.c:1173]
+	main           [xlock.c:1590]
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	_nsc_trydoorcall [libc.so.1]
+	getpwnam_r     [libc.so.1]
+	my_passwd_entry [passwd.c:275]
+	getUserName    [passwd.c:348]
+	initPasswd     [passwd.c:1464]
+	main           [xlock.c:1594]
+  * Reading 4 bytes from 0xefffe298 on the stack.
+  * Address 0xefffe298 is 24 bytes below frame pointer in function _nsc_trydoorcall.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	_nsc_trydoorcall [libc.so.1]
+	getpwnam_r     [libc.so.1]
+	my_passwd_entry [passwd.c:275]
+	getUserName    [passwd.c:348]
+	initPasswd     [passwd.c:1464]
+	main           [xlock.c:1594]
+  * Reading 8 bytes from 0xefffe290 on the stack.
+  * Address 0xefffe290 is 32 bytes below frame pointer in function _nsc_trydoorcall.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	_nsc_trydoorcall [libc.so.1]
+	getpwnam_r     [libc.so.1]
+	my_passwd_entry [passwd.c:275]
+	getUserName    [passwd.c:348]
+	initPasswd     [passwd.c:1464]
+	main           [xlock.c:1594]
+  * Reading 4 bytes from 0xefffe29c on the stack.
+  * Address 0xefffe29c is 20 bytes below frame pointer in function _nsc_trydoorcall.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwnam_r     [libc.so.1]
+	my_passwd_entry [passwd.c:275]
+	getUserName    [passwd.c:348]
+	initPasswd     [passwd.c:1464]
+	main           [xlock.c:1594]
+  * Reading 4 bytes from 0xefffe340 on the stack.
+  * Address 0xefffe340 is 992 bytes below frame pointer in function getpwnam_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwnam_r     [libc.so.1]
+	my_passwd_entry [passwd.c:275]
+	getUserName    [passwd.c:348]
+	initPasswd     [passwd.c:1464]
+	main           [xlock.c:1594]
+  * Reading 4 bytes from 0xefffe33c on the stack.
+  * Address 0xefffe33c is 996 bytes below frame pointer in function getpwnam_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwnam_r     [libc.so.1]
+	my_passwd_entry [passwd.c:275]
+	getUserName    [passwd.c:348]
+	initPasswd     [passwd.c:1464]
+	main           [xlock.c:1594]
+  * Reading 4 bytes from 0xefffe338 on the stack.
+  * Address 0xefffe338 is 1000 bytes below frame pointer in function getpwnam_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwnam_r     [libc.so.1]
+	my_passwd_entry [passwd.c:275]
+	getUserName    [passwd.c:348]
+	initPasswd     [passwd.c:1464]
+	main           [xlock.c:1594]
+  * Reading 4 bytes from 0xefffe334 on the stack.
+  * Address 0xefffe334 is 1004 bytes below frame pointer in function getpwnam_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwnam_r     [libc.so.1]
+	my_passwd_entry [passwd.c:275]
+	getUserName    [passwd.c:348]
+	initPasswd     [passwd.c:1464]
+	main           [xlock.c:1594]
+  * Reading 4 bytes from 0xefffe328 on the stack.
+  * Address 0xefffe328 is 1016 bytes below frame pointer in function getpwnam_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwnam_r     [libc.so.1]
+	my_passwd_entry [passwd.c:275]
+	getUserName    [passwd.c:348]
+	initPasswd     [passwd.c:1464]
+	main           [xlock.c:1594]
+  * Reading 4 bytes from 0xefffe324 on the stack (3 bytes at 0xefffe325 uninit).
+  * Address 0xefffe324 is 1020 bytes below frame pointer in function getpwnam_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwnam_r     [libc.so.1]
+	my_passwd_entry [passwd.c:275]
+	getUserName    [passwd.c:348]
+	initPasswd     [passwd.c:1464]
+	main           [xlock.c:1594]
+  * Reading 4 bytes from 0xefffe344 on the stack.
+  * Address 0xefffe344 is 988 bytes below frame pointer in function getpwnam_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	my_passwd_entry [passwd.c:276]
+	getUserName    [passwd.c:348]
+	initPasswd     [passwd.c:1464]
+	main           [xlock.c:1594]
+	_start         [crt1.o]
+  * Reading 4 bytes from 0x1a977c in the heap.
+  * Address 0x1a977c is 20 bytes into a malloc'd block at 0x1a9768 of 1072 bytes.
+  * This block was allocated from:
+	malloc         [rtlib.o]
+	_nss_XbyY_buf_alloc [libc.so.1]
+	getpwuid       [libc.so.1]
+	fullLock       [logout.c:443]
+	getResources   [resource.c:1173]
+	main           [xlock.c:1590]
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	strcpy         [rtlib.o]
+	getUserName    [passwd.c:351]
+	initPasswd     [passwd.c:1464]
+	main           [xlock.c:1594]
+	_start         [crt1.o]
+  * Reading 9 bytes from 0x1a9798 in the heap.
+  * Address 0x1a9798 is 48 bytes into a malloc'd block at 0x1a9768 of 1072 bytes.
+  * This block was allocated from:
+	malloc         [rtlib.o]
+	_nss_XbyY_buf_alloc [libc.so.1]
+	getpwuid       [libc.so.1]
+	fullLock       [logout.c:443]
+	getResources   [resource.c:1173]
+	main           [xlock.c:1590]
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	_nsc_trydoorcall [libc.so.1]
+	getpwnam_r     [libc.so.1]
+	my_passwd_entry [passwd.c:275]
+	getCryptedUserPasswd [passwd.c:456]
+	initPasswd     [passwd.c:1477]
+	main           [xlock.c:1594]
+  * Reading 4 bytes from 0xefffe298 on the stack.
+  * Address 0xefffe298 is 24 bytes below frame pointer in function _nsc_trydoorcall.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	_nsc_trydoorcall [libc.so.1]
+	getpwnam_r     [libc.so.1]
+	my_passwd_entry [passwd.c:275]
+	getCryptedUserPasswd [passwd.c:456]
+	initPasswd     [passwd.c:1477]
+	main           [xlock.c:1594]
+  * Reading 8 bytes from 0xefffe290 on the stack.
+  * Address 0xefffe290 is 32 bytes below frame pointer in function _nsc_trydoorcall.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	_nsc_trydoorcall [libc.so.1]
+	getpwnam_r     [libc.so.1]
+	my_passwd_entry [passwd.c:275]
+	getCryptedUserPasswd [passwd.c:456]
+	initPasswd     [passwd.c:1477]
+	main           [xlock.c:1594]
+  * Reading 4 bytes from 0xefffe29c on the stack.
+  * Address 0xefffe29c is 20 bytes below frame pointer in function _nsc_trydoorcall.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwnam_r     [libc.so.1]
+	my_passwd_entry [passwd.c:275]
+	getCryptedUserPasswd [passwd.c:456]
+	initPasswd     [passwd.c:1477]
+	main           [xlock.c:1594]
+  * Reading 4 bytes from 0xefffe340 on the stack.
+  * Address 0xefffe340 is 992 bytes below frame pointer in function getpwnam_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwnam_r     [libc.so.1]
+	my_passwd_entry [passwd.c:275]
+	getCryptedUserPasswd [passwd.c:456]
+	initPasswd     [passwd.c:1477]
+	main           [xlock.c:1594]
+  * Reading 4 bytes from 0xefffe33c on the stack.
+  * Address 0xefffe33c is 996 bytes below frame pointer in function getpwnam_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwnam_r     [libc.so.1]
+	my_passwd_entry [passwd.c:275]
+	getCryptedUserPasswd [passwd.c:456]
+	initPasswd     [passwd.c:1477]
+	main           [xlock.c:1594]
+  * Reading 4 bytes from 0xefffe338 on the stack.
+  * Address 0xefffe338 is 1000 bytes below frame pointer in function getpwnam_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwnam_r     [libc.so.1]
+	my_passwd_entry [passwd.c:275]
+	getCryptedUserPasswd [passwd.c:456]
+	initPasswd     [passwd.c:1477]
+	main           [xlock.c:1594]
+  * Reading 4 bytes from 0xefffe334 on the stack.
+  * Address 0xefffe334 is 1004 bytes below frame pointer in function getpwnam_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwnam_r     [libc.so.1]
+	my_passwd_entry [passwd.c:275]
+	getCryptedUserPasswd [passwd.c:456]
+	initPasswd     [passwd.c:1477]
+	main           [xlock.c:1594]
+  * Reading 4 bytes from 0xefffe328 on the stack.
+  * Address 0xefffe328 is 1016 bytes below frame pointer in function getpwnam_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwnam_r     [libc.so.1]
+	my_passwd_entry [passwd.c:275]
+	getCryptedUserPasswd [passwd.c:456]
+	initPasswd     [passwd.c:1477]
+	main           [xlock.c:1594]
+  * Reading 4 bytes from 0xefffe324 on the stack (3 bytes at 0xefffe325 uninit).
+  * Address 0xefffe324 is 1020 bytes below frame pointer in function getpwnam_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwnam_r     [libc.so.1]
+	my_passwd_entry [passwd.c:275]
+	getCryptedUserPasswd [passwd.c:456]
+	initPasswd     [passwd.c:1477]
+	main           [xlock.c:1594]
+  * Reading 4 bytes from 0xefffe344 on the stack.
+  * Address 0xefffe344 is 988 bytes below frame pointer in function getpwnam_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	my_passwd_entry [passwd.c:276]
+	getCryptedUserPasswd [passwd.c:456]
+	initPasswd     [passwd.c:1477]
+	main           [xlock.c:1594]
+	_start         [crt1.o]
+  * Reading 4 bytes from 0x1a977c in the heap.
+  * Address 0x1a977c is 20 bytes into a malloc'd block at 0x1a9768 of 1072 bytes.
+  * This block was allocated from:
+	malloc         [rtlib.o]
+	_nss_XbyY_buf_alloc [libc.so.1]
+	getpwuid       [libc.so.1]
+	fullLock       [logout.c:443]
+	getResources   [resource.c:1173]
+	main           [xlock.c:1590]
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read (2 times):
+  * This is occurring while in:
+	strlen         [rtlib.o]
+	_nss_nis_ypmatch [nss_nis.so.1]
+	_nss_nis_lookup [nss_nis.so.1]
+	getbyname      [getspent.c]
+	nss_search     [libc.so.1]
+	getspnam_r     [libc.so.1]
+  * Reading 9 bytes from 0x1a9798 in the heap.
+  * Address 0x1a9798 is 48 bytes into a malloc'd block at 0x1a9768 of 1072 bytes.
+  * This block was allocated from:
+	malloc         [rtlib.o]
+	_nss_XbyY_buf_alloc [libc.so.1]
+	getpwuid       [libc.so.1]
+	fullLock       [logout.c:443]
+	getResources   [resource.c:1173]
+	main           [xlock.c:1590]
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	_nsc_trydoorcall [libc.so.1]
+	getpwnam_r     [libc.so.1]
+	getCryptedRootPasswd [passwd.c:557]
+	initPasswd     [passwd.c:1480]
+	main           [xlock.c:1594]
+	_start         [crt1.o]
+  * Reading 4 bytes from 0xefffe308 on the stack.
+  * Address 0xefffe308 is 24 bytes below frame pointer in function _nsc_trydoorcall.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	_nsc_trydoorcall [libc.so.1]
+	getpwnam_r     [libc.so.1]
+	getCryptedRootPasswd [passwd.c:557]
+	initPasswd     [passwd.c:1480]
+	main           [xlock.c:1594]
+	_start         [crt1.o]
+  * Reading 8 bytes from 0xefffe300 on the stack.
+  * Address 0xefffe300 is 32 bytes below frame pointer in function _nsc_trydoorcall.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	_nsc_trydoorcall [libc.so.1]
+	getpwnam_r     [libc.so.1]
+	getCryptedRootPasswd [passwd.c:557]
+	initPasswd     [passwd.c:1480]
+	main           [xlock.c:1594]
+	_start         [crt1.o]
+  * Reading 4 bytes from 0xefffe30c on the stack.
+  * Address 0xefffe30c is 20 bytes below frame pointer in function _nsc_trydoorcall.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwnam_r     [libc.so.1]
+	getCryptedRootPasswd [passwd.c:557]
+	initPasswd     [passwd.c:1480]
+	main           [xlock.c:1594]
+	_start         [crt1.o]
+  * Reading 4 bytes from 0xefffe3b0 on the stack.
+  * Address 0xefffe3b0 is 992 bytes below frame pointer in function getpwnam_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwnam_r     [libc.so.1]
+	getCryptedRootPasswd [passwd.c:557]
+	initPasswd     [passwd.c:1480]
+	main           [xlock.c:1594]
+	_start         [crt1.o]
+  * Reading 4 bytes from 0xefffe3ac on the stack.
+  * Address 0xefffe3ac is 996 bytes below frame pointer in function getpwnam_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwnam_r     [libc.so.1]
+	getCryptedRootPasswd [passwd.c:557]
+	initPasswd     [passwd.c:1480]
+	main           [xlock.c:1594]
+	_start         [crt1.o]
+  * Reading 4 bytes from 0xefffe3a8 on the stack.
+  * Address 0xefffe3a8 is 1000 bytes below frame pointer in function getpwnam_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwnam_r     [libc.so.1]
+	getCryptedRootPasswd [passwd.c:557]
+	initPasswd     [passwd.c:1480]
+	main           [xlock.c:1594]
+	_start         [crt1.o]
+  * Reading 4 bytes from 0xefffe3a4 on the stack.
+  * Address 0xefffe3a4 is 1004 bytes below frame pointer in function getpwnam_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwnam_r     [libc.so.1]
+	getCryptedRootPasswd [passwd.c:557]
+	initPasswd     [passwd.c:1480]
+	main           [xlock.c:1594]
+	_start         [crt1.o]
+  * Reading 4 bytes from 0xefffe398 on the stack.
+  * Address 0xefffe398 is 1016 bytes below frame pointer in function getpwnam_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwnam_r     [libc.so.1]
+	getCryptedRootPasswd [passwd.c:557]
+	initPasswd     [passwd.c:1480]
+	main           [xlock.c:1594]
+	_start         [crt1.o]
+  * Reading 4 bytes from 0xefffe394 on the stack.
+  * Address 0xefffe394 is 1020 bytes below frame pointer in function getpwnam_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	process_getpw  [getpwnam_r.c]
+	getpwnam_r     [libc.so.1]
+	getCryptedRootPasswd [passwd.c:557]
+	initPasswd     [passwd.c:1480]
+	main           [xlock.c:1594]
+	_start         [crt1.o]
+  * Reading 4 bytes from 0xefffe3b4 on the stack.
+  * Address 0xefffe3b4 is 988 bytes below frame pointer in function getpwnam_r.
+
+****  Purify instrumented xlock (pid 13982)  ****
+UMR: Uninitialized memory read:
+  * This is occurring while in:
+	strcpy         [rtlib.o]
+	getCryptedRootPasswd [passwd.c:567]
+	initPasswd     [passwd.c:1480]
+	main           [xlock.c:1594]
+	_start         [crt1.o]
+  * Reading 2 bytes from 0x1a979d in the heap.
+  * Address 0x1a979d is 53 bytes into a malloc'd block at 0x1a9768 of 1072 bytes.
+  * This block was allocated from:
+	malloc         [rtlib.o]
+	_nss_XbyY_buf_alloc [libc.so.1]
+	getpwuid       [libc.so.1]
+	fullLock       [logout.c:443]
+	getResources   [resource.c:1173]
+	main           [xlock.c:1590]
+
+****  Purify instrumented xlock (pid 13982)  ****
+Process 14073 about to exec /bin/sh as "sh".
+
+****  Purify instrumented xlock (pid 13982)  ****
+Process 14094 about to exec /bin/sh as "sh".
+
+****  Purify instrumented xlock (pid 13982)  ****
+Process 14096 about to exec /bin/sh as "sh".
+.
+. repeats a lot (David Bagley)
+.
+****  Purify instrumented xlock (pid 13982)  ****
+Process 15649 about to exec /bin/sh as "sh".
+
+****  Purify instrumented xlock (pid 13982)  ****
+Process 15651 about to exec /bin/sh as "sh".
+
+****  Purify instrumented xlock (pid 13982)  ****
+Current file descriptors in use: 11
+FIU: file descriptor 0: <stdin>
+FIU: file descriptor 1: <unnamed pipe[1]>, O_RDWR
+   * Duplication of file descriptor 10.
+   * File position: 355929
+   * This file descriptor was allocated from:
+	fcntl          [libc.so.1]
+	popen          [libc.so.1]
+	getWords       [utils.c:215]
+	think          [nose.c:258]
+	move           [nose.c:133]
+	draw_nose      [nose.c:466]
+FIU: file descriptor 2: <stderr>
+FIU: file descriptor 4: "/etc/.name_service_door", O_RDONLY
+   * File info: ?r--r--r--  1 root     root             0 Apr  1  1996
+   * This file descriptor was allocated from:
+	open           [libc.so.1]
+	_nsc_trydoorcall [libc.so.1]
+	getpwuid_r     [libc.so.1]
+	fullLock       [logout.c:443]
+	getResources   [resource.c:1173]
+	main           [xlock.c:1590]
+FIU: file descriptor 5: <inherited from parent>
+FIU: file descriptor 6: <inherited from parent>
+FIU: file descriptor 7: "/common/staff/bmg/etc/xlock.staff", O_RDONLY
+   * File info: -rw-r--r--  1 berberic public           9 Nov 16 20:17
+   * File position: 9
+   * This file descriptor was allocated from:
+	open           [libc.so.1]
+	_endopen       [fopen.c]
+	fopen          [libc.so.1]
+	fullLock       [logout.c:452]
+	getResources   [resource.c:1173]
+	main           [xlock.c:1590]
+FIU: file descriptor 8: "/dev/udp", O_RDWR
+   * File info: c---------  0 root     root             0 Nov 16 23:06
+   * File position: 0
+   * This file descriptor was allocated from:
+	open           [libc.so.1]
+	t_open         [t_open.c]
+	clnt_tli_create [clnt_generic.c]
+	load_dom_binding [yp_bind.c]
+	check_binding  [yp_bind.c]
+	__yp_dobind    [yp_bind.c]
+FIU: file descriptor 26: <reserved for Purify internal use>
+FIU: file descriptor 27: <reserved for Purify internal use>
+FIU: file descriptor 63: <inherited from parent>
+
+****  Purify instrumented xlock (pid 13982)  ****
+Purify: Searching for all memory leaks...
+
+Memory leaked: 421896 bytes (70%); potentially leaked: 73149 bytes (12.1%)
+
+MLK: 83968 bytes leaked in 6 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	startover      [galaxy.c:141]
+	init_galaxy    [galaxy.c:256]
+	call_init_hook [mode.c:403]
+	draw_random    [random.c:301]
+	call_callback_hook [mode.c:432]
+  * Chunk of 18496 bytes at 0x244fe0
+  * Chunk of 18112 bytes at 0x28aed8
+  * Chunk of 15040 bytes at 0x234160
+  * Chunk of 11584 bytes at 0x217ba8
+  * Chunk of 11136 bytes at 0x1f1ec0
+  * Chunk of 9600 bytes at 0x1d3ae8
+
+MLK: 40070 bytes leaked in 1044 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	XStringListToTextProperty [omXChar.c]
+	set_window_title [mode.c:335]
+	call_init_hook [mode.c:401]
+	draw_random    [random.c:301]
+	call_callback_hook [mode.c:432]
+  * Chunk of 67 bytes (17 times); last chunk at 0x2a0958
+  * Chunk of 61 bytes (17 times); last chunk at 0x2a5830
+  * Chunk of 60 bytes (17 times); last chunk at 0x2bf2e0
+  * Chunk of 58 bytes (17 times); last chunk at 0x2bd900
+  * Chunk of 55 bytes (33 times); last chunk at 0x2bfd40
+  * Chunk of 52 bytes (17 times); last chunk at 0x2a5330
+  * Chunk of 51 bytes (17 times); last chunk at 0x287480
+  * Chunk of 49 bytes (34 times); last chunk at 0x2af4b8
+  * Chunk of 48 bytes (17 times); last chunk at 0x2bef30
+  * Chunk of 47 bytes (34 times); last chunk at 0x2bc690
+  * Chunk of 46 bytes (51 times); last chunk at 0x2bfdc0
+  * Chunk of 45 bytes (17 times); last chunk at 0x2bc710
+  * Chunk of 44 bytes (17 times); last chunk at 0x2bd578
+  * Chunk of 43 bytes (17 times); last chunk at 0x2bc7f8
+  * Chunk of 42 bytes (17 times); last chunk at 0x2bd4f8
+  * Chunk of 40 bytes (83 times); last chunk at 0x2bdcc8
+  * Chunk of 39 bytes (51 times); last chunk at 0x2d3d68
+  * Chunk of 38 bytes (83 times); last chunk at 0x2bf5a8
+  * Chunk of 37 bytes (17 times); last chunk at 0x2b02f0
+  * Chunk of 36 bytes (16 times); last chunk at 0x2bf168
+  * Chunk of 35 bytes (34 times); last chunk at 0x2bc788
+  * Chunk of 34 bytes (17 times); last chunk at 0x2a58b8
+  * Chunk of 33 bytes (67 times); last chunk at 0x2a5f50
+  * Chunk of 32 bytes (17 times); last chunk at 0x2d3ef8
+  * Chunk of 31 bytes (17 times); last chunk at 0x2bf418
+  * Chunk of 30 bytes (51 times); last chunk at 0x2d3f60
+  * Chunk of 29 bytes (84 times); last chunk at 0x2beda0
+  * Chunk of 27 bytes (68 times); last chunk at 0x2d3dd8
+  * Chunk of 25 bytes (50 times); last chunk at 0x2bc898
+  * Chunk of 24 bytes (34 times); last chunk at 0x2956a0
+  * Chunk of 22 bytes (16 times); last chunk at 0x2afc40
+
+MLK: 4288 bytes leaked in 67 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	calloc         [rtlib.o]
+	BaseOffset     [life3d.c:1278]
+	SetMem         [life3d.c:1301]
+	GetPattern     [life3d.c:1503]
+	init_life3d    [life3d.c:1994]
+  * Chunk of 64 bytes (67 times); last chunk at 0x2bf390
+
+MLK: 3072 bytes leaked in 48 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	calloc         [rtlib.o]
+	BaseOffset     [life3d.c:1278]
+	ChangeMem      [life3d.c:1313]
+	IncrementNbrs3D [life3d.c:1352]
+	RunLife3D      [life3d.c:1382]
+  * Chunk of 64 bytes (48 times); last chunk at 0x2b07c0
+
+MLK: 1024 bytes leaked at 0x1cbb18
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	_nss_files_XY_all [nss_files.so.1]
+	nss_search     [libc.so.1]
+	getspnam_r     [libc.so.1]
+	getCryptedUserPasswd [passwd.c:460]
+	initPasswd     [passwd.c:1477]
+
+MLK: 1024 bytes leaked at 0x1cc620
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	_nss_files_XY_all [nss_files.so.1]
+	nss_search     [libc.so.1]
+	getspnam_r     [libc.so.1]
+	getCryptedRootPasswd [passwd.c:562]
+	initPasswd     [passwd.c:1480]
+
+MLK: 285 bytes leaked in 6 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	XStringListToTextProperty [omXChar.c]
+	set_window_title [mode.c:335]
+	call_init_hook [mode.c:401]
+	init_random    [random.c:271]
+	call_init_hook [mode.c:403]
+  * Chunk of 61 bytes (3 times); last chunk at 0x2bf6d0
+  * Chunk of 36 bytes at 0x1d14d0
+  * Chunk of 33 bytes (2 times); last chunk at 0x2682a8
+
+MLK: 189 bytes leaked in 3 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	XStringListToTextProperty [omXChar.c]
+	set_window_title [mode.c:335]
+	call_init_hook [mode.c:401]
+	justDisplay    [xlock.c:1309]
+	lockDisplay    [xlock.c:1522]
+  * Chunk of 63 bytes (3 times); last chunk at 0x2913e8
+
+MLK: 189 bytes leaked in 3 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	XStringListToTextProperty [omXChar.c]
+	set_window_title [mode.c:335]
+	call_init_hook [mode.c:401]
+	ReadXString    [xlock.c:965]
+	getPassword    [xlock.c:1218]
+  * Chunk of 63 bytes (3 times); last chunk at 0x2bde48
+
+MLK: 64 bytes leaked at 0x26c9b8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	calloc         [rtlib.o]
+	BaseOffset     [life3d.c:1278]
+	SetMem         [life3d.c:1301]
+	shooter        [life3d.c:1806]
+	draw_life3d    [life3d.c:2018]
+
+MLK: 64 bytes leaked at 0x27d990
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	calloc         [rtlib.o]
+	BaseOffset     [life3d.c:1278]
+	SetMem         [life3d.c:1301]
+	shooter        [life3d.c:1804]
+	draw_life3d    [life3d.c:2018]
+
+MLK: 1 byte leaked at 0x1bdce0
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	GetResource    [resource.c:784]
+	getResources   [resource.c:1062]
+	main           [xlock.c:1590]
+	_start         [crt1.o]
+
+PLK: 27968 bytes potentially leaked in 2 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	startover      [galaxy.c:141]
+	draw_galaxy    [galaxy.c:365]
+	call_callback_hook [mode.c:432]
+	draw_random    [random.c:303]
+	call_callback_hook [mode.c:432]
+  * Chunk of 16256 bytes at 0x2602e8
+  * Chunk of 11712 bytes at 0x237c68
+
+PLK: 27136 bytes potentially leaked in 2 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	startover      [galaxy.c:141]
+	init_galaxy    [galaxy.c:256]
+	call_init_hook [mode.c:403]
+	draw_random    [random.c:301]
+	call_callback_hook [mode.c:432]
+  * Chunk of 14400 bytes at 0x21f778
+  * Chunk of 12736 bytes at 0x20f5c8
+
+PLK: 133 bytes potentially leaked in 3 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	XStringListToTextProperty [omXChar.c]
+	set_window_title [mode.c:335]
+	call_init_hook [mode.c:401]
+	draw_random    [random.c:301]
+	call_callback_hook [mode.c:432]
+  * Chunk of 55 bytes at 0x1c0370
+  * Chunk of 40 bytes at 0x205fe8
+  * Chunk of 38 bytes at 0x1f07f8
+
+Purify Heap Analysis (combining suppressed and unsuppressed chunks)
+                         Chunks      Bytes
+              Leaked       2482     421896
+  Potentially Leaked         27      81349
+              In-Use        404      99180
+  ----------------------------------------
+     Total Allocated       2913     602425
+
+****  Purify instrumented xlock (pid 13982)  ****
+  * Program exited with status code 0.
+  * 67 access errors, 63424 total occurrences.
+  * 421896 bytes leaked.
+  * 73149 bytes potentially leaked.
+  * Basic memory usage (including Purify overhead):
+     1281336 code
+      296700 data/bss
+     7217156 heap (peak use)
+        4544 stack
+  * Shared library memory usage (including Purify overhead):
+       66392 libXext.so.6.0_pure_p1_c0_032_55.so.6.0 (shared code)
+        1568 libXext.so.6.0_pure_p1_c0_032_55.so.6.0 (private data)
+       53931 libSM.so.6.0_pure_p1_c0_032_55.so.6.0 (shared code)
+        3520 libSM.so.6.0_pure_p1_c0_032_55.so.6.0 (private data)
+      116342 libICE.so.6.0_pure_p1_c0_032_55.so.6.0 (shared code)
+       11916 libICE.so.6.0_pure_p1_c0_032_55.so.6.0 (private data)
+     1021050 libX11.so.6.0_pure_p1_c0_032_55.so.6.0 (shared code)
+       34092 libX11.so.6.0_pure_p1_c0_032_55.so.6.0 (private data)
+       80960 libXpm.so.4.3_pure_p1_c0_032_55.so.4.3 (shared code)
+        2456 libXpm.so.4.3_pure_p1_c0_032_55.so.4.3 (private data)
+      135785 libm.so.1_pure_p1_c0_032_55.so.1 (shared code)
+        5872 libm.so.1_pure_p1_c0_032_55.so.1 (private data)
+       75114 libsocket.so.1_pure_p1_c0_032_55.so.1 (shared code)
+        4092 libsocket.so.1_pure_p1_c0_032_55.so.1 (private data)
+      610638 libnsl.so.1_pure_p1_c0_032_55.so.1 (shared code)
+       64760 libnsl.so.1_pure_p1_c0_032_55.so.1 (private data)
+      802819 libc.so.1_pure_p1_c0_032_55.so.1 (shared code)
+       33644 libc.so.1_pure_p1_c0_032_55.so.1 (private data)
+        1204 libdl.so.1_pure_p1_c0_032_55.so.1 (shared code)
+           0 libdl.so.1_pure_p1_c0_032_55.so.1 (private data)
+        1889 libinternal_stubs.so.1 (shared code)
+         208 libinternal_stubs.so.1 (private data)
+       14073 libintl.so.1_pure_p1_c0_032_55.so.1 (shared code)
+        3676 libintl.so.1_pure_p1_c0_032_55.so.1 (private data)
+       16096 libmp.so.1_pure_p1_c0_032_55.so.1 (shared code)
+         828 libmp.so.1_pure_p1_c0_032_55.so.1 (private data)
+       37381 libw.so.1_pure_p1_c0_032_55.so.1 (shared code)
+        1612 libw.so.1_pure_p1_c0_032_55.so.1 (private data)
+       21322 nss_files.so.1_pure_p1_c0_032_55.so.1 (shared code)
+        1224 nss_files.so.1_pure_p1_c0_032_55.so.1 (private data)
+       21994 nss_nis.so.1_pure_p1_c0_032_55.so.1 (shared code)
+        1536 nss_nis.so.1_pure_p1_c0_032_55.so.1 (private data)
+
+-------------
+Purify log from TS for xlockmore-4.01 (ALPHA3)
+Purify3.0a SunOS4 with XPM, RPLAY, and HACKERS enabled.
+-------------
+
+****  Purify instrumented ./xlock (pid 16435 at Mon Mar  3 17:09:26 1997)
+  * Purify 3.0a SunOS 4.1, Copyright 1992-1994 Pure Software Inc.
+  * For contact information type: "purify -help"
+  * For TTY output, use the option "-windows=no"
+  * Command-line: ./xlock 
+  * Options settings: -chain-length=10 -auto-mount-prefix=/tmp_mnt -purify \
+    -purify-home=/net/rndlb1-fddi/usr1/puresoft/purify-3.0a-sunos4 
+PureLA: 3 simple licenses, 5 users.  Please remedy.
+  * Purify licensed to Micron Semiconductor Inc
+  * Purify checking enabled.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (1722 times):
+  * This is occurring while in:
+	flat_DITHER8_z_triangle [libMesaGL.a]
+	render_clipped_polygon [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw           [gear.c:209]
+	draw_gear      [gear.c:390]
+  * Reading 4 bytes from 0xefffe224 on the stack.
+  * Address 0xefffe224 is 108 bytes below frame pointer in function flat_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (686 times):
+  * This is occurring while in:
+	flat_DITHER8_z_triangle [libMesaGL.a]
+	render_clipped_polygon [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw           [gear.c:209]
+	draw_gear      [gear.c:390]
+  * Reading 4 bytes from 0xefffe224 on the stack.
+  * Address 0xefffe224 is 108 bytes below frame pointer in function flat_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (182 times):
+  * This is occurring while in:
+	flat_DITHER8_z_triangle [libMesaGL.a]
+	render_quad    [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw           [gear.c:209]
+	draw_gear      [gear.c:390]
+  * Reading 4 bytes from 0xefffe21c on the stack.
+  * Address 0xefffe21c is 108 bytes below frame pointer in function flat_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (226 times):
+  * This is occurring while in:
+	flat_DITHER8_z_triangle [libMesaGL.a]
+	render_quad    [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw           [gear.c:215]
+	draw_gear      [gear.c:390]
+  * Reading 4 bytes from 0xefffe21c on the stack.
+  * Address 0xefffe21c is 108 bytes below frame pointer in function flat_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (14 times):
+  * This is occurring while in:
+	smooth_DITHER8_z_triangle [libMesaGL.a]
+	render_quad    [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw           [gear.c:215]
+	draw_gear      [gear.c:390]
+  * Reading 4 bytes from 0xefffe21c on the stack.
+  * Address 0xefffe21c is 108 bytes below frame pointer in function smooth_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (140 times):
+  * This is occurring while in:
+	flat_DITHER8_z_triangle [libMesaGL.a]
+	render_quad    [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw           [gear.c:215]
+	draw_gear      [gear.c:390]
+  * Reading 4 bytes from 0xefffe21c on the stack.
+  * Address 0xefffe21c is 108 bytes below frame pointer in function flat_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (266 times):
+  * This is occurring while in:
+	flat_DITHER8_z_triangle [libMesaGL.a]
+	render_quad    [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw           [gear.c:221]
+	draw_gear      [gear.c:390]
+  * Reading 4 bytes from 0xefffe21c on the stack.
+  * Address 0xefffe21c is 108 bytes below frame pointer in function flat_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (42 times):
+  * This is occurring while in:
+	flat_DITHER8_z_triangle [libMesaGL.a]
+	render_quad    [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw           [gear.c:209]
+	draw_gear      [gear.c:390]
+  * Reading 4 bytes from 0xefffe21c on the stack.
+  * Address 0xefffe21c is 108 bytes below frame pointer in function flat_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (42 times):
+  * This is occurring while in:
+	flat_DITHER8_z_triangle [libMesaGL.a]
+	render_quad    [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw           [gear.c:209]
+	draw_gear      [gear.c:390]
+  * Reading 4 bytes from 0xefffe21c on the stack.
+  * Address 0xefffe21c is 108 bytes below frame pointer in function flat_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (70 times):
+  * This is occurring while in:
+	flat_DITHER8_z_triangle [libMesaGL.a]
+	render_quad    [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw           [gear.c:221]
+	draw_gear      [gear.c:390]
+  * Reading 4 bytes from 0xefffe21c on the stack.
+  * Address 0xefffe21c is 108 bytes below frame pointer in function flat_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (42 times):
+  * This is occurring while in:
+	flat_DITHER8_z_triangle [libMesaGL.a]
+	render_quad    [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw           [gear.c:209]
+	draw_gear      [gear.c:390]
+  * Reading 4 bytes from 0xefffe21c on the stack.
+  * Address 0xefffe21c is 108 bytes below frame pointer in function flat_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (28 times):
+  * This is occurring while in:
+	smooth_DITHER8_z_triangle [libMesaGL.a]
+	render_quad    [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw           [gear.c:209]
+	draw_gear      [gear.c:390]
+  * Reading 4 bytes from 0xefffe21c on the stack.
+  * Address 0xefffe21c is 108 bytes below frame pointer in function smooth_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (41 times):
+  * This is occurring while in:
+	flat_DITHER8_z_triangle [libMesaGL.a]
+	render_quad    [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw           [gear.c:215]
+	draw_gear      [gear.c:390]
+  * Reading 4 bytes from 0xefffe21c on the stack.
+  * Address 0xefffe21c is 108 bytes below frame pointer in function flat_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (14 times):
+  * This is occurring while in:
+	flat_DITHER8_z_triangle [libMesaGL.a]
+	render_quad    [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw           [gear.c:221]
+	draw_gear      [gear.c:390]
+  * Reading 4 bytes from 0xefffe21c on the stack.
+  * Address 0xefffe21c is 108 bytes below frame pointer in function flat_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (142 times):
+  * This is occurring while in:
+	flat_DITHER8_z_triangle [libMesaGL.a]
+	render_quad    [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw           [gear.c:209]
+	draw_gear      [gear.c:390]
+  * Reading 4 bytes from 0xefffe21c on the stack.
+  * Address 0xefffe21c is 108 bytes below frame pointer in function flat_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (14 times):
+  * This is occurring while in:
+	smooth_DITHER8_z_triangle [libMesaGL.a]
+	render_quad    [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw           [gear.c:221]
+	draw_gear      [gear.c:390]
+  * Reading 4 bytes from 0xefffe21c on the stack.
+  * Address 0xefffe21c is 108 bytes below frame pointer in function smooth_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (138 times):
+  * This is occurring while in:
+	flat_DITHER8_z_triangle [libMesaGL.a]
+	render_clipped_polygon [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw           [gear.c:221]
+	draw_gear      [gear.c:390]
+  * Reading 4 bytes from 0xefffe224 on the stack.
+  * Address 0xefffe224 is 108 bytes below frame pointer in function flat_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (74 times):
+  * This is occurring while in:
+	smooth_DITHER8_z_triangle [libMesaGL.a]
+	render_quad    [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw           [gear.c:209]
+	draw_gear      [gear.c:390]
+  * Reading 4 bytes from 0xefffe21c on the stack.
+  * Address 0xefffe21c is 108 bytes below frame pointer in function smooth_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (28 times):
+  * This is occurring while in:
+	flat_DITHER8_z_triangle [libMesaGL.a]
+	render_quad    [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw           [gear.c:209]
+	draw_gear      [gear.c:390]
+  * Reading 4 bytes from 0xefffe21c on the stack.
+  * Address 0xefffe21c is 108 bytes below frame pointer in function flat_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (14 times):
+  * This is occurring while in:
+	flat_DITHER8_z_triangle [libMesaGL.a]
+	render_quad    [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw           [gear.c:221]
+	draw_gear      [gear.c:390]
+  * Reading 4 bytes from 0xefffe21c on the stack.
+  * Address 0xefffe21c is 108 bytes below frame pointer in function flat_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (190 times):
+  * This is occurring while in:
+	flat_DITHER8_z_triangle [libMesaGL.a]
+	render_clipped_polygon [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw           [gear.c:221]
+	draw_gear      [gear.c:390]
+  * Reading 4 bytes from 0xefffe224 on the stack.
+  * Address 0xefffe224 is 108 bytes below frame pointer in function flat_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (41 times):
+  * This is occurring while in:
+	flat_DITHER8_z_triangle [libMesaGL.a]
+	render_quad    [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw           [gear.c:221]
+	draw_gear      [gear.c:390]
+  * Reading 4 bytes from 0xefffe21c on the stack.
+  * Address 0xefffe21c is 108 bytes below frame pointer in function flat_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (14 times):
+  * This is occurring while in:
+	flat_DITHER8_z_triangle [libMesaGL.a]
+	render_quad    [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw           [gear.c:209]
+	draw_gear      [gear.c:390]
+  * Reading 4 bytes from 0xefffe21c on the stack.
+  * Address 0xefffe21c is 108 bytes below frame pointer in function flat_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (56 times):
+  * This is occurring while in:
+	flat_DITHER8_z_triangle [libMesaGL.a]
+	render_quad    [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw           [gear.c:221]
+	draw_gear      [gear.c:390]
+  * Reading 4 bytes from 0xefffe21c on the stack.
+  * Address 0xefffe21c is 108 bytes below frame pointer in function flat_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (33880 times):
+  * This is occurring while in:
+	smooth_DITHER8_z_triangle [libMesaGL.a]
+	render_triangle [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw_tetra     [morph3d.c:295]
+	draw_morph3d   [morph3d.c:611]
+  * Reading 4 bytes from 0xefffe1e4 on the stack.
+  * Address 0xefffe1e4 is 108 bytes below frame pointer in function smooth_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (41188 times):
+  * This is occurring while in:
+	smooth_DITHER8_z_triangle [libMesaGL.a]
+	render_triangle [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw_tetra     [morph3d.c:300]
+	draw_morph3d   [morph3d.c:611]
+  * Reading 4 bytes from 0xefffe1e4 on the stack.
+  * Address 0xefffe1e4 is 108 bytes below frame pointer in function smooth_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (36134 times):
+  * This is occurring while in:
+	smooth_DITHER8_z_triangle [libMesaGL.a]
+	render_triangle [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw_tetra     [morph3d.c:306]
+	draw_morph3d   [morph3d.c:611]
+  * Reading 4 bytes from 0xefffe1e4 on the stack.
+  * Address 0xefffe1e4 is 108 bytes below frame pointer in function smooth_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (42924 times):
+  * This is occurring while in:
+	smooth_DITHER8_z_triangle [libMesaGL.a]
+	render_triangle [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw_tetra     [morph3d.c:311]
+	draw_morph3d   [morph3d.c:611]
+  * Reading 4 bytes from 0xefffe1e4 on the stack.
+  * Address 0xefffe1e4 is 108 bytes below frame pointer in function smooth_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+UMR: Uninitialized memory read (24 times):
+  * This is occurring while in:
+	smooth_DITHER8_z_triangle [libMesaGL.a]
+	render_clipped_polygon [libMesaGL.a]
+	gl_render_vb   [libMesaGL.a]
+	gl_transform_vb_part1 [libMesaGL.a]
+	gl_End         [libMesaGL.a]
+	execute_list   [libMesaGL.a]
+	gl_CallList    [libMesaGL.a]
+	glCallList     [libMesaGL.a]
+	draw           [gear.c:221]
+	draw_gear      [gear.c:390]
+  * Reading 4 bytes from 0xefffe224 on the stack.
+  * Address 0xefffe224 is 108 bytes below frame pointer in function smooth_DITHER8_z_triangle.
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+Current file descriptors in use: 6
+FIU: file descriptor 0: <stdin>
+FIU: file descriptor 1: <stdout>
+FIU: file descriptor 2: <stderr>
+FIU: file descriptor 5: <unnamed socket>, O_RDWR
+   * This file descriptor was allocated from:
+	socket         [rtlib.o]
+	clntudp_bufcreate [libc.so.1.9]
+	load_dom_binding [libc.so.1.9]
+	_yp_dobind_soft [libc.so.1.9]
+	_yp_dobind     [libc.so.1.9]
+	yp_match       [libc.so.1.9]
+	getnamefromyellow [libc.so.1.9]
+	matchname      [libc.so.1.9]
+	getpwnam       [libc.so.1.9]
+	my_passwd_entry [passwd.c:276]
+FIU: file descriptor 26: <reserved for Purify internal use>
+FIU: file descriptor 27: <reserved for Purify internal use>
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+Purify: Searching for all memory leaks...
+
+Memory leaked: 597685 bytes (3.15%); potentially leaked: 2812185 bytes (14.8%)
+
+MLK: 111448 bytes leaked in 2 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	calloc         [rtlib.o]
+	gl_create_context [libMesaGL.a]
+	XMesaCreateContext [libMesaGL.a]
+	glXCreateContext [libMesaGL.a]
+	init_morph3d   [morph3d.c:763]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+  * Chunk of 55724 bytes (2 times); last chunk at 0x13414b0
+
+MLK: 99872 bytes leaked at 0x1537840
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_create_context [libMesaGL.a]
+	XMesaCreateContext [libMesaGL.a]
+	glXCreateContext [libMesaGL.a]
+	init_morph3d   [morph3d.c:763]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+	justDisplay    [xlock.c:1373]
+
+MLK: 56016 bytes leaked in 2 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_create_context [libMesaGL.a]
+	XMesaCreateContext [libMesaGL.a]
+	glXCreateContext [libMesaGL.a]
+	init_morph3d   [morph3d.c:763]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+	justDisplay    [xlock.c:1373]
+  * Chunk of 28008 bytes (2 times); last chunk at 0x134eeb8
+
+MLK: 32885 bytes leaked in 870 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	XStringListToTextProperty [libX11.so.4.3]
+	set_window_title [mode.c:351]
+	call_init_hook [mode.c:418]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+	justDisplay    [xlock.c:1373]
+	lockDisplay    [xlock.c:1565]
+	main           [xlock.c:2030]
+  * Chunk of 67 bytes (13 times); last chunk at 0x1361790
+  * Chunk of 61 bytes (13 times); last chunk at 0x1208ef0
+  * Chunk of 60 bytes (13 times); last chunk at 0x1361b50
+  * Chunk of 58 bytes (13 times); last chunk at 0x1360460
+  * Chunk of 55 bytes (26 times); last chunk at 0x1360008
+  * Chunk of 51 bytes (13 times); last chunk at 0x1361d60
+  * Chunk of 49 bytes (26 times); last chunk at 0x1360130
+  * Chunk of 48 bytes (13 times); last chunk at 0x1360d28
+  * Chunk of 47 bytes (26 times); last chunk at 0x1341028
+  * Chunk of 46 bytes (40 times); last chunk at 0x1361680
+  * Chunk of 45 bytes (12 times); last chunk at 0x1360f88
+  * Chunk of 44 bytes (26 times); last chunk at 0x144e5f0
+  * Chunk of 43 bytes (28 times); last chunk at 0x1361548
+  * Chunk of 42 bytes (14 times); last chunk at 0x144e120
+  * Chunk of 40 bytes (54 times); last chunk at 0x144e1c8
+  * Chunk of 39 bytes (40 times); last chunk at 0x144e678
+  * Chunk of 38 bytes (65 times); last chunk at 0x1361e70
+  * Chunk of 37 bytes (27 times); last chunk at 0x144deb0
+  * Chunk of 36 bytes (13 times); last chunk at 0x13202a8
+  * Chunk of 35 bytes (41 times); last chunk at 0x1361df0
+  * Chunk of 34 bytes (13 times); last chunk at 0x144e090
+  * Chunk of 33 bytes (52 times); last chunk at 0x1555000
+  * Chunk of 32 bytes (12 times); last chunk at 0x13203f8
+  * Chunk of 31 bytes (13 times); last chunk at 0x131f1b8
+  * Chunk of 30 bytes (39 times); last chunk at 0x144e3d0
+  * Chunk of 29 bytes (78 times); last chunk at 0x144e448
+  * Chunk of 27 bytes (54 times); last chunk at 0x1361c68
+  * Chunk of 25 bytes (39 times); last chunk at 0x144e4c0
+  * Chunk of 24 bytes (27 times); last chunk at 0x13610a8
+  * Chunk of 23 bytes (14 times); last chunk at 0x1320888
+  * Chunk of 22 bytes (13 times); last chunk at 0x144e580
+
+MLK: 28000 bytes leaked in 14 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_NewList     [libMesaGL.a]
+	glNewList      [libMesaGL.a]
+	pinit          [gear.c:326]
+	init_gear      [gear.c:382]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+	justDisplay    [xlock.c:1373]
+  * Chunk of 2000 bytes (14 times); last chunk at 0x167fe38
+
+MLK: 24000 bytes leaked in 12 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [libMesaGL.a]
+	glVertex3f     [libMesaGL.a]
+	gear           [gear.c:129]
+	pinit          [gear.c:328]
+	init_gear      [gear.c:382]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+  * Chunk of 2000 bytes (12 times); last chunk at 0x1680660
+
+MLK: 24000 bytes leaked in 12 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_NewList     [libMesaGL.a]
+	glNewList      [libMesaGL.a]
+	pinit          [gear.c:316]
+	init_gear      [gear.c:382]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+	justDisplay    [xlock.c:1373]
+  * Chunk of 2000 bytes (12 times); last chunk at 0x12fd2c8
+
+MLK: 22000 bytes leaked in 11 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [libMesaGL.a]
+	glNormal3f     [libMesaGL.a]
+	gear           [gear.c:186]
+	pinit          [gear.c:328]
+	init_gear      [gear.c:382]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+  * Chunk of 2000 bytes (11 times); last chunk at 0x16816b0
+
+MLK: 22000 bytes leaked in 11 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [libMesaGL.a]
+	glNormal3f     [libMesaGL.a]
+	gear           [gear.c:160]
+	pinit          [gear.c:328]
+	init_gear      [gear.c:382]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+  * Chunk of 2000 bytes (11 times); last chunk at 0x1680e88
+
+MLK: 22000 bytes leaked in 11 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [libMesaGL.a]
+	glVertex3f     [libMesaGL.a]
+	gear           [gear.c:113]
+	pinit          [gear.c:318]
+	init_gear      [gear.c:382]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+  * Chunk of 2000 bytes (11 times); last chunk at 0x131d410
+
+MLK: 20000 bytes leaked in 10 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_NewList     [libMesaGL.a]
+	glNewList      [libMesaGL.a]
+	pinit          [gear.c:336]
+	init_gear      [gear.c:382]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+	justDisplay    [xlock.c:1373]
+  * Chunk of 2000 bytes (10 times); last chunk at 0x1681ed8
+
+MLK: 18000 bytes leaked in 9 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [libMesaGL.a]
+	glVertex3f     [libMesaGL.a]
+	gear           [gear.c:141]
+	pinit          [gear.c:318]
+	init_gear      [gear.c:382]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+  * Chunk of 2000 bytes (9 times); last chunk at 0x133ece8
+
+MLK: 18000 bytes leaked in 9 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [libMesaGL.a]
+	glVertex3f     [libMesaGL.a]
+	gear           [gear.c:129]
+	pinit          [gear.c:338]
+	init_gear      [gear.c:382]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+  * Chunk of 2000 bytes (9 times); last chunk at 0x1682700
+
+MLK: 18000 bytes leaked in 9 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [libMesaGL.a]
+	glVertex3f     [libMesaGL.a]
+	gear           [gear.c:129]
+	pinit          [gear.c:318]
+	init_gear      [gear.c:382]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+  * Chunk of 2000 bytes (9 times); last chunk at 0x135f198
+
+MLK: 16000 bytes leaked in 8 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [libMesaGL.a]
+	glNormal3f     [libMesaGL.a]
+	gear           [gear.c:160]
+	pinit          [gear.c:338]
+	init_gear      [gear.c:382]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+  * Chunk of 2000 bytes (8 times); last chunk at 0x1555870
+
+MLK: 14656 bytes leaked at 0xad2450
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	startover      [galaxy.c:145]
+	init_galaxy    [galaxy.c:253]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+	justDisplay    [xlock.c:1373]
+	lockDisplay    [xlock.c:1565]
+	main           [xlock.c:2030]
+
+MLK: 14000 bytes leaked in 7 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [libMesaGL.a]
+	glNormal3f     [libMesaGL.a]
+	gear           [gear.c:186]
+	pinit          [gear.c:338]
+	init_gear      [gear.c:382]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+  * Chunk of 2000 bytes (7 times); last chunk at 0x1312890
+
+MLK: 10000 bytes leaked in 5 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [libMesaGL.a]
+	glNormal3f     [libMesaGL.a]
+	gear           [gear.c:168]
+	pinit          [gear.c:318]
+	init_gear      [gear.c:382]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+  * Chunk of 2000 bytes (5 times); last chunk at 0x133f510
+
+MLK: 10000 bytes leaked in 5 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [libMesaGL.a]
+	glVertex3f     [libMesaGL.a]
+	gear           [gear.c:164]
+	pinit          [gear.c:318]
+	init_gear      [gear.c:382]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+  * Chunk of 2000 bytes (5 times); last chunk at 0x133fd38
+
+MLK: 8000 bytes leaked in 4 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [libMesaGL.a]
+	glVertex3f     [libMesaGL.a]
+	gear           [gear.c:187]
+	pinit          [gear.c:318]
+	init_gear      [gear.c:382]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+  * Chunk of 2000 bytes (4 times); last chunk at 0x1340560
+
+MLK: 3392 bytes leaked in 53 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	calloc         [rtlib.o]
+	BaseOffset     [life3d.c:1279]
+	SetMem         [life3d.c:1302]
+	GetPattern     [life3d.c:1504]
+	init_life3d    [life3d.c:1995]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+  * Chunk of 64 bytes (53 times); last chunk at 0x131f9a0
+
+MLK: 1600 bytes leaked in 25 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	calloc         [rtlib.o]
+	BaseOffset     [life3d.c:1279]
+	ChangeMem      [life3d.c:1314]
+	IncrementNbrs3D [life3d.c:1353]
+	RunLife3D      [life3d.c:1383]
+	draw_life3d    [life3d.c:2005]
+	call_callback_hook [mode.c:449]
+	draw_random    [random.c:307]
+	call_callback_hook [mode.c:449]
+  * Chunk of 64 bytes (25 times); last chunk at 0x13201d0
+
+MLK: 768 bytes leaked in 12 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	calloc         [rtlib.o]
+	BaseOffset     [life3d.c:1279]
+	SetMem         [life3d.c:1302]
+	GetPattern     [life3d.c:1504]
+	init_life3d    [life3d.c:1995]
+	draw_life3d    [life3d.c:2010]
+	call_callback_hook [mode.c:449]
+	draw_random    [random.c:307]
+	call_callback_hook [mode.c:449]
+  * Chunk of 64 bytes (12 times); last chunk at 0xc67480
+
+MLK: 704 bytes leaked in 22 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	calloc         [rtlib.o]
+	gl_alloc_texture_image [libMesaGL.a]
+	gl_create_context [libMesaGL.a]
+	XMesaCreateContext [libMesaGL.a]
+	glXCreateContext [libMesaGL.a]
+	init_morph3d   [morph3d.c:763]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+  * Chunk of 32 bytes (22 times); last chunk at 0x1360288
+
+MLK: 672 bytes leaked in 21 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	calloc         [rtlib.o]
+	gl_alloc_texture_image [libMesaGL.a]
+	gl_create_context [libMesaGL.a]
+	XMesaCreateContext [libMesaGL.a]
+	glXCreateContext [libMesaGL.a]
+	init_morph3d   [morph3d.c:763]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+  * Chunk of 32 bytes (21 times); last chunk at 0x13200b8
+
+MLK: 200 bytes leaked in 2 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	calloc         [rtlib.o]
+	gl_alloc_texture_object [libMesaGL.a]
+	gl_create_context [libMesaGL.a]
+	XMesaCreateContext [libMesaGL.a]
+	glXCreateContext [libMesaGL.a]
+	init_morph3d   [morph3d.c:763]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+  * Chunk of 100 bytes (2 times); last chunk at 0x131eea8
+
+MLK: 200 bytes leaked in 2 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	calloc         [rtlib.o]
+	gl_alloc_texture_object [libMesaGL.a]
+	gl_create_context [libMesaGL.a]
+	XMesaCreateContext [libMesaGL.a]
+	glXCreateContext [libMesaGL.a]
+	init_morph3d   [morph3d.c:763]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+  * Chunk of 100 bytes (2 times); last chunk at 0x131fff8
+
+MLK: 200 bytes leaked in 2 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	calloc         [rtlib.o]
+	gl_alloc_texture_object [libMesaGL.a]
+	gl_create_context [libMesaGL.a]
+	XMesaCreateContext [libMesaGL.a]
+	glXCreateContext [libMesaGL.a]
+	init_morph3d   [morph3d.c:763]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+  * Chunk of 100 bytes (2 times); last chunk at 0x131f730
+
+MLK: 200 bytes leaked in 2 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	calloc         [rtlib.o]
+	gl_alloc_texture_object [libMesaGL.a]
+	gl_create_context [libMesaGL.a]
+	XMesaCreateContext [libMesaGL.a]
+	glXCreateContext [libMesaGL.a]
+	init_morph3d   [morph3d.c:763]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+  * Chunk of 100 bytes (2 times); last chunk at 0x131f230
+
+MLK: 183 bytes leaked in 3 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	XStringListToTextProperty [libX11.so.4.3]
+	set_window_title [mode.c:351]
+	call_init_hook [mode.c:418]
+	justDisplay    [xlock.c:1352]
+	lockDisplay    [xlock.c:1565]
+	main           [xlock.c:2030]
+	start          [crt0.o]
+  * Chunk of 61 bytes (3 times); last chunk at 0x2cfb08
+
+MLK: 183 bytes leaked in 3 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	XStringListToTextProperty [libX11.so.4.3]
+	set_window_title [mode.c:351]
+	call_init_hook [mode.c:418]
+	ReadXString    [xlock.c:1002]
+	getPassword    [xlock.c:1259]
+	lockDisplay    [xlock.c:1568]
+	main           [xlock.c:2030]
+	start          [crt0.o]
+  * Chunk of 61 bytes (3 times); last chunk at 0x15543a0
+
+MLK: 114 bytes leaked in 3 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	XStringListToTextProperty [libX11.so.4.3]
+	set_window_title [mode.c:351]
+	call_init_hook [mode.c:418]
+	init_random    [random.c:273]
+	call_init_hook [mode.c:420]
+	justDisplay    [xlock.c:1352]
+	lockDisplay    [xlock.c:1565]
+	main           [xlock.c:2030]
+	start          [crt0.o]
+  * Chunk of 38 bytes (3 times); last chunk at 0x2cfba0
+
+MLK: 109 bytes leaked in 3 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	XStringListToTextProperty [libX11.so.4.3]
+	set_window_title [mode.c:351]
+	call_init_hook [mode.c:418]
+	init_random    [random.c:273]
+	call_init_hook [mode.c:420]
+	ReadXString    [xlock.c:1002]
+	getPassword    [xlock.c:1259]
+	lockDisplay    [xlock.c:1568]
+	main           [xlock.c:2030]
+  * Chunk of 38 bytes (2 times); last chunk at 0x2cf870
+  * Chunk of 33 bytes at 0x1554438
+
+MLK: 101 bytes leaked in 3 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	XStringListToTextProperty [libX11.so.4.3]
+	set_window_title [mode.c:351]
+	call_init_hook [mode.c:418]
+	call_refresh_hook [mode.c:494]
+	refresh_random [random.c:313]
+	call_refresh_hook [mode.c:496]
+	justDisplay    [xlock.c:1395]
+	lockDisplay    [xlock.c:1565]
+	main           [xlock.c:2030]
+  * Chunk of 35 bytes at 0xc66698
+  * Chunk of 33 bytes (2 times); last chunk at 0xc669b0
+
+MLK: 64 bytes leaked at 0x2fa958
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	calloc         [rtlib.o]
+	BaseOffset     [life3d.c:1279]
+	SetMem         [life3d.c:1302]
+	shooter        [life3d.c:1808]
+	draw_life3d    [life3d.c:2019]
+	call_callback_hook [mode.c:449]
+	draw_random    [random.c:307]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+
+MLK: 64 bytes leaked at 0x6aa3b0
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	calloc         [rtlib.o]
+	BaseOffset     [life3d.c:1279]
+	SetMem         [life3d.c:1302]
+	shooter        [life3d.c:1807]
+	draw_life3d    [life3d.c:2019]
+	call_callback_hook [mode.c:449]
+	draw_random    [random.c:307]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+
+MLK: 38 bytes leaked at 0x2cf528
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	XStringListToTextProperty [libX11.so.4.3]
+	set_window_title [mode.c:351]
+	call_init_hook [mode.c:418]
+	draw_random    [random.c:305]
+	change_random  [random.c:323]
+	call_change_hook [mode.c:520]
+	justDisplay    [xlock.c:1415]
+	lockDisplay    [xlock.c:1565]
+	main           [xlock.c:2030]
+
+MLK: 15 bytes leaked at 0x2c44f0
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	getResources   [resource.c:1114]
+	main           [xlock.c:1684]
+	start          [crt0.o]
+
+MLK: 1 byte leaked at 0x2c45d0
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	GetResource    [resource.c:833]
+	getResources   [resource.c:1130]
+	main           [xlock.c:1684]
+	start          [crt0.o]
+
+PLK: 1909216 bytes potentially leaked in 2 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_create_context [libMesaGL.a]
+	XMesaCreateContext [libMesaGL.a]
+	glXCreateContext [libMesaGL.a]
+	init_morph3d   [morph3d.c:763]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+	justDisplay    [xlock.c:1373]
+  * Chunk of 954608 bytes (2 times); last chunk at 0x144e6f8
+
+PLK: 668688 bytes potentially leaked in 12 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	calloc         [rtlib.o]
+	gl_create_context [libMesaGL.a]
+	XMesaCreateContext [libMesaGL.a]
+	glXCreateContext [libMesaGL.a]
+	init_morph3d   [morph3d.c:763]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+  * Chunk of 55724 bytes (12 times); last chunk at 0x12ffd40
+
+PLK: 99872 bytes potentially leaked at 0x11e7570
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_create_context [libMesaGL.a]
+	XMesaCreateContext [libMesaGL.a]
+	glXCreateContext [libMesaGL.a]
+	init_morph3d   [morph3d.c:763]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+	justDisplay    [xlock.c:1373]
+
+PLK: 66432 bytes potentially leaked in 5 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	startover      [galaxy.c:145]
+	init_galaxy    [galaxy.c:253]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+	justDisplay    [xlock.c:1373]
+	lockDisplay    [xlock.c:1565]
+	main           [xlock.c:2030]
+  * Chunk of 15680 bytes at 0x65b2d0
+  * Chunk of 15424 bytes at 0x2eebf0
+  * Chunk of 13248 bytes at 0x2e3738
+  * Chunk of 12032 bytes at 0x65f068
+  * Chunk of 10048 bytes at 0xacfcb8
+
+PLK: 29756 bytes potentially leaked at 0x662560
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	_XAllocScratch [libX11.so.4.3]
+	dX__SendZImage [libX11.so.4.3]
+	dX__PutImageRequest [libX11.so.4.3]
+	dX__PutSubImage [libX11.so.4.3]
+	XPutImage      [libX11.so.4.3]
+	put_cartoon    [cartoon.c:186]
+	draw_cartoon   [cartoon.c:330]
+	call_callback_hook [mode.c:449]
+	draw_random    [random.c:307]
+
+PLK: 8000 bytes potentially leaked in 4 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [libMesaGL.a]
+	glNormal3f     [libMesaGL.a]
+	gear           [gear.c:168]
+	pinit          [gear.c:318]
+	init_gear      [gear.c:382]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+  * Chunk of 2000 bytes (4 times); last chunk at 0x1201bb8
+
+PLK: 8000 bytes potentially leaked in 4 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_NewList     [libMesaGL.a]
+	glNewList      [libMesaGL.a]
+	pinit          [gear.c:336]
+	init_gear      [gear.c:382]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+	justDisplay    [xlock.c:1373]
+  * Chunk of 2000 bytes (4 times); last chunk at 0xe7fac0
+
+PLK: 4000 bytes potentially leaked in 2 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_NewList     [libMesaGL.a]
+	glNewList      [libMesaGL.a]
+	pinit          [gear.c:316]
+	init_gear      [gear.c:382]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+	justDisplay    [xlock.c:1373]
+  * Chunk of 2000 bytes (2 times); last chunk at 0x300fc0
+
+PLK: 4000 bytes potentially leaked in 2 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [libMesaGL.a]
+	glVertex3f     [libMesaGL.a]
+	gear           [gear.c:129]
+	pinit          [gear.c:328]
+	init_gear      [gear.c:382]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+  * Chunk of 2000 bytes (2 times); last chunk at 0xc03c10
+
+PLK: 4000 bytes potentially leaked in 2 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [libMesaGL.a]
+	glVertex3f     [libMesaGL.a]
+	gear           [gear.c:129]
+	pinit          [gear.c:318]
+	init_gear      [gear.c:382]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+  * Chunk of 2000 bytes (2 times); last chunk at 0x11ffbe8
+
+PLK: 2000 bytes potentially leaked at 0x2ebbb8
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [libMesaGL.a]
+	glVertex3f     [libMesaGL.a]
+	gear           [gear.c:187]
+	pinit          [gear.c:318]
+	init_gear      [gear.c:382]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+
+PLK: 2000 bytes potentially leaked at 0x2f63f0
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [libMesaGL.a]
+	glNormal3f     [libMesaGL.a]
+	gear           [gear.c:160]
+	pinit          [gear.c:338]
+	init_gear      [gear.c:382]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+
+PLK: 2000 bytes potentially leaked at 0x632988
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Normal3f [libMesaGL.a]
+	glNormal3f     [libMesaGL.a]
+	gear           [gear.c:160]
+	pinit          [gear.c:328]
+	init_gear      [gear.c:382]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+
+PLK: 2000 bytes potentially leaked at 0xac7680
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [libMesaGL.a]
+	glVertex3f     [libMesaGL.a]
+	gear           [gear.c:129]
+	pinit          [gear.c:338]
+	init_gear      [gear.c:382]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+
+PLK: 2000 bytes potentially leaked at 0xadbc20
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	gl_save_Vertex4f [libMesaGL.a]
+	glVertex3f     [libMesaGL.a]
+	gear           [gear.c:113]
+	pinit          [gear.c:318]
+	init_gear      [gear.c:382]
+	call_init_hook [mode.c:420]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+
+PLK: 221 bytes potentially leaked in 6 chunks
+  * This memory was allocated from:
+	malloc         [rtlib.o]
+	XStringListToTextProperty [libX11.so.4.3]
+	set_window_title [mode.c:351]
+	call_init_hook [mode.c:418]
+	draw_random    [random.c:305]
+	call_callback_hook [mode.c:449]
+	runMainLoop    [xlock.c:960]
+	justDisplay    [xlock.c:1373]
+	lockDisplay    [xlock.c:1565]
+	main           [xlock.c:2030]
+  * Chunk of 45 bytes at 0x305ad8
+  * Chunk of 44 bytes at 0xadd740
+  * Chunk of 38 bytes at 0xc66540
+  * Chunk of 33 bytes at 0xc080e0
+  * Chunk of 32 bytes at 0x2a85c0
+  * Chunk of 29 bytes at 0xc083e8
+
+Purify Heap Analysis (combining suppressed and unsuppressed chunks)
+                         Chunks      Bytes
+              Leaked       1175     597697
+  Potentially Leaked         46    2812185
+              In-Use        580   15572907
+  ----------------------------------------
+     Total Allocated       1801   18982789
+
+****  Purify instrumented ./xlock (pid 16435)  ****
+  * Program exited with status code 0.
+  * 32 access errors, 158418 total occurrences.
+  * 597685 bytes leaked.
+  * 2812185 bytes potentially leaked.
+  * Basic memory usage (including Purify overhead):
+     2446100 code
+      306680 data/bss
+    21086472 heap (peak use)
+        2088 stack
+  * Shared library memory usage (including Purify overhead):
+      327680 libX11_pure_p1_c0_300_413_U1V.so.4.3 (shared code)
+       40960 libX11_pure_p1_c0_300_413_U1V.so.4.3 (private data)
+      688128 libc_pure_p1_c0_300_413_U1V.so.1.9 (shared code)
+       16384 libc_pure_p1_c0_300_413_U1V.so.1.9 (private data)
+        8192 libdl.so.1.0 (shared code)
+        8192 libdl.so.1.0 (private data)
+        8192 libinternal_stubs.so.1.0 (shared code)
+        8192 libinternal_stubs.so.1.0 (private data)
+  * Memory mapped usage:
+          14 mmap'd at 0xef3d8000
+
+
+--------------62319AC463DECDAD695678E2--
+
+

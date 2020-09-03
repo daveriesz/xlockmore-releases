@@ -1,0 +1,112 @@
+XCOMM @(#)Imakefile	23.9 91/09/27
+XCOMM Imakefile - xlock
+XCOMM
+
+#ifndef __QNX__
+#ifndef MathLibrary
+#define MathLibrary -lm
+#endif
+#else
+#define MathLibrary
+      CCOPTIONS = -DHAS_SHADOW -Dlinux
+      SHADOWLIB = -l/src/util/Lib/util
+#endif
+      BITMAPDIR = ./bitmaps
+
+#ifdef SunArchitecture
+#if SystemV4
+     CCOPTIONS = -DSOLARIS_SHADOW
+XCOMM If Solaris 2.3 or greater, use nanosleep, less cpu overhead
+XCOMM       CCOPTIONS = -DSOLARIS_SHADOW -DHAS_NANOSLEEP
+XCOMM EXTRA_LIBRARIES = -lnsl -lposix4
+#else
+#if HasShadowPasswd
+    CCOPTIONS = -DHAS_SHADOW
+#endif
+#endif
+       ICONTYPE = sun
+#else
+#if HasShadowPasswd
+      CCOPTIONS = -DHAS_SHADOW
+      SHADOWLIB = -lshadow
+#endif
+#ifdef HPArchitecture
+      CCOPTIONS = -Aa -D_HPUX_SOURCE
+EXTRA_LIBRARIES = -lXhp11
+       ICONTYPE = hp
+#else
+#ifdef SparcArchitecture
+       ICONTYPE = sun
+#else
+XCOMM      CCOPTIONS = -DOFS1_ENH_SEC
+       ICONTYPE = x11
+XCOMM May not need this
+XCOMM #ifdef SGIArchitecture
+XCOMM      CCOPTIONS = -D_SGI_SOURCE
+XCOMM #endif
+#endif
+#endif
+#endif
+
+XCOMM To try out FORCE_BOMB uncomment the next 2 lines and comment the 3rd
+XCOMM   DEFINES = -DDEF_FILESEARCHPATH=\"$(LIBDIR)/%T/%N%S\"\
+XCOMM             -DFORCE_BOMB -DSTAFF_FILE=\"/etc/xlock.staff\"
+        DEFINES = -DDEF_FILESEARCHPATH=\"$(LIBDIR)/%T/%N%S\"
+        DEPLIBS = $(DEPXLIB)
+LOCAL_LIBRARIES = $(XLIB)
+       LINTLIBS = $(LINTXLIB)
+#if HasLibCrypt
+       CRYPTLIB = -lcrypt
+#endif
+  SYS_LIBRARIES = MathLibrary $(CRYPTLIB) $(SHADOWLIB)
+#if defined(FreeBSDArchitecture) || defined(NetBSDArchitecture)
+   INSTPGMFLAGS = -s -m 4751
+#endif
+           HDRS = xlock.h
+           SRCS = xlock.c hsbramp.c resource.c usleep.c\
+		hopalong.c qix.c life.c\
+		swarm.c rotor.c pyro.c flame.c worm.c\
+		spline.c maze.c sphere.c hyper.c\
+		helix.c rock.c blot.c\
+		grav.c bounce.c world.c rect.c bat.c\
+		galaxy.c kaleid.c wator.c life3d.c swirl.c\
+		image.c bomb.c blank.c
+           OBJS = xlock.o hsbramp.o resource.o usleep.o\
+		hopalong.o qix.o life.o\
+		swarm.o rotor.o pyro.o flame.o worm.o\
+		spline.o maze.o sphere.o hyper.o\
+		helix.o rock.o blot.o\
+		grav.o bounce.o world.o rect.o bat.o\
+		galaxy.o kaleid.o wator.o life3d.o swirl.o\
+		image.o bomb.o blank.o
+
+AllTarget(xlock)
+#if ProjectX > 5
+depend:: maze.xbm life.xbm image.xbm
+#endif
+ComplexProgramTarget(xlock)
+InstallAppDefaults(XLock)
+
+clean::
+	$(RM) maze.xbm life.xbm image.xbm
+
+clean.all::	clean
+	$(RM) Makefile
+
+#if ProjectX < 6
+maze.c: maze.xbm
+life.c: life.xbm
+image.c: image.xbm
+#endif
+
+maze.xbm:
+	$(RM) maze.xbm
+	$(LN) ${BITMAPDIR}/maze-$(ICONTYPE).xbm maze.xbm
+ 
+life.xbm:
+	$(RM) life.xbm
+	$(LN) ${BITMAPDIR}/life-$(ICONTYPE).xbm life.xbm
+
+image.xbm:
+	$(RM) image.xbm
+	$(LN) ${BITMAPDIR}/image-$(ICONTYPE).xbm image.xbm

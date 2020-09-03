@@ -1,0 +1,1803 @@
+junk xlock.1 xx
+1 XLOCK
+XLOCK(1)                    General Commands Manual                   XLOCK(1)
+
+
+
+[1mNAME[0m
+       xlock - Locks the local X display until a password is entered.
+
+
+[1mSYNOPSIS[0m
+       [1mxlock  [22m[ [1m-help [22m] [ [1m-version [22m] [ [1m-resources [22m] [ [1m-display [4m[22mdisplayname[24m ] [
+       [1m-visual [4m[22mvisualname[24m ] [ [1m-name [4m[22mresourcename[24m ] [ [1m-mode [4m[22mmodename[24m ] [ [1m-delay[0m
+       [4musecs[24m  ]  [ [1m-batchcount [4m[22mnum[24m ] [ [1m-count [4m[22mnum[24m ] [ [1m-cycles [4m[22mnum[24m ] [ [1m-ncolors[0m
+       [4mnum[24m ] [ [1m-size [4m[22mnum[24m ] [ [1m-saturation [4m[22mvalue[24m ] [  [1m-erasemode  [4m[22mmodename[24m  ]  [
+       [1m-erasedelay [4m[22musecs[24m ] [ [1m-/+allowaccess [22m] [ [1m-vtlock [4m[22mmodename[24m ] [ [1m-/+nolock[0m
+       ] [ [1m-/+inwindow [22m] [ [1m-/+inroot [22m] [ [1m-/+remote [22m] [ [1m-/+mono [22m]  [  [1m-/+allow-[0m
+       [1mroot  [22m]  [  [1m-/+debug  [22m]  [  [1m-/+description [22m] [ [1m-/+echokeys [22m] [ [1m-echokey[0m
+       [4mechokey[24m ] [ [1m-/+enablesaver [22m] [  [1m-/+resetsaver  [22m]  [  [1m-/+grabmouse  [22m]  [
+       [1m-/+grabserver  [22m]  [  [1m-/+install  [22m]  [  [1m-/+mousemotion  [22m] [ [1m-/+sound [22m] [
+       [1m-/+showdate [22m] [ [1m-/+timeelapsed [22m] [ [1m-/+usefirst [22m] [ [1m-/+verbose [22m] [ [1m-nice[0m
+       [4mlevel[24m  ] [ [1m-lockdelay [4m[22mseconds[24m ] [ [1m-timeout [4m[22mseconds[24m ] [ [1m-font [4m[22mfontname[24m ]
+       [ [1m-planfont [4m[22mfontname[24m ] [ [1m-bg [4m[22mcolor[24m ] [ [1m-fg [4m[22mcolor[24m ] [ [1m-background  [4m[22mcolor[0m
+       ]  [  [1m-foreground  [4m[22mcolor[24m  ] [ [1m-username [4m[22mstring[24m ] [ [1m-password [4m[22mstring[24m ] [
+       [1m-info [4m[22mstring[24m ] [ [1m-validate [4m[22mstring[24m ] [ [1m-invalid  [4m[22mstring[24m  ]  [  [1m-geometry[0m
+       [4mgeom[24m  ]  [ [1m-icongeometry [4m[22mgeom[24m ] [ [1m-glgeometry [4m[22mgeom[24m ] [ [1m-/+wireframe [22m] [
+       [1m-/+showfps [22m] [ [1m-fpsfont [4m[22mfontname[24m  ]  [  [1m-/+fpstop  [22m]  [  [1m-/+use3d  [22m]  [
+       [1m-delta3d [4m[22mvalue[24m ] [ [1m-none3d [4m[22mcolor[24m ] [ [1m-right3d [4m[22mcolor[24m ] [ [1m-left3d [4m[22mcolor[24m ]
+       [ [1m-both3d [4m[22mcolor[24m ] [ [1m-program [4m[22mprogramname[24m ] [  [1m-messagesfile  [4m[22mformatted-[0m
+       [4mfilename[24m ] [ [1m-messagefile [4m[22mfilename[24m ] [ [1m-message [4m[22mstring[24m ] [ [1m-messagefont[0m
+       [4mfontname[24m ] [  [1m-bitmap  [4m[22mfilename[24m  ]  [  [1m-cpasswd  [4m[22mcrypted-password[24m  ]  [
+       [1m-forceLogout  [4m[22mminutes[24m  ] [ [1m-logoutButton [4m[22mminutes[24m ] [ [1m-logoutButtonLabel[0m
+       [4mtextstring[24m ] [ [1m-logoutButtonHelp  [4m[22mtextstring[24m  ]  [  [1m-logoutFailedString[0m
+       [4mtextstring[24m  ]  [  [1m-/+dtsaver  [22m]  [ [1m-/+xinerama [22m] [ [1m-modulepath [4m[22mpath[24m ] [
+       [1m-locksound [4m[22mstring[24m ] [ [1m-infosound [4m[22mstring[24m ]  [  [1m-validsound  [4m[22mstring[24m  ]  [
+       [1m-invalidsound  [4m[22mstring[24m  ]  [  [1m-startCmd  [4m[22mstring[24m  ]  [ [1m-endCmd [4m[22mstring[24m ] [
+       [1m-pipepassCmd [4m[22mstring[24m ] [ [1m-logoutCmd [4m[22mstring[24m ]
+
+
+[1mDESCRIPTION[0m
+       [1mxlock [22mlocks the X server till the user enters  their  password  at  the
+       keyboard.   While  [1mxlock  [22mis  running,  all  new server connections are
+       refused.  The screen saver is disabled.  The  mouse  cursor  is  turned
+       off.   The  screen  is  blanked  and  a  changing pattern is put on the
+       screen.  If a key or a  mouse  button  is  pressed  then  the  user  is
+       prompted for the password of the user who started [1mxlock[22m.
+
+       If the correct password is typed, then the screen is unlocked and the X
+       server is restored.  When typing the password Control-U  and  Control-H
+       are  active  as  kill  and erase respectively.  To return to the locked
+       screen, click in the small icon version of the changing pattern.
+
+       In the lower part of the password screen a  text  is  displayed.   This
+       message  is  taken  from  the  first file of the following that exists:
+       $HOME/.xlocktext, $HOME/.plan, or $HOME/.signature.
+
+       On systems which support new BSD style authentication, the password may
+       be  prefixed  by  an  authentication  style  followed  by a colon (i.e.
+       "style:password").  See  the  login.conf(5)  for  more  information  on
+       authentication styles.
+
+
+[1mNOTE ON ETIQUETTE[0m
+       [4mXlock[24m  should  not  be  used  on  public terminals when there is a high
+       demand for them.
+
+       If you find a public terminal that has been locked by another user  and
+       there  are  no  other  terminals available, and the terminal appears to
+       have been left idle for a while (normally more than 15 minutes), it  is
+       fair to try to reset the session in some manner.
+
+
+[1mOPTIONS[0m
+       [1m-help[0m
+            Print options and a brief description to standard output.
+
+       [1m-version[0m
+            Print version number (if >= 4.00) to standard output.
+
+       [1m-resources[0m
+            Print default resource file to standard output.
+
+       [1m-display [4m[22mdisplayname[0m
+            The  [4mdisplay[24m option sets the X11 display to lock.  [1mxlock [22mlocks all
+            available screens on a given server, and restricts you to  locking
+            only  a local server such as [1munix:0, localhost:0, [22mor [1m:0 [22munless you
+            set the [1m-remote [22moption.
+
+       [1m-visual [4m[22mvisualname[0m
+            [4mvisualname[24m which is one  of  "StaticGray",  "GrayScale",  "Static-
+            Color",  "PseudoColor",  "TrueColor", "DirectColor", or "default".
+            default used to set the screen's default visual (the visual of the
+            root window).
+
+       [1m-name [4m[22mresourcename[0m
+            [4mresourcename[24m  is  used instead of [1mXLock [22mwhen looking for resources
+            to configure [1mxlock[22m.
+
+       [1m-mode [4m[22mmodename[0m
+            As of this writing there are over 90 display modes supported (plus
+            one more for random selection of one of these).
+
+       [1manemone [22mShows wiggling tentacles.
+
+       [1mant     [22mShows Langton's and Turk's generalized ants.
+
+       [1mant3d   [22mShows 3D ants.
+
+       [1mapollonian[0m
+               Shows Apollonian circles.
+
+       [1matlantis[0m
+               Shows  moving  sharks/whales/dolphin.   May  not  be  available
+               depending on how it was configured.
+
+       [1matunnels[0m
+               Advance GL tunnels screensaver.  May not be available depending
+               on how it was configured.
+
+       [1mball    [22mShows bouncing balls.
+
+       [1mbat     [22mShows bouncing flying bats.
+
+       [1mblot    [22mShows Rorschach's ink blot test.
+
+       [1mbouboule[0m
+               Shows Mimi's bouboule of moving stars.
+
+       [1mbounce  [22mShows bouncing footballs.
+
+       [1mbraid   [22mShows random braids and knots.
+
+       [1mbubble  [22mShows popping bubbles.
+
+       [1mbubble3d[0m
+               Shows Richard Jones's GL bubbles.  May not be available depend-
+               ing on how it was configured.
+
+       [1mbug     [22mShows Palmiter's bug evolution and a garden of Eden.
+
+       [1mclock   [22mShows Packard's oclock.
+
+       [1mcoral   [22mShows a coral reef.
+
+       [1mcrystal [22mShows polygons in 2D plane groups.
+
+       [1mdaisy   [22mShows a meadow of daisies.
+
+       [1mdclock  [22mShows a floating digital clock or message.
+
+       [1mdeco    [22mShows art as ugly as sin.
+
+       [1mdemon   [22mShows Griffeath's cellular automata.
+
+       [1mdilemma [22mShows Lloyd's Prisoner's Dilemma simulation.
+
+       [1mdiscrete[0m
+               Shows various discrete maps.
+
+       [1mdragon  [22mShows Deventer's Hexagonal Dragons Maze.
+
+       [1mdrift   [22mShows cosmic drifting flame fractals.
+
+       [1mcage    [22mShows the Impossible Cage, an Escher-like GL scene.  May not be
+               available depending on how it was configured.
+
+       [1meuler2d [22mShows a simulation of 2D incompressible inviscid fluid.
+
+       [1meyes    [22mShows eyes following a bouncing grelb.
+
+       [1mfadeplot[0m
+               Shows a fading plot of sine squared.
+
+       [1mfiberlamp[0m
+               Shows a Fiber Optic Lamp.
+
+       [1mfire    [22mShows  a 3D fire-like image.  May not be available depending on
+               how it was configured.
+
+       [1mflag    [22mShows a waving flag image.  This  may  be  text  or  a  graphic
+               image.  Default text is the hostname and operating system.
+
+       [1mflame   [22mShows cosmic flame fractals.
+
+       [1mflow    [22mShows dynamic strange attractors.
+
+       [1mforest  [22mShows binary trees of a fractal forest.
+
+       [1mfzort   [22mShows a metallic-looking fzort.
+
+       [1mgalaxy  [22mShows crashing spiral galaxies.
+
+       [1mgears   [22mShows GL's gears.  May not be available depending on how it was
+               configured.
+
+       [1mglplanet[0m
+               Animates texture mapped sphere (planet)
+
+       [1mgoop    [22mShows goop from a lava lamp.
+
+       [1mgrav    [22mShows orbiting planets.
+
+       [1mhelix   [22mShows string art.
+
+       [1mhop     [22mShows real plane iterated fractals.
+
+       [1mhyper   [22mShows spinning n-dimensional hypercubes.
+
+       [1mico     [22mShows a bouncing polyhedron.
+
+       [1mifs     [22mShows a modified iterated function system.
+
+       [1mimage   [22mShows randomly appearing logos.
+
+       [1mjuggle  [22mShows a Juggler, juggling.
+
+       [1mjuggle  [22mShows a 3D Juggler, juggling.
+
+       [1mjulia   [22mShows the Julia set.
+
+       [1mkaleid  [22mShows Brewster's Kaleidoscope.
+
+       [1mkumppa  [22mShows kumppa.
+
+       [1mlaser   [22mShows spinning lasers.
+
+       [1mlife    [22mShows Conway's game of life.
+
+       [1mlife1d  [22mShows Wolfram's game of 1D life.
+
+       [1mlife3d  [22mShows Bays' game of 3D life.
+
+       [1mlightning[0m
+               Shows Keith's fractal lightning bolts.
+
+       [1mlisa    [22mShows animated lissajous loops.
+
+       [1mlissie  [22mShows lissajous worms.
+
+       [1mloop    [22mShows Langton's self-producing loops.
+
+       [1mmandelbrot[0m
+               Shows mandelbrot sets.
+
+       [1mmarquee [22mShows text.
+
+       [1mmatrix  [22mShows the matrix.
+
+       [1mmaze    [22mShows a random maze and a depth first search solution.
+
+       [1mmoebius [22mShows the Moebius Strip II, an Escher-like GL scene with  ants.
+               May not be available depending on how it was configured.
+
+       [1mmolecule[0m
+               Draws  molecules,  based  on coordinates from PDB (Protein Data
+               Base) files.
+
+       [1mmorph3d [22mShows GL morphing polyhedra.  May not be available depending on
+               how it was configured.
+
+       [1mmountain[0m
+               Shows Papo's mountain range.
+
+       [1mmunch   [22mShows munching squares.
+
+       [1mnoof    [22mShows SGI Diatoms.
+
+       [1mnose    [22mShows a man with a big nose runs around spewing out text.
+
+       [1mpacman  [22mShows Pacman(tm).
+
+       [1mpenrose [22mShows Penrose's quasiperiodic tilings.
+
+       [1mpetal   [22mShows various GCD Flowers.
+
+       [1mpetri   [22mShows a mold simultation in a petri dish
+
+       [1mpipes   [22mShows  a  self-building  pipe  system.   May  not  be available
+               depending on how it was configured.
+
+       [1mpolyominoes[0m
+               Shows attempts to place polyominoes into a rectangle.
+
+       [1mpuzzle  [22mShows a puzzle being scrambled and then solved.
+
+       [1mpyro    [22mShows fireworks.
+
+       [1mpyro2   [22mShows other fireworks.
+
+       [1mqix     [22mShows spinning lines a la Qix(tm).
+
+       [1mroll    [22mShows a rolling ball.
+
+       [1mrain    [22mShows rain.
+
+       [1mrotor   [22mShows Tom's Roto-Rooter.
+
+       [1mrubik   [22mShows an auto-solving  Rubik's  Cube.   May  not  be  available
+               depending on how it was configured.
+
+       [1msballs  [22mShows  balls  spinning  like crazy in GL.  May not be available
+               depending on how it was configured.
+
+       [1mscooter [22mShows a journey through space tunnel and stars.
+
+       [1mshape   [22mShows stippled rectangles, ellipses, and triangles.
+
+       [1msierpinski[0m
+               Shows a Sierpinski's triangle.
+
+       [1msierpinski3d[0m
+               Shows a Sierpinski's gasket.
+
+       [1mskewb   [22mShows an auto-solving Skewb.  May not be available depending on
+               how it was configured.
+
+       [1mslip    [22mShows slipping blits.
+
+       [1msolitaire[0m
+               Shows Klondike's game of solitaire.
+
+       [1mspace   [22mShows a journey into deep space.
+
+       [1msphere  [22mShows a bunch of shaded spheres.
+
+       [1mspiral  [22mShows a helical locus of points.
+
+       [1mspline  [22mShows colorful moving splines.
+
+       [1msproingies[0m
+               Shows Sproingies!  Nontoxic.  Safe for pets and small children.
+               May not be available depending on how it was configured.
+
+       [1mstairs  [22mShows Infinite Stairs, an Escher-like GL  scene.   May  not  be
+               available depending on how it was configured.
+
+       [1mstar    [22mShows a star field with a twist.
+
+       [1mstarfish[0m
+               Shows starfish.
+
+       [1mstrange [22mShows strange attractors.
+
+       [1msuperquadrics[0m
+               Shows  3D  mathematical shapes.  May not be available depending
+               on how it was configured.
+
+       [1mswarm   [22mShows a swarm of bees following a wasp.
+
+       [1mswirl   [22mShows animated swirling patterns.
+
+       [1mt3d     [22mShows a Flying Balls Clock Demo.
+
+       [1mtetris  [22mShows an autoplaying tetris game.
+
+       [1mtext3d | text3d2[0m
+               Shows 3D moving texts.
+
+       [1mthornbird[0m
+               Shows an animated Bird in a Thorn Bush fractal map.
+
+       [1mtik_tak [22mShows rotating polygons.
+
+       [1mtoneclock[0m
+               Shows Peter Schat's toneclock.
+
+       [1mtriangle[0m
+               Shows a triangular mountain range.
+
+       [1mtube    [22mShows an animated tube.
+
+       [1mturtle  [22mShows turtle fractals.
+
+       [1mvines   [22mShows fractal-like vines.
+
+       [1mvoters  [22mShows Dewdney's Voters.
+
+       [1mwator   [22mShows Dewdney's Water-Torus planet of fish and sharks.
+
+       [1mwire    [22mShows a random circuit with 2 electrons.
+
+       [1mworld   [22mShows spinning Earths.
+
+       [1mworm    [22mShows wiggly worms.
+
+       [1mxjack   [22mShows Jack having one of those days.
+
+       [1mxcl     [22mShows a Control Line combat model race
+
+       [1mblank   [22mShows nothing but a black screen.  Does not show up  in  random
+               mode.
+
+       [1mbomb    [22mShows  a  bomb and will autologout after a time.  Does not show
+               up in random mode and may be available depending on how it  was
+               configured.
+
+       [1mrandom  [22mShows a random mode from above except blank (and bomb).
+
+
+       [1m-delay [4m[22musecs[0m
+            The  [4mdelay[24m option sets the speed at which a mode will operate.  It
+            simply sets the number of microseconds to delay between batches of
+            animations.   In  blank  mode, it is important to set this to some
+            small number of seconds, because the keyboard and mouse  are  only
+            checked  after  each  delay, so you cannot set the delay too high,
+            but a delay of zero would  needlessly  consume  cpu  checking  for
+            mouse  and keyboard input in a tight loop, since blank mode has no
+            work to do.
+
+       [1m-count [4m[22mnum[0m
+            The [4mbatchcount[24m option sets number of [4mthings[24m to do per batch to [4mnum[0m
+            [4m.[0m
+
+            In anenome mode it is means nothing.
+
+            In ant and ant3d modes this refers the number of ants.
+
+            In apollonian mode it is the number of possible ways to imbed cir-
+            cles within a circle, all of integer curvature.
+
+            In atlantis mode it is the number of sharks.
+
+            In atunnels mode it is means nothing.
+
+            In ball mode it is the number of balls.
+
+            In bat mode it is the number of bats, could  be  less  because  of
+            conflicts.
+
+            In  blot  mode this refers to the number of pixels rendered in the
+            same color.
+
+            In bouboule mode it is the number of stars.
+
+            In bounce mode it is the number of balls, could be less because of
+            conflicts.
+
+            In braid mode it is the upper bound number of strands.
+
+            In bubble mode it is the number of bubbles.
+
+            In bubble3d mode it is the number of bubbles.
+
+            In  bug  mode  it  is the number of bugs, could be less because of
+            conflicts.
+
+            In cage mode it is means nothing.
+
+            In clock mode it is the percentage of the screen,  but  less  than
+            100%.
+
+            In coral mode it is the number of seeds.
+
+            In crystal mode it is the number of polygons.
+
+            In daisy mode it is the number flowers that make a meadow.
+
+            In dclock mode it means nothing.
+
+            In deco mode it is the depth.
+
+            In demon mode this refers the number of colors.
+
+            In dilemma mode this refers the number of initial defectors.
+
+            In discrete mode it is the number of points.
+
+            In drift mode it is the number of levels to recurse (larger = more
+            complex).
+
+            In dragon mode it means nothing.
+
+            In euler2d mode it is the number of segments.
+
+            In eyes mode it is the number of eyes.
+
+            In fadeplot mode it is the number of steps.
+
+            In fiberlamp it is the number of fibers.
+
+            In fire mode it is the number of fire particles (set it  to  0  to
+            have rain).
+
+            In flag mode it means nothing.
+
+            In flame mode it is the number of levels to recurse (larger = more
+            complex).
+
+            In flow mode it is the number of bees.
+
+            In forest mode it is the number trees that make a forest.
+
+            In fzort mode it means nothing.
+
+            In galaxy mode it means the number of galaxies.
+
+            In gears mode it is the number of degrees to  rotate  the  set  of
+            gears by.
+
+            In glplanet mode it is the number of hundredth degrees to roll the
+            planet by.
+
+            In goop mode it is the number of blobs per plane.
+
+            In grav mode it is the number of planets.
+
+            In helix mode it means nothing.
+
+            In hop mode this refers to the number of pixels  rendered  in  the
+            same color.
+
+            In hyper mode it the number of dimensions.
+
+            In ico mode it is the ith platonic solid.
+
+            In ifs mode it means nothing.
+
+            In  image  mode  it  means  it is the number of logos on screen at
+            once.
+
+            In juggle mode it is time in milliseconds between a throw and  the
+            next catch.
+
+            In  juggler3d  mode it is time in milliseconds between a throw and
+            the next catch.
+
+            In julia mode it is the depth of recursion.
+
+            In kaleid mode it is the number of pens.
+
+            In kumppa mode it means nothing.
+
+            In lament mode it means nothing.
+
+            In laser mode it is the number lasers.
+
+            In life and life3d modes it is the number of generations before  a
+            glider is introduced.
+
+            In life1d mode it means nothing.
+
+            In lisa mode it is the number of loops.
+
+            In lissie mode it is the number of worms.
+
+            In loop mode it is the number of flaws.
+
+            In mandelbrot mode it is the order.
+
+            In marquee mode it means nothing.
+
+            In matrix mode it means nothing.
+
+            In maze mode it means nothing.
+
+            In moebius mode it is means nothing.
+
+            In molecule mode it means nothing.
+
+            In morph3d mode it is the ith platonic solid.
+
+            In mountain mode it is the number of mountains.
+
+            In munch mode it means nothing.
+
+            In noof mode it means nothing.
+
+            In nose mode it means nothing.
+
+            In qix mode it is the number of points.
+
+            In pacman mode it means the number of ghosts.
+
+            In penrose mode it means nothing.
+
+            In petal mode it the greatest random number of petals.
+
+            In petri mode it means nothing.
+
+            In  pipes mode it shows different joints, 0 random, 1 spherical, 2
+            bolted elbow, 3 elbow, and 4 alternating.
+
+            In polyominoes mode it means nothing.
+
+            In puzzle mode it the number of moves.
+
+            In pyro mode it is the maximum number flying rockets at one time.
+
+            In pyro2 mode it is means nothing.
+
+            In rain mode it is means nothing.
+
+            In roll mode it is the number of points.
+
+            In rotor mode it is the number of rotor thingys which whirr...
+
+            In rubik mode it is the number of moves.
+
+            In sballs mode it is the number of spheres.
+
+            In scooter mode it is the number of doors.
+
+            In shape mode it means nothing.
+
+            In sierpinski mode it is the number of points.
+
+            In skewb mode it is the number of moves.
+
+            In slip mode it means nothing.
+
+            In solitaire mode it means nothing.
+
+            In space mode it is the number of stars.
+
+            In sphere mode it means nothing.
+
+            In spiral mode it is the number of spirals.
+
+            In spline mode it is the number of points "splined".
+
+            In sproingies mode it is the number of sproingies.
+
+            In stairs mode it is means nothing.
+
+            In star mode it is the number of stars on the screen at once.
+
+            In starfish mode it means nothing.
+
+            In strange mode it means nothing.
+
+            In superquadrics mode its the number of  horizontal  and  vertical
+            lines in the superquadric.
+
+            In swirl mode it means the number of "knots".
+
+            In swarm mode it is the number of bees.
+
+            In t3d mode it means nothing.
+
+            In tetris mode it means nothing.
+
+            In text3d mode it means nothing.
+
+            In thornbird mode it is the number of points.
+
+            In triangular mode it is the number of mountains.
+
+            In tube mode it is a rectangle (= 1), an ellipse (= 2), or a poly-
+            gon if greater.
+
+            In turtle mode it means nothing.
+
+            In vines mode it is draw a complete vine (= 0) or a portion (= 1).
+
+            In voters mode it means the number of parties, 2 or 3.
+
+            In wator mode it means the breed time for the fish.
+
+            In wire mode it means the length of the circuit.
+
+            In world mode it is the number of worlds.
+
+            In worm mode it is the number of worms.
+
+            In xcl mode it represents the number of planes.
+
+            In xjack mode it means nothing.
+
+            In blank mode it means nothing.
+
+            In bomb mode it means the number of minutes to autologout.
+
+            A negative [4mcount[24m allows for randomness.  The range from the  mini-
+            mum  allowed  nonnegative  [4mcount[24m for a particular mode to the ABS(
+            [4mcount[24m ) (or maximum allowed [4mcount[24m , whichever is less).
+
+       [1m-batchcount [4m[22mnum[0m
+            The [4mbatchcount[24m option is  deprecated  but  should  still  work  as
+            [4mcount.[0m
+
+       [1m-cycles [4m[22mnum[0m
+            The  [4mcycles[24m  option  sets  the number of cycles until time out for
+            ant, ant3d, apollonian, blot, braid, bug, clock,  crystal,  daisy,
+            deco,  demon,  dilemma,  discrete,  dragon, eyes, fiberlamp, flag,
+            flow, forest, galaxy, helix, hop, hyper, ico,  juggle,  juggler3d,
+            laser, life, life1d, life3d, lisa, lissie, loop, mandelbrot, moun-
+            tain, petal, sierpinski, shape,  spline  +erase,  t3d,  thornbird,
+            triangle,  tube, voters, wator, and wire.  For euler2d and worm it
+            is the length of the lines, for atlantis it is  the  shark  speed,
+            for  fadeplot,  julia  and spiral it is the length of the trail of
+            dots, munch it is the minimum size of the squares, for  kaleid  it
+            is  the  % of black, for qix it is the number of lines, for spline
+            -erase it means the number of splines * 64 (for compatibility with
+            +erase),  for  gears  it is the number of degrees to increment the
+            spin of each gear by, for glplanet it is the number  of  hundredth
+            degrees  to  rotate  the planet by, for molecule it is the time in
+            seconds until timeout, for pipes it is the number  of  systems  to
+            draw  before  clearing  the  screen, for rubik it is the number of
+            steps to complete a 90 degree move, for sballs it  is  the  sphere
+            speed value, for scooter it is the speed, for skewb it is the num-
+            ber of steps to complete a 120 degree move, for  superquadrics  it
+            is  the  number  of  frames  it  takes  to morph from one shape to
+            another.  for text3d it is the number  of  times  drawing  a  word
+            before the next one, For others it means nothing.
+
+       [1m-size [4m[22mnum[0m
+            The  [4msize[24m option sets the size maximum size of a star in bouboule,
+            pyro and star, size of ball in ball and bounce,  size  of  bat  in
+            bat,  maximum  size  of  bubble in bubble, size of clock in clock,
+            minimum size of rectangles in deco, size of the polygons in  crys-
+            tal,  tik_tak,  and  toneclock, size of polyhedron in ico, size of
+            lissie in lissie, size of dots of flag, for kaleid it is the  sym-
+            metry, width of maze hallway, size of side of penrose tile, radius
+            of loop in lisa, radius of ball in  roll,  number  of  corners  in
+            sierpinski,  number  of  stars  in  scooter, size of tube in tube,
+            width of worm in worm, line width in rotor, size of cells in  ant,
+            bug, dilemma, dragon, life, life1d, pacman, petri, tetris, voters,
+            wator, and wire.  In pipes it is the maximum length of  a  system.
+            In  flow  and swarm it is the length of the lines.  In atlantis it
+            is the shark size.  A negative number allows for randomness, simi-
+            lar  to [4mcount.[24m  In atunnels, fire, gears, sballs and sproingies it
+            is the size of the screen (default 400), this is because  on  many
+            slow  systems  it  runs  too slow when the picture covers the full
+            screen.  Set to 0 for full screen on fast machines.
+
+       [1m-ncolors [4m[22mnum[0m
+            The [4mncolors[24m option sets the maximum number of colors to be used.
+
+       [1m-saturation [4m[22mvalue[0m
+            The [4msaturation[24m option sets saturation of the color  ramp  used  to
+            [4mvalue[24m  [4m.[24m   0 is grayscale and 1 is very rich color.  0.4 is a nice
+            pastel.
+
+       [1m-erasemode [4m[22mmodename[0m
+            As of this writing there are over 12 erase modes supported (if its
+            not chosen its assumed random).  The erase modes are random_lines,
+            random_squares,  venetian,  triple_wipe,  quad_wipe,  circle_wipe,
+            three_circle_wipe,   squaretate,   fizzle,   spiral,  slide_lines,
+            losira, no_fade.  [4mmodename[24m is now similar to the  option  [1mmodelist[0m
+            where  you  can  it  can be something like "all-losira" to get all
+            erasemodes but losira.  Use a "+" or a "," to add modes like "spi-
+            ral+venetian".
+
+       [1m-erasedelay [4m[22musecs[0m
+            The [4merasedelay[24m option sets the number of microseconds for steps of
+            the [1merasemode [22m(a setting of 0 and the [1merasemode [22mis bypassed).
+
+       [1m+/-nolock[0m
+            The [4mnolock[24m option causes [1mxlock [22mto only draw the patterns  and  not
+            lock the display.  A key press or a mouse click will terminate the
+            screen saver.
+
+       [1m-/+inwindow[0m
+            Runs [1mxlock [22min a window, so that you can iconify, move,  or  resize
+            it  and  still use your screen for other stuff.  When running in a
+            window, [1mxlock [22mno longer locks your screen, it just looks good.
+
+       [1m-/+inroot[0m
+            Runs [1mxlock [22min your root window.  Like the [4minwindow[24m  option  it  no
+            longer locks the screen, it just looks good.
+
+       [1m-/+remote[0m
+            The  [4mremote[24m option tells [1mxlock [22mto not stop you from locking remote
+            X11 servers.  This option should be used with care and is intended
+            mainly  to  lock X11 terminals which cannot run [1mxlock [22mlocally.  If
+            you lock someone else's workstation, they will have to  know  [1myour[0m
+            password  to  unlock  it.   Using  [4m+remote[24m  overrides any resource
+            derived values for [4mremote[24m and prevents [1mxlock [22mfrom  being  used  to
+            lock  other  X11  servers.   (Use  `+'  instead of `-' to override
+            resources for other options that can take the `+'  modifier  simi-
+            larly.)
+
+       [1m-/+mono[0m
+            The  [4mmono[24m  option  causes  [1mxlock [22mto display monochrome, (black and
+            white) pixels rather than the default colored ones on  color  dis-
+            plays.
+
+       [1m-/+allowaccess[0m
+            This  option is required for servers which do not allow clients to
+            modify the host access control list.  It is  also  useful  if  you
+            need  to  run  x clients on a server which is locked for some rea-
+            son...  When [4mallowaccess[24m is true, the X11 server is left open  for
+            clients  to  attach  and thus lowers the inherent security of this
+            lock screen.  A side effect of using this option is that if  [1mxlock[0m
+            is killed -KILL, the access control list is not lost.
+
+       [1m-vtlock [4m[22mmodename[0m
+            This  option is used on a XFree86 system to manage VT switching in
+            [off|noswitch|switch|restore] mode.
+
+       [4moff[24m       means no VT switch locking.
+
+       [4mswitch[24m    means VT switch locking + switching to xlock  VT  when  acti-
+                 vated.
+
+       [4mrestore[24m   means  VT  switch  locking + switching to xlock VT when acti-
+                 vated + switching back to previous VT when desactivated.
+
+       [4mnoswitch[24m  means VT switch locking only when xlock VT is active.
+
+       [1m-/+allowroot[0m
+            The [4mallowroot[24m option allows the root password to unlock the server
+            as  well  as  the user who started [1mxlock[22m.  May not be able to turn
+            this on and off depending on your system and how [1mxlock [22mwas config-
+            ured.
+
+       [1m-/+debug[0m
+            Allows [1mxlock [22mto be debugged by doing all but locking the screen.
+
+       [1m-/+description[0m
+            The [4mdescription[24m option causes [1mxlock [22mshows a mode description above
+            password window.  The default is to show this description.
+
+       [1m-/+echokeys[0m
+            The [4mechokeys[24m option causes [1mxlock [22mto echo '?' characters  (default)
+            for each key typed into the password prompt.  Some consider this a
+            security risk, so the default is to not echo anything.
+
+       [1m-echokey [4m[22mechokey[0m
+            The text character to use for echo key in [4mechokeys[24m [4m.[0m
+
+       [1m-/+enablesaver[0m
+            By default [1mxlock [22mwill disable the normal X server's  screen  saver
+            since  it is in effect a replacement for it.  Since it is possible
+            to set delay parameters long enough to cause phosphor burn on some
+            displays,  this  option will turn back on the default screen saver
+            which is very careful to keep most of the screen black.
+
+       [1m-/+resetsaver[0m
+            By default [1mxlock [22mwill call XResetScreenSaver.  This may  be  unde-
+            sirable with DPMS monitors.
+
+       [1m-/+grabmouse[0m
+            The  [4mgrabmouse[24m option causes [1mxlock [22mto grab the mouse and keyboard,
+            this is the default.  [1mxlock [22mcan not lock the screen without this.
+
+       [1m-/+grabserver[0m
+            The [4mgrabserver[24m option causes [1mxlock [22mto grab the  server.   This  is
+            not  usually  needed  but  some unsecure X servers can be defeated
+            without this.
+
+       [1m-/+install[0m
+            Allows [1mxlock [22mto install its own colormap if [1mxlock [22mruns out of col-
+            ors.   May  not  work on with some window managers (fvwm) and does
+            not work with the -inroot option.
+
+       [1m-/+mousemotion[0m
+            Allows you to turn on and off the  sensitivity  to  the  mouse  to
+            bring up the password window.
+
+       [1m-/+sound[0m
+            Allows you to turn on and off sound if installed with the capabil-
+            ity.
+
+       [1m-/+showdate[0m
+            Allows you to turn on and off the date on password window.  On  by
+            default.
+
+       [1m-/+timeelapsed[0m
+            Allows  you  to  find  out how long a machine is locked so you can
+            complain to an administrator that someone is hogging a machine.
+
+       [1m-/+usefirst[0m
+            The [4musefirst[24m option causes [1mxlock [22mto use the  keystroke  which  got
+            you to the password screen as the first character in the password.
+            The default is to ignore the first key pressed.
+
+       [1m-/+verbose[0m
+            Verbose mode, tells what options it is going to use.
+
+       [1m-nice [4m[22mnicelevel[0m
+            The [4mnice[24m option sets system nicelevel  of  the  [1mxlock  [22mprocess  to
+            [4mnicelevel[24m [4m.[0m
+
+       [1m-lockdelay [4m[22mseconds[0m
+            The  [4mlockdelay[24m option sets the number of [4mseconds[24m before the screen
+            needs a password to be unlocked.  Good for use with an autolocking
+            mechanism like xautolock(1).
+
+       [1m-timeout [4m[22mseconds[0m
+            The  [4mtimeout[24m option sets the number of [4mseconds[24m before the password
+            screen will time out.
+
+       [1m-font [4m[22mfontname[0m
+            The [4mfont[24m option sets the font to be used on the prompt screen.
+
+       [1m-planfont [4m[22mfontname[0m
+            option sets the font to be used for the text that is displayed  in
+            the lower part of the password screen.
+
+       [1m-fg [4m[22mcolor[0m
+            The [4mfg[24m option sets the color of the text on the password screen to
+            [4mcolor[24m [4m.[0m
+
+       [1m-bg [4m[22mcolor[0m
+            The [4mbg[24m option sets the color of the  background  on  the  password
+            screen to [4mcolor[24m [4m.[0m
+
+       [1m-foreground [4m[22mcolor[0m
+            The  [4mforeground[24m  option sets the color of the text on the password
+            screen to [4mcolor[24m [4m.[0m
+
+       [1m-background [4m[22mcolor[0m
+            The [4mbackground[24m option sets the color  of  the  background  on  the
+            password screen to [4mcolor[24m [4m.[0m
+
+       [1m-username [4m[22mstring[0m
+            Text [4mstring[24m is shown in front of user name, defaults to "Name: ".
+
+       [1m-password [4m[22mstring[0m
+            Text  [4mstring[24m is the password prompt string, defaults to "Password:
+            ".
+
+       [1m-info [4m[22mstring[0m
+            Text [4mstring[24m is an informational message to tell the user  what  to
+            do, defaults to "Enter password to unlock; select icon to lock.".
+
+       [1m-validate [4m[22mstring[0m
+            Text  [4mstring[24m  is  a  message  shown while validating the password,
+            defaults to "Validating login..."
+
+       [1m-invalid [4m[22mstring[0m
+            Text [4mstring[24m is a message shown when password is invalid,  defaults
+            to "Invalid login."
+
+       [1m-geometry [4m[22mgeom[0m
+            The [4mgeometry[24m option sets [4mgeom[24m the size and offset of the lock win-
+            dow (normally the entire screen).  The  entire  screen  format  is
+            still  used  for entering the password.  The purpose is to see the
+            screen even though it is locked.  This should be used with caution
+            since  many  of  the  modes  will fail if the windows are far from
+            square or are too small (size must be  greater  than  0x0).   This
+            should also be used with -enablesaver to protect screen from phos-
+            phor burn.
+
+       [1m-icongeometry [4m[22mgeom[0m
+            The [4micongeometry[24m option sets [4mgeom[24m the size of  the  iconic  screen
+            (normally  64x64) seen when entering the password.  This should be
+            used with caution since many of the modes will fail if the windows
+            are  far  from  square or are too small (size must be greater than
+            0x0).  The greatest size is 256x256.  There should be  some  limit
+            so  users  could see who has locked the screen.  Position informa-
+            tion of icon is ignored.
+
+       [1m-glgeometry [4m[22mgeom[0m
+            The [4mglgeometry[24m option sets [4mgeom[24m the size  of  the  screen  for  gl
+            modes.  Not normally available or needed.
+
+       [1m-/+wireframe[0m
+            Turn  on/off  wireframe,  available  on ant3d, atlantis, atunnels,
+            daisy, fire, gears, lament, life3d, mountain, sballs,  sproingies,
+            superquadrics, and triangle.
+
+       [1m-/+showfps[0m
+            Turn  on/off  frame  per sec display, available on atlantis, atun-
+            nels,  bubble3d,  cage,  fire,  gears,  invert,  lament,  moebius,
+            morph3d, rubik, sballs, skewb, stairs, and superquadrics.
+
+       [1m-/+fpstop[0m
+            Turn  on/off  frame  per  sec  display  on  top of screen, used if
+            showfps is on.
+
+       [1m-fpsfont [4m[22mfontname[0m
+            The [4mfpsfont[24m option sets the font to be used in the frame  per  sec
+            display, used if showfps is on.
+
+       [1m-/+use3d[0m
+            Turn on/off 3d view, available on bouboule, pyro, star, and worm.
+
+       [1m-delta3d [4m[22mvalue[0m
+            Space between the center of your 2 eyes for 3d mode.
+
+       [1m-none3d [4m[22mcolor[0m
+            Color used for empty size in 3d mode.
+
+       [1m-right3d [4m[22mcolor[0m
+            Color used for right eye in 3d mode.
+
+       [1m-left3d [4m[22mcolor[0m
+            Color used for left eye in 3d mode.
+
+       [1m-both3d [4m[22mcolor[0m
+            Color  used  for  overlapping  images for left and right eye in 3d
+            mode.
+
+       [1m-program [4m[22mprogramname[0m
+            The [4mprogram[24m option sets the program to be used as the fortune gen-
+            erator.  Currently used only for marquee and nose modes.
+
+       [1m-messagesfile [4m[22mformatted-filename[0m
+            The  [4mmessagesfile[24m  option  sets the file to be used as the fortune
+            generator.  The first entry is the number of  fortunes,  the  next
+            line  contains the first fortune.  Fortunes begin with a "%%" on a
+            line by itself.  Currently used only for marquee and  nose  modes.
+            If one exists, it takes precedence over the fortune program.
+
+       [1m-messagefile [4m[22mfilename[0m
+            The [4mmessagefile[24m option sets the file whose contents are displayed.
+            Currently used only for marquee and nose modes.  If one exists, it
+            takes precedence over the fortune program and messagesfile.
+
+       [1m-message [4m[22mtextstring[0m
+            The  [4mmessage[24m option sets the text to be displayed in a mode.  Cur-
+            rently used only for flag, marquee and nose modes.  If one exists,
+            it  takes  precedence  over  the fortune program, messagesfile and
+            message.
+
+       [1m-messagefont [4m[22mfontname[0m
+            The [4mmessagefont[24m option sets the font to be used in the mode.  Cur-
+            rently used only for flag, marquee, and nose modes.
+
+       [1m-bitmap [4m[22mfilename[0m
+            The  [4mbitmap[24m  option sets the xbm, xpm, or ras file to be displayed
+            with flag, image, life, life1d, maze, or puzzle  mode.   For  eyes
+            and  pacman only a xbm file is accepted.  Certain modes reject the
+            bitmap if too big.  /
+
+
+[1mMORE OPTIONS (these may not be available)[0m
+       [1m-cpasswd [4m[22mcrypted-password[0m
+            The [4mcpasswd[24m option sets the key to be this text string  to  unlock
+            [1mxlock [22minstead of password file.
+
+       [1m-forceLogout [4m[22mminutes[0m
+            The [4mforceLogout[24m option sets [4mminutes[24m to auto-logout.
+
+       [1m-logoutButton [4m[22mminutes[0m
+            The  [4mlogoutButton[24m option sets [4mminutes[24m to logoutButton is available
+            on password screen.
+
+       [1m-logoutButtonLabel [4m[22mstring[0m
+            Text [4mstring[24m is a message shown inside logout  button  when  logout
+            button is displayed.  Defaults to "Logout".
+
+       [1m-logoutButtonHelp [4m[22mstring[0m
+            Text  [4mstring[24m  is a message shown outside logout button when logout
+            button is displayed.  Defaults to "Click the \"Logout\" button  to
+            log out current\n user and make workstation available."
+
+       [1m-logoutFailedString [4m[22mstring[0m
+            Text  [4mstring[24m  is  a  message  shown when a logout is attempted and
+            fails.  Defaults to "Logout attempt FAILED.\n Current  user  could
+            not be automatically logged out."
+
+       [1m-/+dtsaver[0m
+            Turn  on/off CDE Saver Mode.  This option is only available if CDE
+            support was compiled in.
+
+       [1m-/+xinerama[0m
+            Turn on/off Xinerama.  This option is only available  if  Xinerama
+            support was compiled in.
+
+       [1m-modulepath [4m[22mpath[0m
+            The [4mmodulepath[24m option sets the [4mdirectories[24m that [1mxlock [22msearches for
+            mode modules to load.  It is a colon separated list of directories
+            to  search. If "%S" is included in the path, it is replaced by the
+            default modulepath.  To add a  private  module  directory  to  the
+            default  path,  use something like '%S:~/mymoduledir' as the path.
+            This option is only available if module support was compiled in.
+
+       [1m-locksound [4m[22mstring[0m
+            Text [4mstring[24m references sound to use at lock time.  Default  sound,
+            male voice: "Thank you, for your cooperation."
+
+       [1m-infosound [4m[22mstring[0m
+            Text  [4mstring[24m  references  sound  to  use for information.  Default
+            sound, male voice: "Identify please."
+
+       [1m-validsound [4m[22mstring[0m
+            Text [4mstring[24m references sound to when a password is valid.  Default
+            sound, female voice: "Complete."
+
+       [1m-invalidsound [4m[22mstring[0m
+            Text  [4mstring[24m  references  sound  to  when  a  password is invalid.
+            Default sound, female voice: "I am not programmed to give you that
+            information."
+
+       [1m-startCmd [4m[22mstring[0m
+            Text [4mstring[24m command to execute when the screen is locked. Commonly
+            used instructions include: "zaway". This command, if still running
+            when the screensaver exits, will be killed.
+
+       [1m-endCmd [4m[22mstring[0m
+            Text [4mstring[24m command to execute when the screen is unlocked.
+
+       [1m-pipepassCmd [4m[22mstring[0m
+            Text  [4mstring[24m  command  into  which  to  pipe the password when the
+            screen is unlocked.
+
+       [1m-logoutCmd [4m[22mstring[0m
+            Text [4mstring[24m command to execute when the program logs the user  out
+            (either via the autologout or by pressing the logout button).
+
+       [1m-mailCmd [4m[22mstring[0m
+            Text [4mstring[24m command to execute when the program to check mail.
+
+       [1m-mailIcon [4m[22mstring[0m
+            Text [4mstring[24m of file for the "mail arrived" bitmap.
+
+       [1m-nomailIcon [4m[22mstring[0m
+            Text [4mstring[24m of file for the "no mail" bitmap.
+
+       [1m-dpmsstandby  seconds[0m
+            Allows  one to set DPMS Standby for monitor (0 is defined as infi-
+            nite).  (Horizontal sync on, Vertical  sync  off,  RGB  guns  off,
+            power  supply  on,  tube filaments energized, (screen saver mode).
+            Typical 17 inch screen...  110 out of  120  watts  with  a  3  sec
+            recovery time.)  This option is only available if DPMS support was
+            compiled in.  Minimum timeout is 5 seconds.
+
+       [1m-dpmssuspend  seconds[0m
+            Allows one to set DPMS Suspend for monitor (0 is defined as  infi-
+            nite).   (Horizontal  sync  off,  Vertical  sync on, RGB guns off,
+            power supply off,  tube  filaments  energized.   Typical  17  inch
+            screen ...  15 out of 120 watts with a 3 sec recovery time.)  This
+            option is only available if DPMS support was compiled in.  Minimum
+            timeout is 5 seconds.
+
+       [1m-dpmsoff  seconds[0m
+            Allows  one  to  set  DPMS  Power Off for monitor (0 is defined as
+            infinite).  (Horizontal sync off, Vertical sync off, Small  auxil-
+            iary circuit stays on to monitor the HS/VS signals to enable power
+            on when data needs to be displayed on the screen.  Typical 17 inch
+            screen ...  5 out of 120 watts with a 10 sec recovery time.)  This
+            option is only available if DPMS support was compiled in.  Minimum
+            timeout is 5 seconds.
+
+
+[1mSPECIAL MODE DEPENDENT OPTIONS[0m
+       [1m-neighbors [4m[22mnum[0m
+            The  [4mneighbors[24m option sets the number of neighbors of a cell to 3,
+            4, 6, 9 (may not have real mathematical meaning), or 12  for  sev-
+            eral automata modes [4m(ant,[24m [4mbug,[24m [4mdemon,[24m [4mdilemma,[24m [4mlife,[24m [4mloop,[24m [4mvoters,[0m
+            [4mwator,[24m and [4mwire)[24m [4m(bug[24m and [4mloop[24m do not span this full range).  Set-
+            ting  it  to 0 typically randomizes this, except where bitmaps are
+            used [4m(dilemma,[24m [4mlife,[24m [4mvoters,[24m and [4mwator).[0m
+
+       [1m-/+eyes[0m
+            Turn on and off eyes for [4mant,[24m [4mant3d,[24m and [4mbug.[0m
+
+       [1m-/+cycle[0m
+            Turn on and off colour cycling in [4mcrystal,[24m  [4mlyapunov,[24m  [4mmandelbrot,[0m
+            [4mstarfish,[24m [4mswirl,[24m [4mtetris,[24m [4mtik_tak,[24m [4mtoneclock,[24m and [4mtube.[0m
+
+       [1m-/+label[0m
+            Turn on and off alternate space and number labeling in [4mapollonian.[0m
+            For [4mant[24m and [4mant3d[24m this turns on and off the labeling of the  rule.
+            For [4mlife[24m and [4mlife3d[24m this turns on and off the labeling of the pat-
+            tern name and rule.
+
+       [1m-/+serial[0m
+            Turn on and off sequential allocation of colors  in  [4mkaleid.[24m   For
+            [4mlife[24m  and  [4mlife3d[24m  this turns on and off the picking of sequential
+            patterns (to be used with middle button of the mouse).
+
+       [1m-/+trackmouse[0m
+            Turn on and off mouse interaction in [4meyes,[24m [4mfire,[24m [4mjulia,[24m [4msolitaire,[0m
+            [4msballs,[24m [4mswarm,[24m and [4mtetris.[24m  For [4mmaze,[24m [4mpacman,[24m [4msolitaire[24m and [4mtetris[0m
+            this may not be available depending on how [1mxlock [22mwas configured.
+
+       [1m-/+texture[0m
+            Turn on and off texturing in [4mfire,[24m [4mlament[24m and  [4msballs.[24m   This  may
+            not be available depending on how [1mxlock [22mwas configured.
+
+       [1m-rule [4m[22m<rule>[0m
+            The  rule string is defined as S<neighborhood>/B<neighborhood> for
+            [4mlife[24m and [4mlife3d.[24m  Special parameters: P, picks a random rule  from
+            all  rules  that  have known patterns; G, picks a random rule from
+            all rules that have known gliders.  For [4mlife[24m  a  good  example  is
+            Conway's   rule   which   is   S23/B3.   Others  are  B36/S23  and
+            B3678/S34678.  For [4mlife3d[24m good examples are Bay's rules which  are
+            S45/B5,  S567/B6, S56/B5, and S67/B67.  The rule string is defined
+            as a binary string (requires at least one 1 and one 0) for [4mant[24m and
+            a base 4 (or quadranary) string (requires 3 of 4 digits to be rep-
+            resented) for [4mant3d.[24m  Here a special parameter, T and then a  num-
+            ber, will pick a specific table.
+
+       [1m-lifefile [4m[22mfilename[0m
+            The  [4mlifefile[24m  option sets the [4mlife[24m and [4mlife3d[24m lifeform.  Only one
+            format is currently supported, similar to  the  #P  xlife  format.
+            For [4mlife3d,[24m 2 linefeeds in a row are assumed to advance the depth.
+
+       [1m-arms [4m[22mnum[0m
+            Allows one to set the number of arms in [4manemone.[0m
+
+       [1m-finpoints [4m[22mnum[0m
+            Allows one to set the width of the arms in [4manemone.[0m
+
+       [1m-width [4m[22mnum[0m
+            Allows  one  to  set  the  final number of points in each array of
+            [4manemone.[0m
+
+       [1m-withdraws [4m[22mnum[0m
+            Allows one to set the withdraw frequency in
+
+       [4manemone.[0m
+            [1m-turnspeed [4m[22mnum[24m Allows one to set the turning speed in
+
+       [1m-/+truchet[0m
+            Turn on and off Truchet lines (trail) in [4mant.[0m
+
+       [1m-/+altgeom[0m
+            Turn on and off alternate  geometries  (off  euclidean  space,  on
+            includes spherical and hyperbolic) in [4mapollonian[24m mode.
+
+       [1m-whalespeed [4m[22mnum[0m
+            Allows one to set the speed of the whales and dolphin in [4matlantis.[0m
+
+       [1m-/+boil[0m
+            Turn on and off having the bubbles bubble up in [4mbubble.[0m
+
+       [1m-nx [4m[22mnum[0m
+            Allows one to set the number of unit cells in x-direction in [4mcrys-[0m
+            [4mtal.[0m
+
+       [1m-ny [4m[22mnum[0m
+            Allows one to set the number of unit cells in y-direction in [4mcrys-[0m
+            [4mtal.[0m
+
+       [1m-/+centre[0m
+            Turn on and off the centering on screen in [4mcrystal.[0m
+
+       [1m-/+maxsize[0m
+            Turn on and off the centering on screen in [4mcrystal.[0m
+
+       [1m-/+cell[0m
+            Turn on and off the drawing of unit cell in [4mcrystal.[0m
+
+       [1m-/+grid[0m
+            Turn  on and off the drwing of grid of unit cells (if -cell is on)
+            in [4mcrystal.[0m
+
+       [1m-/+garden[0m
+            Turn off and on garden look in [4mdaisy.[0m
+
+       [1m-/+binary[0m
+            Turn on and off the binary clock in [4mdclock.[0m
+
+       [1m-/+led[0m
+            Turn on and off the led clock in [4mdclock.[0m
+
+       [1m-/+popex[0m
+            Turn on and off the population explosion counter in [4mdclock.[0m
+
+       [1m-/+forest[0m
+            Turn on and off the tropical deforest (hectares/acres) counter  in
+            [4mdclock.[0m
+
+       [1m-/+hiv[0m
+            Turn on and off the HIV infection counter in [4mdclock.[0m
+
+       [1m-/+lab[0m
+            Turn on and off the Animal Research counter in [4mdclock.[0m
+
+       [1m-/+veg[0m
+            Turn on and off the Animal Consumation counter in [4mdclock.[0m
+
+       [1m-/+y2k[0m
+            Turn on and off the Year 2000 countdown in [4mdclock.[0m
+
+       [1m-/+millennium[0m
+            Turn  on and off the Second Millennium (January 1, 2001) countdown
+            in [4mdclock.[0m
+
+       [1m-bonus [4m[22mvalue[0m
+            Allows one to set the bonus for cheating... between 1.0 and 4.0 in
+            [4mdilemma.[0m
+
+       [1m-/+conscious[0m
+            Turn off and on self-awareness in [4mdilemma.[0m
+
+       [1m-/+grow[0m
+            Turn  on  and  off  growing  fractals (else they are animated) for
+            [4mdrift.[0m
+
+       [1m-/+liss[0m
+            Turn on and off using lissajous figures to get points for [4mdrift.[0m
+
+       [1m-/+fog[0m
+            Turn on and off fog for [4mfire.[0m
+
+       [1m-/+shadows[0m
+            Turn on and off shadows for [4mfire.[0m
+
+       [1m-trees [4m[22mnum[0m
+            Validate the displaying of trees for [4mfire[24m if greater than zero.
+
+       [1m-/+invert[0m
+            Turn on and off inverting of the [4mflag.[0m
+
+       [1m-/+rotate[0m
+            Turn on/off rotating around attractor in [4mflow.[0m
+
+       [1m-/+ride[0m
+            Turn on/off rideing in the [4mflow.[0m
+
+       [1m-/+box[0m
+            Turn on/off bounding box in [4mflow.[0m
+
+       [1m-/+periodic[0m
+            Turn on/off periodic attractors in [4mflow.[0m
+
+       [1m-/+search[0m
+            Turn on/off search for new attractors in [4mflow.[0m
+
+       [1m-/+dbuf[0m
+            Turn on/off double buffering in [4mflow.[0m
+
+       [1m-/+tracks[0m
+            Turn on and off star tracks in [4mgalaxy.[0m
+
+       [1m-/+light[0m
+            Turn on and off lighting of the planet for [4mglplanet.[0m
+
+       [1m-/+bounce[0m
+            Turn on and off bouncing movement of the planet for [4mglplanet.[0m
+
+       [1m-pimage [4m[22mfilename[0m
+            Use the named xbm  or  xpm  file  for  texturing  the  planet  for
+            [4mglplanet.[24m   Use  BUILTIN  as  filename for the builtin image taken
+            from Xearth.
+
+       [1m-/+roll[0m
+            Turn on and off rolling of the planet for [4mglplanet.[0m
+
+       [1m-/+rotate[0m
+            Turn on and off rotation of the planet for [4mglplanet.[0m
+
+       [1m-/+texture[0m
+            Turn on and off texturing of the planet for [4mglplanet.[0m
+
+       [1m-/+stars[0m
+            Turn on and off showing stars in the background for [4mglplanet.[0m
+
+       [1m-/+decay[0m
+            Turn on and off decaying orbits for [4mgrav.[0m
+
+       [1m-/+trail[0m
+            Turn on and off decaying trail of dots for [4mgrav.[0m
+
+       [1m-/+ellipse[0m
+            Turn on and off ellipse format in [4mhelix.[0m
+
+       [1m-/+martin[0m
+            Turn on and off Barry Martin's square root [4mhop.[24m   [1m-/+popcorn  [22mTurn
+            on and off Clifford A. Pickover's popcorn [4mhop.[0m
+
+       [1m-/+ejk1...ejk6[0m
+            Turn on and off Ed J. Kubaitis' [4mhops.[0m
+
+       [1m-/+rr[0m
+            Turn on and off Renaldo Recuerdo's [4mhop.[0m
+
+       [1m-/+jong[0m
+            Turn on and off Jong's [4mhop.[0m
+
+       [1m-/+sine[0m
+            Turn on and off Barry Martin's sine [4mhop.[0m
+
+       [1m-pattern [4m[22m<pattern>[0m
+            Allows one to set the pattern for [4mjuggle.[0m
+
+       [1m-tail [4m[22mnum[0m
+            Minimum Trail Length for [4mjuggle.[0m
+
+       [1m-/+real[0m
+            Turn  on/off  real-time  juggling  for [4mjuggle.[24m  [1mDeprecated.  [22mThere
+            should be no need to turn off real-time  juggling,  even  on  slow
+            systems.  Adjust speed using [1m-count[22m.
+
+       [1m-/+describe[0m
+            Turn on/off pattern descriptions in [4mjuggle.[0m
+
+       [1m-/+balls[0m
+            Turn on/off Balls in [4mjuggle.[0m
+
+       [1m-/+clubs[0m
+            Turn on/off Clubs in [4mjuggle.[0m
+
+       [1m-/+torches[0m
+            Turn on/off Flaming Torches in [4mjuggle.[0m
+
+       [1m-/+knives[0m
+            Turn on/off Knives in [4mjuggle.[0m
+
+       [1m-/+rings[0m
+            Turn on/off Rings in [4mjuggle.[0m
+
+       [1m-/+bballs[0m
+            Turn on/off Bowling Balls in [4mjuggle.[0m
+
+       [1m-/+planetary[0m
+            Turn on and off planetary gears in [4mgears.[0m
+
+       [1m-planetsize [4m[22mnum[0m
+            Sets  the  size of the screen for planetary option in [4mgears.[24m  This
+            is for machines with slower CPU. (Set to 0 for full screen).
+
+       [1m-/+disconnected[0m
+            Turn on and off disconnected pen movement in [4mkaleid.[0m
+
+       [1m-/+alternate[0m
+            Turn on and off alternate rotated display mode [4mkaleid.[0m
+
+       [1m-/+quad[0m
+            Turn on and off quad mirrored/rotated mode similar to  size  4  in
+            [4mkaleid.[0m
+
+       [1m-/+oct[0m
+            Turn  on  and  off  oct mirrored/rotated mode similar to size 8 in
+            [4mkaleid.[0m
+
+       [1m-/+linear[0m
+            Turn on and off Cartesian/Polar coordinate mode in [4mkaleid.[0m
+
+       [1m-/+conway[0m
+            Turn on and off John Conway's original Life rule S23/B3 [4mlife.[0m
+
+       [1m-/+highlife[0m
+            Turn on and off David Bell's HighLife rule S23/B36 [4mlife.[0m
+
+       [1m-/+daynight[0m
+            Turn on and off Nathan Thompson's Day and Night rule  S34678/B3678
+            [4mlife.[0m
+
+       [1m-/+callahan[0m
+            Turn on and off Paul Callahan's S2b34/B2a hexagonal [4mlife.[0m
+
+       [1m-/+andreen[0m
+            Turn on and off Bob Andreen's S2a2b4a/B2a3a4b hexagonal [4mlife.[0m
+
+       [1m-/+trilife[0m
+            Turn on and off Carter Bays' S34/B45 triangular [4mlife.[0m
+
+       [1m-/+trilife1[0m
+            Turn on and off Carter Bays' S45/B456 triangular [4mlife.[0m
+
+       [1m-/+trilife2[0m
+            Turn on and off Carter Bays' S23/B45 triangular [4mlife.[0m
+
+       [1m-/+totalistic[0m
+            Turn  on and off totalistic rules for [4mlife1d.[24m  If this is off then
+            it follows rules of the LCAU collection.  These rules may  not  be
+            symmetric and are more general.
+
+       [1m-/+additive[0m
+            Turn on and off additive functions mode in [4mlisa.[0m
+
+       [1m-/+dissolve[0m
+            Turn on and off disolving state in [4mloop.[0m
+
+       [1m-/+evolve[0m
+            Turn on and off Evolving Loops in [4mloop.[0m
+
+       [1m-/+langton[0m
+            Turn on and off Langton Loops for [4mloop.[0m
+
+       [1m-/+sheath[0m
+            Turn on and off sheath extension for [4mloop.[0m
+
+       [1m-/+wrap[0m
+            Turn on and off wrapping of borders for [4mloop.[0m
+
+       [1m-increment [4m[22mnum[0m
+            Sets the option for increasing orders in [4mmandelbrot.[0m
+
+       [1m-/+alpha[0m
+            Turn  on  and  off  interior displaying level of closest return in
+            [4mmandelbrot.[0m
+
+       [1m-/+binary[0m
+            Turn on and off binary decomposition color modulation  in  [4mmandel-[0m
+            [4mbrot.[0m
+
+       [1m-/+dem[0m
+            Turn on and off Distance Estimator Method (instead of escape time)
+            in [4mmandelbrot.[0m
+
+       [1m-/+index[0m
+            Turn on and off interior displaying iteration of closest return in
+            [4mmandelbrot.[0m
+
+       [1m-/+lyap[0m
+            Turn  on  and  off interior displaying according to an estimate of
+            the Lyapunov exponent in [4mmandelbrot.[0m
+
+       [1m-/+pow[0m
+            Turn on and off adding z^z in [4mmandelbrot.[0m
+
+       [1m-/+sin[0m
+            Turn on and off adding sin(z) in [4mmandelbrot.[0m
+
+       [1m-/+noants[0m
+            Turn off and on ants in [4mmoebius.[0m
+
+       [1m-/+solidmoebius[0m
+            Turn on and off solid Mobius strip in [4mmoebius.[0m
+
+       [1m-/+atoms[0m
+            Turn on and off the drawing of spheres for the atoms in [4mmolecule.[0m
+
+       [1m-/+bbox[0m
+            Turn on and off showing the molecules in a blue box in [4mmolecule.[0m
+
+       [1m-/+bonds[0m
+            Turn on and off the drawing of the atomic bonds in [4mmolecule.[0m
+
+       [1m-molecule [4m[22mfilename[0m
+            Read a molecule structure from a pdb file in [4mmolecule.[0m
+
+       [1m-/+labels[0m
+            Turn on and off the labeling of the atoms in [4mmolecule.[0m
+
+       [1m-spin[4m[22m{x|y|z}[0m
+            Set the axis for molecule rotation in [4mmolecule.[24m   The  default  is
+            "XYZ".
+
+       [1m+spin[0m
+            Turn off the molecule rotation in [4mmolecule.[0m
+
+       [1m-/+titles[0m
+            Turn on and off the molecule description in [4mmolecule.[0m
+
+       [1m-/+wander[0m
+            Turn  on  and  off the moving of the molecule on a sinoid curve in
+            [4mmolecule.[24m  Turn on and off movements in [4mfire.[0m
+
+       [1m-/+ammann[0m
+            Turn on and off lines for [4mpenrose.[0m
+
+       [1m-increment [4m[22mvalue[0m
+            Allows fine adjustments to order in [4mmandelbrot.[0m
+
+       [1m-/+erase[0m
+            Turn on and off erasing for [4mspline.[24m  If this option is on,  [4mcycles[0m
+            is  divided by 64 to compute the number of lines, so as to be com-
+            patible when using -fullrandom.
+
+       [1m-factory [4m[22mnum[0m
+            Number of extra factory parts in [4mpipes.[0m
+
+       [1m-/+fisheye[0m
+            Turn on if you want a zoomed-in view of [4mpipes.[0m
+
+       [1m-/+tightturns[0m
+            Turn on if you want the [4mpipes[24m to bend more often.
+
+       [1m-/+rotatepipes[0m
+            Turn on if you want the pipe system rotated in [4mpipes.[0m
+
+       [1m-/+complete[0m
+            Turn on or off complete graph morphing in [4mqix.[0m
+
+       [1m-msg [4m[22mtextstring[0m
+            Allows one to pass different explosion  elements  to  [4mpyro2.[24m   The
+            explosion types is one of &0, &1, ... &9, &a, ... &f each of which
+            presents a different type of explosion.  Normal text can be  sent,
+            the string may contain blanks if quoted.  An operation system logo
+            will be shown, if the # sign is sent.
+
+       [1m-fnt [4m[22mfont[0m
+            Allows one to pass different elements to [4mpyro2.[0m
+
+       [1m-size[xyz] [4m[22mnum[0m
+            Number represents the number of cubies on the x,  y,  or  z  axis.
+            Negative  numbers offer randomness from 2 to the absolute value of
+            the number.  [4mstar.[0m
+
+       [1m-/+hideshuffling[0m
+            Turn on or off hidden shuffle phase for [4mrubik[24m and [4mskewb.[0m
+
+       [1m-/+border[0m
+            Turn on or off borders in [4mshape.[0m
+
+       [1m-/+shadowing[0m
+            Turn on or off shadowing in [4mshape.[0m
+
+       [1m-/+stippling[0m
+            Turn on or off stippling in [4mshape.[0m
+
+       [1m-intensity [4m[22mvalue[0m
+            Set the brightness (default 2185) of the sierpinski structure  for
+            [4msierpinski3d.[0m
+
+       [1m-maxdepth [4m[22mvalue[0m
+            Set  the  maximum depth (up to 10) of the sierpinski structure for
+            [4msierpinski3d.[0m
+
+       [1m-speed [4m[22mvalue[0m
+            Determines after how much steps the  depth  changes  for  [4msierpin-[0m
+            [4mski3d.[0m
+
+       [1m-trek [4m[22mnum[0m
+            If  its  a high number you will see the space ship all the time in
+            [4mstar.[0m
+
+       [1m-/+rock[0m
+            Turn on and off rocks for [4mstar.[24m  If this is  off,  stars  will  be
+            seen instead.
+
+       [1m-/+straight[0m
+            Turn on if [4mstar[24m gets you motion sick.
+
+       [1m-cyclepeed [4m[22mnum[0m
+            Set speed of cycling in [4mstarfish.[0m
+
+       [1m-rotation [4m[22mnum[0m
+            Set rotation velocity in [4mstarfish.[0m
+
+       [1m-thickness [4m[22mnum[0m
+            Set thickness in [4mstarfish.[0m
+
+       [1m-/+rock[0m
+            Turn on and off blob for [4mstarfish.[0m
+
+       [1m-spinspeed [4m[22mnum[0m
+            Set speed of rotation, in degrees per frame for [4msuperquadrics.[0m
+
+       [1m-/+bonus[0m
+            Turn on in [4mtetris[24m to see 5 square bonus pieces.
+
+       [1m-/+well[0m
+            Turn on in [4mtetris[24m to see welltris.
+
+       [1m-ttfont [4m[22mfilename[0m
+            Sets the True Type font file (or font directory) used for [4mtext3d[0m
+
+       [1m-extrusion [4m[22mnum[0m
+            Sets length of the text extrusion for [4mtext3d[0m
+
+       [1m-rot_amplitude [4m[22mfloat[0m
+            Sets rotation amplitude value of each letter for [4mtext3d[0m
+
+       [1m-rot_frequency [4m[22mfloat[0m
+            Sets rotation frequency for [4mtext3d[0m
+
+       [1m-/+no_split[0m
+            Turn on and off word splitting for [4mtext3d[0m
+
+       [1m-ttanimate [4m[22mfunction_name[0m
+            Sets  the  animation function used for [4mtext3d.[24m  Currently one of :
+            Random   FullRandom   Default   Default2   None    Crazy    UpDown
+             Extrude  RotateXY  RotateYZ  Frequency  Amplitude
+
+       [1m-speed [4m[22mkm/h[0m
+            The speed for all planes in km/h for [4mxcl.[0m
+
+       [1m-frametime [4m[22mmicroseconds[0m
+            The  time for one frame on the screen. This time is used to calcu-
+            late the delay time and depends on the speed of the X  server  for
+            [4mxcl.[0m
+
+       [1m-line_length [4m[22mmm[0m
+            The distance between the pilot and the plane for [4mxcl.[0m
+
+       [1m-spectator [4m[22mmm[0m
+            The distance between spectator and pilot. It should be grater than
+            the line_length and the half wing width of the  plane  to  be  not
+            dangerous for the spectator for [4mxcl.[0m
+
+       [1m-viewmodel[0m
+            Shows an animated view of one model for [4mxcl.[0m
+
+       [1m-/+oldcolor[0m
+            Sets  the  colors for the first two planes fixed to red and yellow
+            in [4mxcl.[0m
+
+       [1m-xcldebug[0m
+            Shows some additional timing information to  make  sure  that  the
+            calibrate procedure goes right in [4mxcl.[0m
+
+       [1m-automatic[0m
+               The auto scale for automatic fit into the window is [4mDe[24mactivated
+               with this option for [4mxcl.[0m
+
+       [1m-randomstart[0m
+            Use a random start point for models at startup for [4mxcl.[0m
+
+       [1m-duration [4m[22mseconds[0m
+            Allows one to set a duration for a mode in [4mrandom.[24m  Duration of  0
+            is defined as infinite.
+
+       [1m-/+fullrandom[0m
+            Turn on/off randomness options within modes in [4mrandom.[24m  Not imple-
+            mented for all mode options.
+
+       [1m-modelist [4m[22mtextstring[0m
+            Allows one to pass a list of files to randomly display to  [4mrandom.[0m
+            "all"  will  get  all  files  but blank (and bomb if compiled in).
+            "all,blank" will get all modes.  "all,-image  bounce,+blank"  will
+            get  all modes excluding image and bounce modes.  "bug wator" will
+            get only bug and wator.  "allgl" will get only  the  GL  modes  if
+            compiled  in, all-allgl will get all excluding the GL modes, "all-
+            nice" will weed out high cpu usage modes (as well as  hackers  and
+            gl  modes).  "allxpm" will get all modes that use xpm.  "allwrite"
+            will get all modes that take advantage of writable colormaps  (not
+            including  xpm).  "all3d" will get all the modes that support this
+            option.  "allmouse" will get all  the  modes  that  support  mouse
+            interaction.   Similarly,  "allautomata" for automata modes, "all-
+            fractal" for fractal  modes,  "allgeometry"  for  geometry  modes,
+            "allspace"  for  space  modes.   The random mode itself can not be
+            referenced.
+
+       [1m-/+sequential[0m
+            Turn on non-random [4mrandom[24m option.
+
+
+[1m**WARNING**[0m
+       [1mxlock [22mcan appear to hang  if  it  is  competing  with  a  high-priority
+       process  for  the CPU. For example, if [1mxlock [22mis started after a process
+       with 'nice -20' (high priority), [1mxlock [22mwill take   considerable  amount
+       of time to respond.
+
+
+[1mSHADOW PASSWORDS[0m
+       If the machine is using a shadow password system, then [1mxlock [22mmay not be
+       set up to get the real password and so must be given one  of  its  own.
+       This  can be either on the command line, via the [1m-cpasswd [22moption, or in
+       the file [1m$HOME/.xlockrc[22m, with the first  taking  precedence.   In  both
+       cases  an  encrypted password is expected (see makekey(8)).  If neither
+       is given, then [1mxlock [22mwill prompt for a password and will use that, also
+       storing an encrypted version of it in [1m$HOME/.xlockrc [22mfor future use.
+
+
+[1mXLOCK AND SSH-AGENT[0m
+       If  you  use ssh-agent(1) to avoid entering a passphrase every time you
+       use one of your ssh(1) private keys, it's  good  security  practice  to
+       have  ssh-agent  forget  the  keys before you leave your terminal unat-
+       tended.  That way, an attacker who takes over your  terminal  won't  be
+       able to use your private ssh keys to log in to other systems.  Once you
+       return to your terminal, you can enter the passphrase  and  re-add  the
+       keys  to ssh-agent.  There are a couple of ways in which [1mxlock [22mcan help
+       to automate this process.  Firstly, the [4mstartCmd[24m option allows [1mxlock [22mto
+       be  configured  to  run 'ssh-add -D' every time you lock the screen, so
+       that your keys  are  automatically  deleted  from  ssh-agent.   If  the
+       passphrase  on  your  ssh keys is the same as your password, then [1mxlock[0m
+       can also be made to re-add the keys to ssh-agent when  you  unlock  the
+       screen,  via the [4mpipepassCmd[24m option.  This requires a bit of scripting,
+       as the command must read your password from  standard  input  and  then
+       automate  the interaction with ssh-add to re-add the keys.  There is an
+       example of such a script in the [1mxlock [22mdistribution - see [4metc/xlockssh*[0m
+
+
+[1mBUGS[0m
+       "kill -KILL [1mxlock [22m" causes the server that was locked to  be  unusable,
+       since all hosts (including localhost) were removed from the access con-
+       trol list to lock out new X clients, and since [1mxlock  [22mcould  not  catch
+       SIGKILL,  it terminated before restoring the access control list.  This
+       will leave the X server in a state where [4m"you[24m [4mcan[24m [4mno[24m [4mlonger[24m [4mconnect[24m  [4mto[0m
+       [4mthat[24m [4mserver,[24m [4mand[24m [4mthis[24m [4moperation[24m [4mcannot[24m [4mbe[24m [4mreversed[24m [4munless[24m [4myou[24m [4mreset[24m [4mthe[0m
+       [4mserver."[24m            -From the X11R4 Xlib Documentation, Chapter 7.
+       NCD terminals do not allow xlock to  remove  all  the  hosts  from  the
+       access  control list.  Therefore you will need to use the "-remote" and
+       "-allowaccess" switches.  If you happen to run  without  "-allowaccess"
+       on an NCD terminal, [1mxlock [22mwill not work and you will need to reboot the
+       terminal, or simply go into the SETUP  menus,  under  'Network  Parame-
+       ters', and turn off TCP/IP access control.
+
+[1mSEE ALSO[0m
+       X(1), Xlib Documentation.
+
+
+[1mAUTHOR[0m
+       Maintained by:
+              David A. Bagley, <[4mbagleyd[24m [4mAT[24m [4mverizon.net[24m>
+
+       The latest version is currently at:
+              [4mhttp://www.sillycycle.com/xlock[0m
+              [4mftp://ibiblio.org/pub/Linux/X11/screensavers[0m
+
+       Original Author:
+              Patrick J. Naughton, <[4mnaughton[24m [4mAT[24m [4meng.sun.com[24m>
+              Mailstop 21-14
+              Sun Microsystems Laboratories, Inc.
+              Mountain View, CA  94043
+              415/336-1080
+
+       with many additional contributors.
+
+
+[1mCOPYRIGHT[0m
+       Copyright (c) 1988-1991 by Patrick J. Naughton
+       Copyright (c) 1993-2016 by David A. Bagley
+
+       Permission  to  use, copy, modify, and distribute this software and its
+       documentation for any purpose and without fee is hereby  granted,  pro-
+       vided  that  the  above  copyright notice appear in all copies and that
+       both that copyright notice and this permission notice  appear  in  sup-
+       porting documentation.
+
+       This file is provided AS IS with no warranties of any kind.  The author
+       shall have no liability with respect to the infringement of copyrights,
+       trade  secrets  or any patents by this file or any part thereof.  In no
+       event will the author be liable for any lost revenue or profits or
+        other special, indirect and consequential damages.
+       The original BSD daemon is Copyright (c) 1988 Marshall  Kirk  McKusick.
+       All Rights Reserved.
+       DEC,  HP,  IBM,  Linux,  SCO,  SGI, and Sun icons have their respective
+       copyrights.
+
+
+
+X11R6 Contrib                  13 September 2016                      XLOCK(1)

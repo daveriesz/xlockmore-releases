@@ -1,0 +1,544 @@
+xlockmore-3.9 as of 5 June 1996, the maintained version of xlock
+Adapted from Patrick J. Naughton's original xlock
+Primary site: ftp.x.org in /contrib/applications
+Secondary site: sunsite.unc.edu in /pub/Linux/X11/xutils/screensavers
+Maintainer: David A. Bagley <bagleyd@hertz.njit.edu>
+
+3.9
+  All modes (except eyes.c) have been updated to use less global variables.
+    Also updated xlockmore to ANSI C by GNU's protoize.
+  demon.c updated to be faster.  Although it is now significantly more
+    complicated.
+  ant.c and demon now have runtime options.   -neighbors 6 or 4 (default = 4)
+    -gridsize (170 default)  (In ant, when neighbors = 6 it is called bees.
+    Not much is known about these criters.  They do not seem to exibit the
+    highway building activity found in normal ants, but otherwise they
+    behave pretty similar.)
+  flag mode thanks to Charles Vidal <vidalc@univ-mlv.fr>.
+  The Lissajous worm (lissie mode) thanks to Alexander Jolk
+    <ub9x@rz.uni-karlsruhe.de>.
+  Shape mode now has triangles.  Also now looks better when minimized.
+    From an idea in REC (Recreational & Educational Computing).
+  Random mode now tells you which mode is running when run with -v.
+    Added VERBOSE stuff to life, life3d, life1d, and ant.
+  Changed rock.c to use blue by default for the left eye.  All 3D glasses
+    I have seen use blue.
+  Fixed swirl so it would not swirl "white".  Even if it is not a bg or fg
+    color.  This made the border around the little window change color.
+  From Ron Hitchens <ron@utw.com>:
+    patch for middle button so that it will change locks even if duration
+      is 0 in random mode.
+    patch for window title noticable when used with the -inwindow option.
+    fixed up demon.c
+  Random access to raster files by giving a directory thanks to Jouk
+    Jansen <joukj@alpha.chem.uva.nl>.  If UNIX, give directory followed by
+    a "/", also it may try to put "." as an image file.
+  When xlock is compiled with shadow passwords it will still work on non
+    shadowed systems that use elf, thanks to Marek Michalkiewicz
+    <marekm@i17linuxb.ists.pwr.wroc.pl>  Compilation with HAS_SHADOW is
+    forced on Linux with ELF (even if shadow passwording is not used).
+    This will facilitate a migration towards shadow passwording.
+  For the sake of completeness, xbm files can now be read in at run-time.
+    Courtesy of John Bradley's xv(xvbm.c), used by permission.
+  "xlock -nolock -lockdelay 1" should no longer crash
+
+3.8
+  system call for sounds using DEF_PLAY thanks to Milco Numan
+    <milcon@krim.chem.uva.nl>
+  Used GNU's indent to reformat all *.c and *.h files.  It may have
+    screwed up some comments. I used:
+    -bap -nbacc -bad -nbc -br -bs -c33 -cd33 -ncdb -ce
+    -d0 -di12 -neei -fc1 -i8 -ip8 -l79 -lp -npcs -psl -nsc -nsob
+    -cli8 -cs -cp1
+  Multiple root accounts for allowroot.  Thanks to Lewis Muhlenkamp
+    <lewism@tt.comm.mot.com>.
+  Better make.com file for for VMS thanks to Jouk Jansen and the
+    author of XVMSUTILS, Trevor Taylor <taylort@decus.com.au>.
+  -display fix for VAX thanks to Jouk Jansen.
+  eyes mode, revamp to eliminate need for global variables in modes,
+    new hooks (release and refresh), and middle button for "Next" in
+    random mode, thanks to Ron Hitchens <ron@utw.com>.
+    This now allows for many things to be cleaned up.  Due to the number
+    of modes, it will take a few releases.  See HACKERS.GUIDE.
+  puzzle mode thanks to Heath Rice <hrice@netcom.com> & Jouk Jansen
+    <joukj@alpha.chem.uva.nl>.
+  Raster files (for puzzle.c and image.c) thanks to Tobias Gloth
+    <gloth@math.uni-muenster.de> & Jouk Jansen <joukj@alpha.chem.uva.nl>.
+    Background is now black when used with -install.
+  swirl for 16 bytes per pixel patch <davidm@azstarnet.com>
+  bouboule mode memory leaks fixed thanks to Jeremie Petit <jpetit@essi.fr>.
+  maze's dead ends are now filled in.
+  More syslog stuff for notifying failures in unlocking xlock Andrew Sammut
+    <sammut@dstc.qut.edu.au>.
+  blank now uses the power-down sleep mode if available, thanks to Ron
+    Hitchens <ron@utw.com>.
+
+3.7
+  HP bug timing bug fixed thanks to Ron Hitchens <ron@utw.com>.
+  3D mode for rock thanks to <theiling@coli.uni-sb.de>.
+    Get out your 3D glasses, Red on right and Green on left.
+  added compile time option for spline, FOLLOW to erase old splines
+    like Qix thanks to Richard Duran <rduran@cs.utep.edu>
+  petal now works with -inroot .
+  CDE DT saver thanks to Trevor Bourget <trevor@thomsoft.com>
+    see Imakefile and README.
+  bouboule mode added, thanks to Jeremie Petit <jpetit@essi.fr>.
+    bouboule fixed for VMS and TrueColor.
+
+3.6
+  Many patches, thanks to Ron Hitchens <ron@utw.com>.
+    xlock now appears over the screensaver, passwd.c reorganized,
+    new event loop in xlock.c, new icons in bitmaps, updated clock
+    and triangle, and resource parsing fixed for "xlock".
+  pedal renamed to petal.
+  Clock mode updated to change in size thanks to original author
+    Petit Jeremie <jpetit@essi.fr>.
+  More context handling stuff for DCE thanks to Terje Marthinussen
+    <terjem@cc.uit.no>.
+  slip mode added thanks to Scott Draves <spot@cs.cmu.edu>
+    with a patch from <joukj@alpha.chem.uva.nl>.
+  patch for -messagesfile code favored early quotes and new event loop
+    compatability thanks to <joukj@alpha.chem.uva.nl>.
+  XLock.ad and xlock.man updated to be more consistent.
+  ultrix fix for strdup thanks to Erik Bertelsen <erik@sockdev.uni-c.dk>.
+  invalid sound added thanks to <J.M.Box@dcs.warwick.ac.uk>
+  Thanks to <mccomb@interport.net> for helping to debug marquee and nose
+    on multiheaded machines.
+ 
+3.5
+  Fixed my goof on worm.c.
+  vms_play fixed for nonexisting sound files and -messagesfile code
+    updated thanks to <joukj@alpha.chem.uva.nl>.
+  marquee now more random and memmove no longer used.
+  marquee fixed for multiheaded machines thanks to Caleb Epstein
+    <epstein_caleb@jpmorgan.com>.
+  Random number generator fixed for 64 bit "long" thanks to Scott McCoy
+    <smccoy@dr3w.ess.harris.com>.
+
+3.4
+  rplay patch thanks to Simon Banks <sbanks@cellnet.co.uk>.  xlock now
+    has sound where available.  Edit your favorite makefile.
+  2 new modes thanks to Tobias Gloth <gloth@math.uni-muenster.de>.
+    marquee (I changed a lot) shows text on the screen, similar to nose
+    triangle, (colormaping removed) similar to mountain
+  nose text functions removed to utils.c
+  image.c now with -imagefile option (only with XPM).
+  rect.c name changed to shape.c.
+  swirl.c and world.c fixed for multiscreens, thanks to Grant McDorman
+    <grant@isgtec.com>.
+  A better way of handling fortunes from a file, thanks to Jouk Jansen
+    <joukj@alpha.chem.uva.nl>.  To try use -messagesfile fortune.dat.
+    Also contributed vms_play.c and a new make.com file.
+  KERBEROS patch thanks to Omar Siddique <omar@gl.umbc.edu> for sending
+    and testing it (patch author unknown).
+
+3.3
+  LIFE_5655 and LIFE_6767 compile time options for life3d.
+  ultrix passwd bug fix thanks to Erik Bertelsen <erik@sockdev.uni-c.dk>.
+  nose now has a font option and is fixed for multiscreens.
+  Stupid memory leak in ant fixed.  Now random colors.
+  swirl now needs to be used with -install to look right,
+    thanks to Heath A. Kehoe <hakehoe@icaen.uiowa.edu>.
+  Patch for AIX thanks to Jouk Jansen <joukj@crys.chem.uva.nl>.
+  Color pixmaps for bat from <patol@info.isbiel.ch>.
+  image pixmaps now default to bitmaps if xpm fails, thanks to
+    <Markus.Zellner@anu.edu.au>.
+  flame crashed xlock when using random mode on Linux, fixed.
+  Numerous fixes for multiscreens incl: bat, bounce, rect, hyper, life1d,
+    forest, laser, mountain, and braid.  Also xlock.c patched or second
+    screen would have a black and white display.
+    Purify found memory leaks in swirl, mountain, laser, hyper, maze.
+    Thanks to <mccomb@interport.net>.
+  New option -lockdelay #, for those who were bothered by xautolock
+    locking the screen when you you did not want it, now just hit
+    return (within a specified number of seconds) to get the screen back.
+    This option is intended to be used with xautolock.
+  worm now has no limit on the number of worms.
+  pyro bug fixed for large batchcount (500-2000), thanks to
+    Minoura Makoto <minoura@flab.fujitsu.co.jp>.
+
+3.2
+  Doug McLaren <dougmc@comco.com> noticed a big security hole in
+    nose.c when xlock is setuid to root.  Now, after the password is
+    read, it gives up root, thanks to Heath A. Kehoe
+    <hakehoe@icaen.uiowa.edu>.
+  DCE Authentication patch added.
+  Thanks to Jouk Jansen <joukj@crys.chem.uva.nl> for clearing up
+    a timing problem using -DOLD_EVENT_LOOP .
+
+3.1
+  Multipatch by Heath A. Kehoe <hakehoe@icaen.uiowa.edu> it includes
+    speed up in helix, random mode now switches modes, input to mode
+    is now customizable (see random.c), and a DCE authentication patch
+    (based on work by Phil O'Connell <philo@icaen.uiowa.edu>).  Also
+    usleep was dropped in favor of a new timing mechanism.  It is still
+    available using -DOLD_EVENT_LOOP (VMS still uses it by default).
+  braid.c thanks to John Neil <neil@math.idbsu.edu>.
+  helix now looks even better.  I found a bug in the translation from
+    xscreensaver.
+  nose.c may still need a little work (its a bit slow).  Taken from 2
+    sources xnlock and xscreensaver's noseguy.  It no longer leaves
+    dust on the screen as well (the bitmaps are shifted up by one pixel).
+  pedal.c taken from xscreensaver.
+  Patches for OSF1_ENH_SEC but it unfortunately seems to need more work.
+  Idea to have the mode.h defaults used thanks to Roland Bock
+    <exp120@physik.uni-kiel.d400.de>.
+  closedown patch for xdm use from Janet Carson's xclosedown
+    with modifications from Anthony Thyssen <anthony@cit.gu.edu.au>.
+  image.c updated to use xbm if using a monochrome monitor or using -mono.
+  life1d, bug.c, ant.c, and demon.c added from Scientific American's
+    Computer Recreations.
+  hop.c now has Peter de Jong's hop.  Half the time its boring but
+    the other half of the time its great.
+  A better patch from Peter Schmitzberger <schmitz@coma.sbg.ac.at> for
+    spiral (a bug that I introduced).
+
+3.0
+  Patch from Peter Schmitzberger <schmitz@coma.sbg.ac.at> for maze and image.
+  Thanks to Shane Watts <shane@phobes.mlckew.edu.au> for helping me with
+    Linux shadowing.
+  world.c backward spinning jump fixed by Neale Pickett <zephyr@nmt.edu>.
+  laser.c bug (that I introduced) solved by Heath A. Kehoe
+    <hakehoe@icaen.uiowa.edu>.
+  Edited rect so that it does ellipses as well, like After Dark.
+    I should of renamed it right?
+  Got rid of "+=" in Imakefile because HP, AIX, and Ultrix have
+    trouble with it.  Still used by some systems where there seems to
+    be no trouble.
+  passwd.c extracted from xlock.c and xlock.h .  May have cured some
+    bugs (like a BIG network security bug) but most likely broke some
+    systems.  Thanks for the many people who gave feedback during
+    the BETA test.
+  
+2.10
+  xlockrc password for more user control of xlock.  Author unknown.
+    It is a compile-time option, see Imakefile and README.
+    Moved usleep.c and hsbramp.c to utils.c and logout.c to opt.c .
+    Split out mode.h from resource.c .
+  Changes of Skip_Burrell@sterling.com were incorporated into image.c .
+    Not sure how to get pixmaps to randomize color and -mono does
+    not work for pixmaps.  See Imakefile and README.
+  -allowroot now works on Solaris2.x.
+  Clock mode added, thanks to Jeremie Petit <petit@simula.unice.fr>.
+  laser and mountain modes added, similar to After Dark's version, and
+    also forest mode thanks to Pascal Pensa <pensa@aurora.unice.fr>.
+  Updated maze and helix after seeing mountain mode.  Don't have to
+    wait a second to enter password. :)
+  Now provide random number generator.  Thanks to Mike Arras
+    <arras@intertv.com>.  I changed RAND to LRAND.
+  Due to overwhelming demand, the old flame is back... well OK its
+    slightly modified.
+  Patch for SUNOS_ADJUNCT_PASSWD, thanks to Dale A. Harris
+    <rodmur@ecst.csuchico.edu>.
+  Imakefile reorganized for AIX.
+
+2.9
+  "make install.man" should now work for imake users (if you would like
+   it to work for Makefile.hp ...  mail me the patch).  
+  Unbundled SunC warnings removed in bitmap files, maze, grav, life,
+    and swirl.
+  Swirl patched to work sensibly with TrueColor displays, thanks to
+    Steve Early <sde1000@cam.ac.uk>
+  Rock mode made much better by Jeremie Petit <petit@simula.unice.fr>.
+  Imakefile reorganized by <mjacob@feral.COM> for Solaris2.x .
+  Reorganized the README and the screens are now (mostly) alphabetical
+    throughout.
+  Updated life3d to include compile-time options LIFE_5766 and LIFE_4555.
+    5766 is more like life, but 4555 (default) seems to be better.
+  I went through the lifep.zip (May 94) collection and pulled out some
+    small and interesting life forms.
+  I added another control to the screens.  "-cycles num" influences the
+    time out (it applies to about a 1/3 of the screens, see man pages).
+    For consistency, the meaning of batchcount for qix, life, life3d,
+    and rect was changed.  References to "seconds()" in the screens were
+    removed.  The length of a "cycle" depends on "delay".
+  Multidisplay bug fix for maze, thanks to <epstein_caleb@jpmorgan.com>.
+  AIXV3 with AFS, thanks to <chuck_hines@VNET.IBM.COM>.
+
+2.8
+  No more bomb.c, if you think xlock needs it, let the maintainer know.
+  full_lock rewritten by Dale A. Harris <rodmur@ecst.csuchico.edu> to
+    handle non-login groups as well.
+  fixed a bug in wator, introduced in 2.7.
+  fixed nanosleep bug for delays of 1 second or more.  Nanosleep is now
+    used by default on Solaris.  The Imakefile will have to be modified
+    if using Solaris 2.0-2.2, since nanosleep is not available.
+  I do not know why, but the logout out feature now works on Solaris.
+  Various warnings and errors fixed in make.com, resource.c, logout.c,
+    and galaxy.c for VMS.  Also fixed random generator for VMS not to
+    toggle the least significant bit.  This made worm.c look funny.
+  xlock now works on VMS/AXP thanks to <JOUKJ@CRYS.CHEM.UVA.NL>.  One
+    will have to uncomment sections in make.com .  Also fixed some
+    AIX problems.
+  Modes spiral and geometry thanks to Darrick Brown <dbrown@cs.hope.edu>.
+    Batchcount in maze and spline were changed to behave similarly.
+  A patch from Heath Rice <hrice@netcom.com> for a better way to handle
+    batchcount, delay, and saturation.
+  I went through xlife3.0 huge collection and added "suitable" lifeforms.
+
+2.7
+  sgi patches and logos from Dave Truesdell <truesdel@nas.nasa.gov>.
+  flame bug fixed thanks to <spot@cs.cmu.edu> and
+    <M.R.Dobie@ecs.soton.ac.uk>.
+  MANY patches from Heath A. Kehoe <hakehoe@icaen.uiowa.edu> include:
+    The long awaited HP patch.  It appears there was a bug in HP's XFlush
+    function.  So XSync was substituted.  HP_PASSWDETC patch.
+    maze, swarm, and worm -mono now look better.
+    Many changes to the Imakefile, new compile time features ...
+    including a logout button for labs (this appears to be better
+    implementation than the bomb mode (much of the bomb code has been
+    reused)) -install option to allow xlock to install its own colormap
+    if it runs out of colors.
+  Thanks to <slouken@virtbrew.water.ca.gov> for yet another option:
+    grabmouse for compatablilty with xscreensaver.  So you would set
+    your apps-defaults file for xscreensaver like:
+
+*programs:      xlock -nolock +grabmouse -mode random
+
+  Updated life3d to include shooting gliders.
+  BSD and Linux icons slightly modified.  Also new ships for life.
+  Compile time options HAS_RAND, HAS_RANDOM, and HAS_RAND48, and
+    updated the sccsid so `what` will give you something meaningful.
+
+2.6
+  Created a HAS_USLEEP and a USE_VROOT switch.
+    There were numerous reports of the incompatibility with tvtwm,
+    (also problems with windows with StickyAbove set to true and
+    swirl), read the README section on that.
+  Thanks to Chris Ross <cross@va.pubnix.com>, maintainer of tvtwm, for
+    fixing various bugs; make depend for R5 and less, life3d should not
+    have malloc.h, and a time-elapsed patch. 
+  A few new life forms for life.c.  Anyone know what SMILEY is really
+    supposed to look like?  :)
+  Revised -inroot does not lock screen, as this is done better with the
+    following patch, and as someone pointed out, its not intuitive.
+  Thanks to Tim Medley for sending the -geometry patch of Mike Peercy
+    <peercy@crhc.uiuc.edu>.  Many of the modes will fail if the windows
+    are far from square or are too small.  You can place Xlock off the
+    screen, for example,
+      xlock -enablesaver -mode blank -geometry +1152+0
+    puts the window off the visible screen on a Sun.
+  A new version of flame.c from the original author Scott Draves
+    <spot@cs.cmu.edu>.
+  Something really devilish for BSD (new icons) thanks to J Wunsch
+    <j@uriah.sax.de>, but they have been modified.  I also created a
+    Linux icon.
+  A patch for Ultrix systems (at least DECstations) running enhanced     
+    security thanks to Chris Fuhrman <cfuhrman@vt.edu> and friend.
+  Multidisplay bug fix for life3d and wator, thanks to
+    <epstein_caleb@jpmorgan.com>.
+  Life3d on a monochrome monitor looks a little better. -mono was
+    working right.
+
+2.5
+  A patch for swirl for fixed color maps (more colorful) and the
+    image now spirals outwards from the center with a fixed number of
+    points drawn every iteration, thanks to <M.R.Dobie@ecs.soton.ac.uk>.
+  A patch for blot on dual-headed machines and nanosleep, thanks to
+    Greg Onufer <Greg.Onufer@Eng.Sun.COM>. Use nanosleep on Solaris2.3
+    and greater, examine the Imakefile and/or README for details.
+  A long needed patch for X11R5+ for -delay, -batchcount, and
+    -saturation to work thanks to Patrick D Sullivan <pds@bss.com>.
+  bomb mode patch for more flexibility thanks to Dave Shield
+    <D.T.Shield@csc.liv.ac.uk>.
+  bomb mode patch for Sun10 thanks to Nicolas Pioch <pioch@Email.ENST.Fr>.
+  modes wator and life3d added.
+  life now has a random soup pattern stolen from life3d.
+  -inroot option added, thanks to Bill Woodward <wpwood@pencom.com>.
+    Now more compatible with xscreensaver if run as
+    "xlock -mode kaleid -inroot -nolock".
+
+2.4
+  hopalong now includes a sine hop (but less likely to come up).
+  life now has new organisms. They are now better centered.  Some of
+   the nonperiodic forms were removed.
+   life's gliders now come from the edge of the screen, usually.
+  image now centers icons, for example, the hp icon is now centered.
+  blot now randomly has xsym, ysym, or both.
+  Solaris should now compile out of the box to handle shadow passwords.
+    Thanks to Alain Brossard <brossard@siisun.epfl.ch>.
+  rock, grav, rect, bat, world, bounce and swirl fix for 24 bit colors.
+  Patch for building under HP-UX with Secured Passwords, thanks to
+    Dale Harris <rodmur@ecst.csuchico.edu>.
+
+2.3
+  Now the X Logo displays if not Sun or HP.
+  "bat" mode disastrous bug fixed.  Thanks to R.K.Lloyd@csc.liv.ac.uk
+    for pointing it out.
+  -DMOUSE_MOTION switch added for those who want the Password window to
+    come up if you just moved the mouse. (Not recommended).
+  "swirl" mode was modified to check background, foreground, and black
+    so as not to cycle these colors, special thanks to Mark Dobie
+    <mrd@ecs.soton.ac.uk>.
+  -DFORCEFIXEDCOLORS switch for those who are annoyed by swirl cycling
+    its colors.
+
+2.2
+  Made more consistent with the slackware release.  XLock.ad changes
+    to rock, rotor, and foreground and background colors.
+  Fixed bug in life.c, evident in the Slackware release.
+  Minor patch for swirl on HP's due to R.K.Lloyd@csc.liv.ac.uk.
+  "bat" put back with minor changes.
+
+2.1
+  Large modifications to README.
+  Patch for building under QNX 4.2 w/ Metrolink X server, thanks to
+    Brian Campbell <brianc@qnx.com>.
+
+2.0
+  "swirl" mode was added, thanks to Mark Dobie <mrd@ecs.soton.ac.uk>.
+    WOW, but not-so-neat on monochrome monitors.
+  Patch for Solaris 2.3 for local, NIS, and NIS+ passwords, thanks to
+    <Christian.Iseli@di.epfl.ch>.
+  "image" mode was put back but random will not run it, too boring.
+  "bomb" mode was added, thanks to <D.T.Shield@compsci.liverpool.ac.uk>.
+  In order to use extra-long passwords with the Linux, changed
+    PASSLENGTH from 20 to 64.  Thanks to <slouken@virtbrew.water.ca.gov>.
+
+1.14
+  Multidisplay bug fix for rect, thanks to <epstein_caleb@jpmorgan.com>.
+  Now works on IRIX on the SGI. Thanks to <reggers@julian.uwo.ca>.
+  Now works on NetBSD. Thanks to Greg Earle <earle@isolar.Tujunga.CA.US>.
+  Now works on a Alpha 3000/400 OSF/1 V2.0. Thanks to Udo Linauer
+    <ul@eacpc4.tuwien.ac.at>.
+  "galaxy" mode was added, thanks to Hubert Feyrer
+    <hubert.feyrer@rz.uni-regensburg.de>.
+  "kaleid" mode was added, taken from the Linux version of xkaleid.
+  
+1.13
+  "timeelapsed" option was added.  Allows you to find out how long a
+    machine is locked so you can complain to an administrator.
+  Now may work on IRIX on the SGI. Thanks to Thomas Runge
+    <runge@egd.igd.fhg.de>
+  "bat" mode was added, thanks to Lorenzo Patocchi <patol@info.isbiel.ch>.
+
+1.12
+  xlock now works on Linux with shadow passwords.  Special thanks to
+    H. J. Dihu <macgyver@mcs.com>
+
+1.11
+  Shadow passwords and DES encryption are now detected by the Imakefile.
+    Victor Langeveld <vic@mbfys.kun.nl> reorganized the Imakefile for 
+    shadow passwords and crypt.  Now should compile "right out of the
+    box" (although there are still problems on Solaris 2.3).
+  Patch to fix sudden rotation changes in rock from Yoshiaki Kasahara
+    <kasahara@csce.kyushu-u.ac.jp>.
+
+1.10
+  R.K.Lloyd@csc.liv.ac.uk reorganized the Imakefile yet again.
+  Fixed a bug in rect.c thanks to <epstein_caleb@jpmorgan.com>.
+  Ditched bzero and bcopy since both are more generally available as
+    memset and memcpy.  Also removed some lint warnings.
+
+1.9
+  "rect" mode was added from xscreensaver's greynetic.
+  "helix" bug fixed.  It is now more interesting.
+  bounce.c divide by zero fixed and grav.c improvements.  Thanks to Greg
+    Bowering <greg@cs.adelaide.edu.au>.
+  grav.c, rock.c, world.c fixed so no black objects.
+
+1.8
+  Imakefile did not work with R6.  Also Solaris2.3 may use SVR4
+    instead of SYSV.  Thanks to Chris P. Ross <cross@eng.umd.edu>
+  "grav" mode was added.  Its a simplistic gravitational simulation,
+    with (currently a constant 16) solid spheres (non-renderd) of equal
+    size and mass orbiting a fixed central mass.  The sphere's orbit in
+    3 dimensions, their position and size being projected with simple
+    perspective.  Thanks to Greg Bowering <greg@cs.adelaide.edu.au>.
+  "inwindow" option was added.  Allows you to do what xlock already
+    did when DEBUG was defined.  It no longer locks your screen, but
+    allows you to run xlock as a (somewhat distracting) decoration.
+    Thanks to Greg Bowering <greg@cs.adelaide.edu.au>.
+  "bounce" mode (football) is back.
+  "world" mode was added.  Thanks to Matthew Moyle-Croft
+    <mmc@cs.adelaide.edu.au>
+  "image" mode was removed. It was very similar to world anyway.
+
+1.7
+  cuserid() is needed by Solaris2.3 with shadow passwords in xlock.c.
+    Thanks to Bill <benedett@gentire.com>.
+
+1.6
+  R.K.Lloyd@csc.liv.ac.uk pointed out again that gray_bits in maze.c needs
+    a type cast.
+  xlock.c defaults to "blank" to minimize cpu usage on a network.
+
+1.5
+  xlock works again on VMS (see README.VMS) thanks to Anthony Clarke
+    <Anthony.D.Clarke@Support.Hatfield.Raytheon.bae.eurokom.ie>.
+  memcpy and memset definitions for SYSV. Also there now is a switch
+    for shadow passwords thanks to <reggers@julian.uwo.ca>.
+
+1.4
+  Now works on BSD. Thanks to Victor Langeveld <vic@mbfys.kun.nl>
+  Both Victor and Alexandre Miguel <miguel@natacha.ens-cachan.fr>
+    suggested taking out the cuserid() call in xlock.c.  For FreeBSD its
+    a necessity and the old way is is a security hole in SunOS.
+
+1.3
+  Linux port from Darren Senn's (sinster@scintilla.capitola.ca.us) xlock.
+  Fixed drand to random in helix.c
+  Fixed a memory leak in rock.c.
+
+1.2
+  SHIFT - CONTROL - BREAK on the HP is trapped. Thanks to
+  R.K.Lloyd@csc.liv.ac.uk who pointed out that this was done in xscreensaver.
+  AIXV3 and HP bugs fixed, again due to R. K. Lloyd.
+
+1.1 & 1.0
+  took out "rint" from "worm.c" since HP's have trouble with it
+  added spline, maze, sphere, hyper, helix, rock, & blot modes.
+  fixed "xlock.h" and "usleep" for the HP.
+  changed border so it varies with size of screen on "swarm" so the
+    wasp would not be stuck in a corner when the password is entered.
+
+-------------------------------------------------------------------------------
+
+Original author: Patrick J. Naughton
+Site: ftp.x.org in /R5contrib
+The changes in the original xlock
+
+Changes of xlock (sccs version 23.21) patchlevel = 2.3
+    o added worm mode.
+    o old -name and .name changed to -username and .username.
+    o lint cast.
+    o change color allocation to allow "#ffaabb" style color names.
+    o portability bug in flame mode fixed plus some other nits.
+    o white on black on monochrome screens fixed.
+Changes of xlock (sccs version 23.19) patchlevel = 2.2
+    o added -name to allow different resource files to be used.
+    o added -usefirst to allow first keystroke to be used in password.
+    o made changes to life mode to allow wrap around.
+    o made old life cells stay blue.
+    o added -resources to get default resource file.
+    o added random mode
+    o added pyro mode
+    o added flame mode.
+    o made passwords a little more secure.
+    o use effective uid to find current user.
+    o make main window managed by the wm in debug mode.
+    o some more SVR4 portability changes.
+    o resource code now looks at XUSERFILESEARCHPATH and XAPPLRESDIR.
+    o removed verbose copyright info from each file.
+
+-------------------------------------------------------------------------------
+
+ Copyright (c) 1988-91 by Patrick J. Naughton.
+
+ Permission to use, copy, modify, and distribute this software and its
+ documentation for any purpose and without fee is hereby granted,
+ provided that the above copyright notice appear in all copies and that
+ both that copyright notice and this permission notice appear in
+ supporting documentation.
+
+ This file is provided AS IS with no warranties of any kind.  The author
+ shall have no liability with respect to the infringement of copyrights,
+ trade secrets or any patents by this file or any part thereof.  In no
+ event will the author be liable for any lost revenue or profits or
+ other special, indirect and consequential damages.
+
+    ______________________________________________________________________
+    Patrick J. Naughton				   email: naughton@sun.com
+    Sun Microsystems Laboratories, Inc.		   voice: (415) 336 - 1080
+
+Maintainer: David A. Bagley <bagleyd@hertz.njit.edu>

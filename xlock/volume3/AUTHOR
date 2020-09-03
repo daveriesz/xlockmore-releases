@@ -1,0 +1,24 @@
+(Message inbox:910)
+Return-Path: news@Sun.COM
+Received:  by wyse.wyse.com (5.58/Wyse master/5-13-88)
+	id AA18494; Sat, 18 Feb 89 00:13:05 PST
+Received: from SUN.COM by uunet.UU.NET (5.61/1.14) with SMTP 
+	id AA18271; Sat, 18 Feb 89 00:47:40 -0500
+Received: from sun.Sun.COM (sun-bb.sun.com) by Sun.COM (4.1/SMI-4.0)
+	id AA26960; Fri, 17 Feb 89 20:15:23 PST
+Received: by sun.Sun.COM (4.0/SMI-4.0)
+	id AA22805; Thu, 16 Feb 89 13:25:10 PST
+To: comp-sources-x@uunet.UU.NET
+Path: sun!wind!naughton
+From: naughton@Sun.COM (Patrick Naughton)
+Newsgroups: comp.sources.x
+Subject: New version of xlock
+Message-Id: <90141@sun.uucp>
+Date: 16 Feb 89 21:25:04 GMT
+Sender: news@Sun.COM
+Reply-To: naughton@Sun.COM (Patrick Naughton)
+Followup-To: comp.windows.x
+Organization: Sun Microsystems, Mountain View
+Lines: 1303
+
+

@@ -1,0 +1,13 @@
+--- Imakefile.orig	Fri Jun 20 00:55:58 1997
++++ Imakefile	Fri Jun 20 01:00:44 1997
+@@ -271,8 +271,8 @@
+      BITMAPTYPE = sun
+ #else 
+ #if HasShadowPasswd
+-      PASSWDDEF = -DHAVE_SHADOW
+-XCOMM   PASSWDLIB = -lshadow
++      PASSWDDEF = -DHAVE_SHADOW -Dcrypt=pw_encrypt
++      PASSWDLIB = -lshadow
+ #endif
+ #if defined(HPArchitecture) || defined(ApolloArchitecture)
+ #ifdef HPArchitecture

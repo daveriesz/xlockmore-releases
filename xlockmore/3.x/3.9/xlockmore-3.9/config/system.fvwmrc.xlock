@@ -1,0 +1,187 @@
+# replace the appropriate stuff in your system.fvwmrc with this stuff
+# My system.fvwmrc is in /usr/lib/X11/fvwm
+# This is for fvwm <=1.24r
+# For -install to work right you must disable it before fvwm is compiled
+# see README
+
+Popup "Automata-Saver"
+	Title	"Automata-Saver"
+	Exec	"Ant"	exec xlock -nolock -nice 0 -mode ant &
+	Exec	"Bee"	exec xlock -nolock -nice 0 -mode ant -neighbors 6 -gridsize 150 &
+	Exec	"Bug"	exec xlock -nolock -nice 0 -mode bug &
+	Exec	"Demon"	exec xlock -nolock -nice 0 -mode demon &
+	Exec	"Life"	exec xlock -nolock -nice 0 -mode life &
+	Exec	"Life1d"	exec xlock -nolock -nice 0 -mode life1d &
+	Exec	"Life3d"	exec xlock -nolock -nice 0 -mode life3d &
+	Exec	"Wator"	exec xlock -nolock -nice 0 -mode wator &
+EndPopup
+
+Popup "Fractal-Saver"
+	Title	"Fractal-Saver"
+	Exec	"Flame"	exec xlock -nolock -nice 0 -mode flame &
+	Exec	"Forest"	exec xlock -nolock -nice 0 -mode forest &
+	Exec	"Hop"	exec xlock -nolock -nice 0 -mode hop &
+	Exec	"Mountain"	exec xlock -nolock -nice 0 -mode mountain &
+	Exec	"Triangle"	exec xlock -nolock -nice 0 -mode triangle &
+EndPopup
+
+Popup "Geometry-Saver"
+	Title	"Geometry-Saver"
+	Exec	"Braid"	exec xlock -nolock -nice 0 -mode braid &
+	Exec	"Geometry"	exec xlock -nolock -nice 0 -mode geometry &
+	Exec	"Helix"	exec xlock -nolock -nice 0 -mode helix &
+	Exec	"Hyper"	exec xlock -nolock -nice 0 -mode hyper &
+	Exec	"Kaleid"	exec xlock -nolock -nice 0 -mode kaleid &
+	Exec	"Laser"	exec xlock -nolock -nice 0 -mode laser &
+	Exec	"Lissie"	exec xlock -nolock -nice 0 -mode lissie &
+	Exec	"Petal"	exec xlock -nolock -nice 0 -mode petal &
+	Exec	"Qix"	exec xlock -nolock -nice 0 -mode qix &
+	Exec	"Rotor"	exec xlock -nolock -nice 0 -mode rotor &
+	Exec	"Shape"	exec xlock -nolock -nice 0 -mode shape &
+	Exec	"Sphere"	exec xlock -nolock -nice 0 -mode sphere &
+	Exec	"Spiral"	exec xlock -nolock -nice 0 -mode spiral &
+	Exec	"Spline"	exec xlock -nolock -nice 0 -mode spline &
+EndPopup
+
+Popup "Space-Saver"
+	Title	"Space-Saver"
+	Exec	"Bouboule"	exec xlock -nolock -nice 0 -mode bouboule &
+	Exec	"Galaxy"	exec xlock -nolock -nice 0 -mode galaxy &
+	Exec	"Grav"	exec xlock -nolock -nice 0 -mode grav &
+	Exec	"Rock"	exec xlock -nolock -nice 0 -mode rock &
+	Exec	"World"	exec xlock -nolock -nice 0 -mode world &
+EndPopup
+
+Popup "Assorted-Saver"
+	Title	"Assorted-Saver"
+	Exec	"Bat"	exec xlock -nolock -nice 0 -mode bat &
+	Exec	"Blot"	exec xlock -nolock -nice 0 -mode blot &
+#	Exec	"Bob"	exec xlock -nolock -nice 0 -mode bob &
+	Exec	"Bounce"	exec xlock -nolock -nice 0 -mode bounce &
+	Exec	"Clock"	exec xlock -nolock -nice 0 -mode clock &
+	Exec	"Eyes"	exec xlock -nolock -nice 0 -mode eyes &
+	Exec	"Flag"	exec xlock -nolock -nice 0 -mode flag &
+	Exec	"Image"	exec xlock -nolock -nice 0 -mode image &
+	Exec	"Marquee"	exec xlock -nolock -nice 0 -mode marquee &
+	Exec	"Maze"	exec xlock -nolock -nice 0 -mode maze &
+	Exec	"Nose"	exec xlock -nolock -nice 0 -mode nose &
+	Exec	"Puzzle"	exec xlock -nolock -nice 0 -mode puzzle &
+	Exec	"Pyro"	exec xlock -nolock -nice 0 -mode pyro &
+	Exec	"Slip"	exec xlock -nolock -nice 0 -mode slip &
+	Exec	"Swarm"	exec xlock -nolock -nice 0 -mode swarm &
+	Exec	"Swirl"	exec xlock -nolock -nice 0 -mode swirl -install &
+	Exec	"Worm"	exec xlock -nolock -nice 0 -mode worm &
+EndPopup
+
+Popup "Special-Saver"
+	Title	"Special-Saver"
+	Exec	"Blank"	exec xlock -nolock -nice 0 -mode blank &
+	Exec	"Message"	exec xlock -nolock -nice 0 -mode marquee -message "No one here, please go away!" &
+	Exec	"Random"	exec xlock -nolock -nice 0 -mode random &
+EndPopup
+
+Popup "Screensaver"
+	Title	"Screensaver"
+	Popup	"Cellular Automata"	Automata-Saver
+	Nop	""
+	Popup	"Fractal"	Fractal-Saver
+	Nop	""
+	Popup	"Geometry"	Geometry-Saver
+	Nop	""
+	Popup	"Space"	Space-Saver
+	Nop	""
+	Popup	"Assorted"	Assorted-Saver
+	Nop	""
+	Popup	"Special"	Special-Saver
+EndPopup
+
+Popup "Automata-Lock"
+	Title	"Automata-Lock"
+	Exec	"Ant"	exec xlock -nice 0 -mode ant &
+	Exec	"Bee"	exec xlock -nice 0 -mode ant -neighbors 6 -gridsize 150 &
+	Exec	"Bug"	exec xlock -nice 0 -mode bug &
+	Exec	"Demon"	exec xlock -nice 0 -mode demon &
+	Exec	"Life"	exec xlock -nice 0 -mode life &
+	Exec	"Life1d"	exec xlock -nice 0 -mode life1d &
+	Exec	"Life3d"	exec xlock -nice 0 -mode life3d &
+	Exec	"Wator"	exec xlock -nice 0 -mode wator &
+EndPopup
+
+Popup "Fractal-Lock"
+	Title	"Fractal-Lock"
+	Exec	"Flame"	exec xlock -nice 0 -mode flame &
+	Exec	"Forest"	exec xlock -nice 0 -mode forest &
+	Exec	"Hop"	exec xlock -nice 0 -mode hop &
+	Exec	"Mountain"	exec xlock -nice 0 -mode mountain &
+	Exec	"Triangle"	exec xlock -nice 0 -mode triangle &
+EndPopup
+
+Popup "Geometry-Lock"
+	Title	"Geometry-Lock"
+	Exec	"Braid"	exec xlock -nice 0 -mode braid &
+	Exec	"Geometry"	exec xlock -nice 0 -mode geometry &
+	Exec	"Helix"	exec xlock -nice 0 -mode helix &
+	Exec	"Hyper"	exec xlock -nice 0 -mode hyper &
+	Exec	"Kaleid"	exec xlock -nice 0 -mode kaleid &
+	Exec	"Laser"	exec xlock -nice 0 -mode laser &
+	Exec	"Lissie"	exec xlock -nice 0 -mode lissie &
+	Exec	"Petal"	exec xlock -nice 0 -mode petal &
+	Exec	"Qix"	exec xlock -nice 0 -mode qix &
+	Exec	"Rotor"	exec xlock -nice 0 -mode rotor &
+	Exec	"Shape"	exec xlock -nice 0 -mode shape &
+	Exec	"Sphere"	exec xlock -nice 0 -mode sphere &
+	Exec	"Spiral"	exec xlock -nice 0 -mode spiral &
+	Exec	"Spline"	exec xlock -nice 0 -mode spline &
+EndPopup
+
+Popup "Space-Lock"
+	Title	"Space-Lock"
+	Exec	"Bouboule"	exec xlock -nice 0 -mode bouboule &
+	Exec	"Galaxy"	exec xlock -nice 0 -mode galaxy &
+	Exec	"Grav"	exec xlock -nice 0 -mode grav &
+	Exec	"Rock"	exec xlock -nice 0 -mode rock &
+	Exec	"World"	exec xlock -nice 0 -mode world &
+EndPopup
+
+Popup "Assorted-Lock"
+	Title	"Assorted-Lock"
+	Exec	"Bat"	exec xlock -nice 0 -mode bat &
+	Exec	"Blot"	exec xlock -nice 0 -mode blot &
+#	Exec	"Bob"	exec xlock -nice 0 -mode bob &
+	Exec	"Bounce"	exec xlock -nice 0 -mode bounce &
+	Exec	"Clock"	exec xlock -nice 0 -mode clock &
+	Exec	"Eyes"	exec xlock -nice 0 -mode eyes &
+	Exec	"Flag"	exec xlock -nice 0 -mode flag &
+	Exec	"Image"	exec xlock -nice 0 -mode image &
+	Exec	"Marquee"	exec xlock -nice 0 -mode marquee &
+	Exec	"Maze"	exec xlock -nice 0 -mode maze &
+	Exec	"Nose"	exec xlock -nice 0 -mode nose &
+	Exec	"Puzzle"	exec xlock -nice 0 -mode puzzle &
+	Exec	"Pyro"	exec xlock -nice 0 -mode pyro &
+	Exec	"Slip"	exec xlock -nice 0 -mode slip &
+	Exec	"Swarm"	exec xlock -nice 0 -mode swarm &
+	Exec	"Swirl"	exec xlock -nice 0 -mode swirl -install &
+	Exec	"Worm"	exec xlock -nice 0 -mode worm &
+EndPopup
+
+Popup "Special-Lock"
+	Title	"Special-Lock"
+	Exec	"Blank"	exec xlock -nice 0 -mode blank &
+	Exec	"Message"	exec xlock -nice 0 -mode marquee -message "No one here, please go away!" &
+	Exec	"Random"	exec xlock -nice 0 -mode random &
+EndPopup
+
+Popup "Screenlock"
+	Title	"Lock Screen"
+	Popup	"Cellular Automata"	Automata-Lock
+	Nop	""
+	Popup	"Fractal"	Fractal-Lock
+	Nop	""
+	Popup	"Geometry"	Geometry-Lock
+	Nop	""
+	Popup	"Space"	Space-Lock
+	Nop	""
+	Popup	"Assorted"	Assorted-Lock
+	Nop	""
+	Popup	"Special"	Special-Lock
+EndPopup

@@ -1,0 +1,72 @@
+# put this in your $OPENWINHOME/lib, usually $OPENWINHOME is /usr/openwin
+
+	"Lock Screen" TITLE PIN
+	"Cellular-Automata" MENU
+	  "Automata" TITLE
+		"Ant"			exec xlock -nice 0 -mode ant
+		"Bee"			exec xlock -nice 0 -mode ant -neighbors 6 -gridsize 150
+		"Bug"			exec xlock -nice 0 -mode bug
+		"Demon"			exec xlock -nice 0 -mode demon
+		"Life"			DEFAULT exec xlock -nice 0 -mode life
+		"Life1d"		exec xlock -nice 0 -mode life1d
+		"Life3d"		exec xlock -nice 0 -mode life3d
+		"Wator"			exec xlock -nice 0 -mode wator
+	"Cellular-Automata" END
+	"Fractal" MENU
+	  "Fractal" TITLE
+		"Flame"			exec xlock -nice 0 -mode flame
+		"Forest"		exec xlock -nice 0 -mode forest
+		"Hop"			DEFAULT exec xlock -nice 0 -mode hop
+		"Mountain"		exec xlock -nice 0 -mode mountain
+		"Triangle"		exec xlock -nice 0 -mode triangle
+	"Fractal" END
+	"Geometry" MENU
+	  "Geometry" TITLE
+		"Braid"			exec xlock -nice 0 -mode braid
+		"Geometry"		exec xlock -nice 0 -mode geometry
+		"Helix"			exec xlock -nice 0 -mode helix
+		"Hyper"			exec xlock -nice 0 -mode hyper
+		"Kaleid"		exec xlock -nice 0 -mode kaleid
+		"Laser"			exec xlock -nice 0 -mode laser
+		"Lissie"			exec xlock -nice 0 -mode lissie
+		"Petal"			exec xlock -nice 0 -mode petal
+		"Qix"			DEFAULT exec xlock -nice 0 -mode qix
+		"Shape"			exec xlock -nice 0 -mode shape
+		"Sphere"		exec xlock -nice 0 -mode sphere
+		"Spiral"		exec xlock -nice 0 -mode spiral
+		"Spline"		exec xlock -nice 0 -mode spline
+	"Geometry" END
+	"Space" MENU
+	  "Space" TITLE
+		"Bouboule"		exec xlock -nice 0 -mode bouboule
+		"Galaxy"		exec xlock -nice 0 -mode galaxy
+	  "Grav"			exec xlock -nice 0 -mode grav
+		"Rock"			DEFAULT exec xlock -nice 0 -mode rock
+		"World"			exec xlock -nice 0 -mode world
+	"Space" END
+	"Assorted" MENU
+	  "Assorted" TITLE
+		"Bat"			exec xlock -nice 0 -mode bat
+		"Blot"			exec xlock -nice 0 -mode blot
+#		"Bob"			exec xlock -nice 0 -mode bob
+		"Bounce"		exec xlock -nice 0 -mode bounce
+		"Clock"			exec xlock -nice 0 -mode clock
+		"Eyes"			exec xlock -nice 0 -mode eyes
+		"Flag"			exec xlock -nice 0 -mode flag 
+		"Image"			exec xlock -nice 0 -mode image
+		"Marquee"		exec xlock -nice 0 -mode marquee
+		"Maze"			exec xlock -nice 0 -mode maze
+		"Nose"			exec xlock -nice 0 -mode nose
+		"Puzzle"		DEFAULT exec xlock -nice 0 -mode puzzle
+		"Pyro"			exec xlock -nice 0 -mode pyro
+		"Rotor"			exec xlock -nice 0 -mode rotor
+		"Swarm"			exec xlock -nice 0 -mode swarm
+		"Swirl"			exec xlock -nice 0 -mode swirl -install
+		"Worm"			exec xlock -nice 0 -mode worm
+	"Assorted" END
+	"Special" DEFAULT MENU
+	  "Special" TITLE
+		"Blank"			exec xlock -nice 0 -mode blank
+		"Message"		exec xlock -nice 0 -mode marquee -message "No one here, please go away!"
+		"Random"	DEFAULT	exec xlock -nice 0 -mode random
+	"Special" END

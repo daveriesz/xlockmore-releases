@@ -1,0 +1,11 @@
+Here is the latest version of xlock, which incorporates several
+enhancements and some bug fixes.  It now prompts the user for the
+password rather than providing no feedback as in the last version.  It
+also queries the defaults database for all options that are accessible
+through the command line.  So lines like "xlock.font: fixed" in your
+~/.Xdefaults will do the right thing.  The files XCrDynCmap.c and
+XCrHsbCmap.c are good examples of correct use of synamic colormap
+generation and manipulation of HSB linear color ramps.
+
+There is also a copy on expo.lcs.mit.edu:~/contrib/xlock.shar.Z
+

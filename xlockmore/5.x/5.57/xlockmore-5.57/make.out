@@ -1,0 +1,21 @@
+(cd xlock ; make -f Makefile.win32 )
+make[1]: Entering directory '/home/bagleyd/Projects/xlock/xlockmore/xlock'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/bagleyd/Projects/xlock/xlockmore/xlock'
+(cd modes ; make -f Makefile.win32 )
+make[1]: Entering directory '/home/bagleyd/Projects/xlock/xlockmore/modes'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/bagleyd/Projects/xlock/xlockmore/modes'
+(cd modes/glx ; make -f Makefile.win32 )
+make[1]: Entering directory '/home/bagleyd/Projects/xlock/xlockmore/modes/glx'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/bagleyd/Projects/xlock/xlockmore/modes/glx'
+(cd win32 ; make -f Makefile.win32 )
+make[1]: Entering directory '/home/bagleyd/Projects/xlock/xlockmore/win32'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/bagleyd/Projects/xlock/xlockmore/win32'
+i686-w64-mingw32-g++ -DWIN32 -O2 -mwindows -Wall -static -o xlock95.scr xlock/*.o modes/*.o modes/glx/*.o win32/*.o  win32/*.res -L/usr/lib/w32api -lGL -lGLU
+/usr/lib/gcc/i686-w64-mingw32/7.4.0/../../../../i686-w64-mingw32/bin/ld: cannot find -lGL
+/usr/lib/gcc/i686-w64-mingw32/7.4.0/../../../../i686-w64-mingw32/bin/ld: cannot find -lGLU
+collect2: error: ld returned 1 exit status
+make: *** [Makefile.win32:35: xlock95.scr] Error 1

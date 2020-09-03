@@ -1,0 +1,38 @@
+XLock.mode: swarm
+XLock.font: -*-lucida-medium-r-normal-sans-24-*-*-*-*-*-*-*
+XLock.background: gray
+XLock.foreground: blue
+XLock.nice: 16
+XLock.timeout: 30
+XLock.mono: false
+XLock.remote: false
+XLock.nolock: false
+XLock.allowroot: false
+XLock.enablesaver: false
+XLock.allowaccess: true
+XLock.echokeys: false
+XLock.verbose: false
+
+XLock.hop.delay: 0
+XLock.hop.batchcount: 1000
+XLock.hop.saturation: 1
+
+XLock.image.delay: 2000000
+XLock.image.batchcount: 8
+XLock.image.saturation: .2
+
+XLock.qix.delay: 30000
+XLock.qix.batchcount: 64
+XLock.qix.saturation: 1
+
+XLock.life.delay: 1000000
+XLock.life.batchcount: 1
+XLock.life.saturation: 1
+
+XLock.blank.delay: 5000000
+XLock.blank.batchcount: 1
+XLock.blank.saturation: 1
+
+XLock.swarm.delay: 10000
+XLock.swarm.batchcount: 100
+XLock.swarm.saturation: 1
