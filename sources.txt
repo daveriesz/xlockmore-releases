@@ -1,3 +1,4 @@
 https://www.ibiblio.org/pub/historic-linux/ftp-archives/sunsite.unc.edu/Nov-06-1994/X11/xutils/screensavers/xlockmore-1.12.tgz
 https://www.ibiblio.org/pub/historic-linux/ftp-archives/sunsite.unc.edu/Nov-06-1994/X11/xutils/screensavers/xlockmore-1.14.tgz
 https://www.ibiblio.org/pub/historic-linux/ftp-archives/sunsite.unc.edu/Sep-29-1996/X11/xutils/screensavers/xlockmore-3.10.tgz
+https://www.ibiblio.org/pub/historic-linux/ftp-archives/tsx-11.mit.edu/Oct-07-1996/sources/usr.bin.X11/xlock2-src.tar.gz (xlock 23.21.2-pl2.3)
