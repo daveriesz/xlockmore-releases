@@ -1,0 +1,382 @@
+#ifndef XCOMM
+#define XCOMM /**/#
+#endif
+XCOMM @(#)Imakefile	23.9 91/09/27
+XCOMM Imakefile - xlock
+XCOMM
+
+XCOMM      *** BEGIN XPM CONFIG SECTION ***
+
+XCOMM Only the image.c and bat.c modes use this.
+XCOMM If your system has libXpm, remove the 'XCOMM ' from the next line.
+XCOMM #define XpmLibrary
+
+#ifdef XpmLibrary
+          XPMDEF = -DHAS_XPM
+
+XCOMM If you get an error "Cannot find xpm.h" while compiling, set
+XCOMM XPMINC to the directory X11/xpm.h is in.  If your xpm.h is not in a
+XCOMM X11 directory, edit the xpm modes to reflect this.  Below is a guess.
+          XPMINC = -I/usr/local/include
+
+XCOMM If you get an error "Connot find libXpm" while linking, set XPMLIBPATH
+XCOMM to the directory libXpm.* is in.  Below is a guess.
+          XPMLIB = -L/usr/local/lib -lXpm
+
+#endif
+
+XCOMM      *** END XPM CONFIG SECTION ***
+
+XCOMM    *** BEGIN CDE DT CONFIG SECTION ***
+ 
+XCOMM COMMON DESKTOP ENVIRONMENT
+XCOMM if your system has libDtSvc, remove the 'XCOMM ' from the next line
+XCOMM #define DtSaverLibrary
+
+#ifdef DtSaverLibrary
+DTSAVERDEF = -DDT_SAVER
+DTSAVERINC = -I/usr/dt/include
+DTSAVERLIB = -L/usr/dt/lib -lDtSvc
+#endif
+
+XCOMM    *** END CDE DT CONFIG SECTION ***
+
+XCOMM    *** BEGIN RPLAY/SOUND CONFIG SECTION ***
+ 
+XCOMM Only xlock.c and resource.c use this
+XCOMM if your system has librplay, remove the 'XCOMM ' from the next line
+XCOMM #define RplayLibrary
+
+#ifdef RplayLibrary
+RPLAYDEF = -DHAS_RPLAY
+#RPLAYINC = -I/share/include
+RPLAYINC = -I/usr/local/include
+#RPLAYLIB = -L/share/lib -lrplay
+RPLAYLIB = -L/usr/local/lib -lrplay
+#endif
+
+XCOMM system play (optional software)
+XCOMM SUNOS 4.1.3
+XCOMM DEF_PLAY = "/usr/demo/SOUND/play sounds/"
+XCOMM IRIX 5.3
+XCOMM DEF_PLAY = "/usr/sbin/sfplay sounds/"
+XCOMM LINUX and others
+XCOMM DEF_PLAY = "/usr/local/bin/play.sh /usr/local/sounds/"
+XCOMM uncomment the following if you are using one of the above
+XCOMM RPLAYDEF = -DDEF_PLAY=\"$(DEF_PLAY)\"
+
+XCOMM    *** END RPLAY/SOUND CONFIG SECTION ***
+
+XCOMM    *** BEGIN RNG CONFIG SECTION ***
+
+XCOMM Uncomment to use your system's Random Number Generator
+XCOMM They usually come in 3 types
+
+XCOMM Uncomment to use high-precision (but expensive) RNG
+XCOMM SRANDDEF = -DSRAND=srand48
+XCOMM LRANDDEF = -DLRAND=lrand48
+
+XCOMM SRANDDEF = -DSRAND=srandom
+XCOMM LRANDDEF = -DLRAND=random
+
+XCOMM Least desirable RNG
+XCOMM SRANDDEF = -DSRAND=srand
+XCOMM LRANDDEF = -DLRAND=rand
+
+XCOMM Normally use the above with (default)
+XCOMM MAXRANDDEF = -DMAXRAND=2147483648.0
+XCOMM Use the following if using srand/rand and NOT AIXV3
+XCOMM MAXRANDDEF = -DMAXRAND=32767.0
+RANDDEF = $(SRANDDEF) $(LRANDDEF) $(MAXRANDDEF)
+
+XCOMM    *** END RNG CONFIG SECTION ***
+
+      BITMAPDIR = ./bitmaps
+      PIXMAPDIR = ./pixmaps
+      FLAGDIR   = ./flags
+
+#ifndef __QNX__
+#ifndef MathLibrary
+#define MathLibrary -lm
+#endif
+#else
+#define MathLibrary
+      PASSWDDEF = -DHAS_SHADOW -Dlinux
+      PASSWDLIB = -l/src/util/Lib/util
+#endif
+
+XCOMM KERBEROS
+XCOMM      PASSWDDEF = -DKERBEROS
+XCOMM      PASSWDINC = -I/usr/athena/include
+XCOMM      PASSWDLIB = -L/usr/athena/lib -ldes -lkrb
+
+XCOMM DCE authentication (tested only on HP's)
+XCOMM      PASSWDDEF = -DDCE_PASSWD
+XCOMM      PASSWDINC = -I/usr/include/reentrant
+XCOMM      PASSWDLIB = -ldce -lc_r
+
+#ifdef UltrixArchitecture
+EXTRA_LIBRARIES = -lauth
+       FLAGTYPE = ultrix
+#endif
+
+#ifdef SunArchitecture
+#if SystemV4
+      PASSWDDEF = -DHAS_SHADOW
+
+XCOMM Problems finding libXext.so.0 when sticky bit is set
+EXTRA_LDOPTIONS = -R/usr/lib:/usr/openwin/lib
+
+     PIXMAPTYPE = sol
+       FLAGTYPE = sol
+#else
+       SLEEPDEF = -DHAS_USLEEP
+#if HasShadowPasswd
+XCOMM        PASSWDDEF = -DSUNOS_ADJUNCT_PASSWD
+      PASSWDDEF = -DHAS_SHADOW
+#endif
+     PIXMAPTYPE = sun
+       FLAGTYPE = sun
+#endif
+     BITMAPTYPE = sun
+#else 
+#if HasShadowPasswd
+      PASSWDDEF = -DHAS_SHADOW
+XCOMM   PASSWDLIB = -lshadow
+#endif
+#if defined(HPArchitecture) || defined(ApolloArchitecture)
+#ifdef HPArchitecture
+XCOMM If your site is using Secured Passwords,
+XCOMM     PASSWDDEF = -DHPUX_SECURE_PASSWD
+XCOMM If your site is using Passwd Etc,
+XCOMM     PASSWDDEF = -DHP_PASSWDETC
+XCOMM     PASSWDLIB = -lrgy -lnck -lndbm
+XCOMM     PASSWDLIB = -lrgy -lnck -lndbm -lsec
+      CCOPTIONS = -Aa
+      SYSTEMDEF = -D_HPUX_SOURCE -DSYSV
+#else
+       SLEEPDEF = -DHAS_USLEEP
+#endif
+EXTRA_LIBRARIES = -lXhp11
+     BITMAPTYPE = hp
+     PIXMAPTYPE = hp
+       FLAGTYPE = hp
+#else
+#ifdef i386SVR4Architecture
+EXTRA_LIBRARIES = -lsocket -lnsl -lgen
+      PASSWDDEF = -DHAS_SHADOW
+     BITMAPTYPE = x11
+     PIXMAPTYPE = x11
+       FLAGTYPE = sysv
+#else
+#if defined(FreeBSDArchitecture) || defined(NetBSDArchitecture) || defined(i386BsdArchitecture)
+       SLEEPDEF = -DHAS_USLEEP
+     BITMAPTYPE = bsd
+     PIXMAPTYPE = bsd
+       FLAGTYPE = bsd
+#else
+#ifdef LinuxArchitecture
+       SLEEPDEF = -DHAS_USLEEP
+     BITMAPTYPE = linux
+     PIXMAPTYPE = linux
+       FLAGTYPE = linux
+#if HasShadowPasswd && !UseElfFormat
+EXTRA_LIBRARIES = -lgdbm
+#endif
+#else
+#ifdef SGIArchitecture
+     BITMAPTYPE = sgi
+     PIXMAPTYPE = sgi
+       FLAGTYPE = sgi
+#else
+#ifdef AIXArchitecture
+     BITMAPTYPE = x11
+     PIXMAPTYPE = x11
+       FLAGTYPE = aix
+XCOMM If AIX 3.1 or less, do not have struct passwd and other things
+#if OSMajorVersion < 3 || (OSMajorVersion == 3 && OSMinorVersion < 2)
+      SYSTEMDEF = -DLESS_THAN_AIX3_2
+#endif
+XCOMM Use this if your site is using AFS:
+XCOMM       PASSWDDEF = -DAFS
+XCOMM       PASSWDINC = -I/usr/afsws/include
+XCOMM       PASSWDLIB = -L/usr/afsws/lib -L/usr/afsws/lib/afs -lkauth -lubik -lprot -lrxkad -lrx -llwp -lauth -lsys -ldes -lcmd -lcom_err /usr/afsws/lib/afs/util.a
+XCOMM You may need this one too.
+XCOMM EXTRA_LIBRARIES = -laudit
+#else
+XCOMM Use this if your site is using OSF Enhanced Security:
+XCOMM       PASSWDDEF = -DOSF1_ENH_SEC
+XCOMM       PASSWDLIB = -lsecurity
+     BITMAPTYPE = x11
+     PIXMAPTYPE = x11
+       FLAGTYPE = unix
+#endif
+#endif
+#endif
+#endif
+#endif
+#endif
+#endif
+
+XCOMM  -DUSE_VROOT          allows xlock to run in root window (may
+XCOMM                       cause problems with certain window managers)
+XCOMM  -DALWAYS_ALLOW_ROOT  users can't turn off allowroot
+XCOMM  -DSYSLOG             for paranoid administrators
+XCOMM  -DMULTIPLE_ROOT      multiple root users ... security?
+XCOMM  -DMOUSE_MOTION       password screen displayed with mouse motion
+XCOMM  -DOLD_EVENT_LOOP     some machines may still need this (fd_set
+XCOMM                       errors may be a sign)
+XCOMM
+XCOMM For personal use you may want to consider:
+XCOMM  -DUSE_XLOCKRC        paranoid admin or unknown shadow passwd alg
+XCOMM
+XCOMM For labs you may want to consider:
+XCOMM  -DAUTO_LOGOUT        enable auto-logout code
+XCOMM  -DLOGOUT_BUTTON      enable logout button
+XCOMM  -DCLOSEDOWN_LOGOUT   use with above two if using xdm
+XCOMM  -DLO_BUTTON_TIME=5   minutes until logout button appears
+XCOMM  -DSTAFF_FILE=\"/etc/xlock.staff\"  file of staff who are exempt
+
+XCOMM May have to combine in one long line if "+=" does not work
+        OPTDEF = -DUSE_VROOT -DALWAYS_ALLOW_ROOT
+XCOMM        OPTDEF += -DSYSLOG
+XCOMM        OPTDEF += -DMOUSE_MOTION
+XCOMM        OPTDEF += -DMULTIPLE_ROOT
+XCOMM        OPTDEF += -DOLD_EVENT_LOOP
+XCOMM        0PTDEF += -DUSE_XLOCKRC
+XCOMM        OPTDEF += -DAUTO_LOGOUT
+XCOMM        OPTDEF += -DLOGOUT_BUTTON -DLO_BUTTON_TIME=5
+XCOMM        OPTDEF += -DCLOSEDOWN_LOGOUT
+XCOMM        OPTDEF += -DSTAFF_FILE=\"/etc/xlock.staff\"
+
+XCOMM Here is your chance to override the default icon:
+       FLAGBITS = $(FLAGTYPE)
+XCOMM     TINYBITMAP = $(BITMAPTYPE)
+     TINYBITMAP = t-x11
+    SMALLBITMAP = s-$(BITMAPTYPE)
+   MEDIUMBITMAP = m-$(BITMAPTYPE)
+    LARGEBITMAP = l-$(BITMAPTYPE)
+   MEDIUMPIXMAP = m-$(PIXMAPTYPE)
+XCOMM     EYESBITMAP = $(SMALLBITMAP)
+    IMAGEBITMAP = $(MEDIUMBITMAP)
+XCOMM     LIFEBITMAP = $(SMALLBITMAP)
+   LIFE1DBITMAP = $(TINYBITMAP)
+     MAZEBITMAP = $(LARGEBITMAP)
+   PUZZLEBITMAP = $(LARGEBITMAP)
+     EYESBITMAP = m-grelb
+XCOMM    IMAGEBITMAP = l-bob
+XCOMM    IMAGEBITMAP = m-xlock
+     LIFEBITMAP = s-grelb
+XCOMM     MAZEBITMAP = m-xlock
+    IMAGEPIXMAP = $(MEDIUMPIXMAP)
+   PUZZLEPIXMAP = $(MEDIUMPIXMAP)
+XCOMM    IMAGEPIXMAP = xlock
+
+        DEFINES = -DDEF_FILESEARCHPATH=\"$(LIBDIR)/%T/%N%S\" \
+$(SYSTEMDEF) $(SLEEPDEF) $(OPTDEF) $(PASSWDDEF) $(XPMDEF) $(DTSAVERDEF) \
+$(RPLAYDEF) $(RANDDEF) $(PASSWDINC) $(XPMINC) $(DTSAVERINC) $(RPLAYINC)
+		
+        DEPLIBS = $(DEPXLIB)
+LOCAL_LIBRARIES = $(XLIB) $(XPMLIB) $(DTSAVERLIB) $(RPLAYLIB)
+       LINTLIBS = $(LINTXLIB)
+#if HasLibCrypt
+       CRYPTLIB = -lcrypt
+#endif
+  SYS_LIBRARIES = $(CRYPTLIB) $(PASSWDLIB) MathLibrary
+#if defined(FreeBSDArchitecture) || defined(NetBSDArchitecture)
+   INSTPGMFLAGS = -s -m 4751
+#endif
+           HDRS = xlock.h mode.h vroot.h ras.h
+           SRCS = xlock.c passwd.c resource.c\
+		utils.c logout.c mode.c ras.c xbm.c color.c\
+		ant.c bat.c blot.c bouboule.c bounce.c braid.c bug.c\
+		clock.c demon.c eyes.c flag.c flame.c forest.c\
+		galaxy.c geometry.c grav.c helix.c hop.c hyper.c\
+		image.c kaleid.c laser.c life.c life1d.c life3d.c lightning.c lissie.c\
+		marquee.c maze.c mountain.c nose.c petal.c puzzle.c pyro.c\
+		qix.c rock.c rotor.c\
+		shape.c slip.c sphere.c spiral.c spline.c swarm.c swirl.c\
+		triangle.c wator.c wire.c world.c worm.c\
+		blank.c random.c
+           OBJS = xlock.o passwd.o resource.o\
+		utils.o logout.o mode.o ras.o xbm.o color.o\
+		ant.o bat.o blot.o bouboule.o bounce.o braid.o bug.o\
+		clock.o demon.o eyes.o flag.o flame.o forest.o\
+		galaxy.o geometry.o grav.o helix.o hop.o hyper.o\
+		image.o kaleid.o laser.o life.o life1d.o life3d.o lightning.o lissie.o\
+		marquee.o maze.o mountain.o nose.o petal.o puzzle.o pyro.o\
+		qix.o rock.o rotor.o\
+		shape.o slip.o sphere.o spiral.o spline.o swarm.o swirl.o\
+		triangle.o wator.o wire.o world.o worm.o\
+		blank.o random.o
+
+		BITMAPS = eyes.xbm image.xbm life.xbm life1d.xbm maze.xbm puzzle.xbm
+		PIXMAPS = image.xpm puzzle.xpm
+
+AllTarget(xlock)
+#ifdef XpmLibrary
+depend:: flag.h $(BITMAPS) $(PIXMAPS)
+#else
+depend:: flag.h $(BITMAPS)
+#endif
+ComplexProgramTarget(xlock)
+InstallAppDefaults(XLock)
+InstallManPage(xlock,$(MANDIR))
+
+clean::
+	$(RM) flag.h $(BITMAPS) $(PIXMAPS)
+
+clean.all::	clean
+	$(RM) Makefile
+
+#if ProjectX < 6
+flag.c: flag.h
+eyes.c: eyes.xbm
+life.c: life.xbm
+life1d.c: life1d.xbm
+maze.c: maze.xbm
+#ifdef XpmLibrary
+image.c: image.xbm image.xpm
+puzzle.c: puzzle.xbm puzzle.xpm
+#else
+image.c: image.xbm
+puzzle.c: puzzle.xbm
+#endif
+#endif
+
+flag.h:
+	$(RM) flag.h
+	$(LN) ${FLAGDIR}/flag-$(FLAGBITS).h flag.h
+
+eyes.xbm:
+	$(RM) eyes.xbm
+	$(LN) ${BITMAPDIR}/$(EYESBITMAP).xbm eyes.xbm
+
+image.xbm:
+	$(RM) image.xbm
+	$(LN) ${BITMAPDIR}/$(IMAGEBITMAP).xbm image.xbm
+
+life.xbm:
+	$(RM) life.xbm
+	$(LN) ${BITMAPDIR}/$(LIFEBITMAP).xbm life.xbm
+
+life1d.xbm:
+	$(RM) life1d.xbm
+	$(LN) ${BITMAPDIR}/$(LIFE1DBITMAP).xbm life1d.xbm
+
+maze.xbm:
+	$(RM) maze.xbm
+	$(LN) ${BITMAPDIR}/$(MAZEBITMAP).xbm maze.xbm
+
+puzzle.xbm:
+	$(RM) puzzle.xbm
+	$(LN) ${BITMAPDIR}/$(PUZZLEBITMAP).xbm puzzle.xbm
+
+#ifdef XpmLibrary
+image.xpm:
+	$(RM) image.xpm
+	$(LN) ${PIXMAPDIR}/$(IMAGEPIXMAP).xpm image.xpm
+puzzle.xpm:
+	$(RM) puzzle.xpm
+	$(LN) ${PIXMAPDIR}/$(PUZZLEPIXMAP).xpm puzzle.xpm
+#endif

@@ -1,0 +1,264 @@
+# @(#)Makefile	1.9 91/09/27 XLOCK
+
+DEST		= /usr/local
+#DEST		= ${PUBHOME}/SVR4
+#DEST		= ${PUBHOME}
+BINMODE		= 0755
+LIBMODE		= 0644
+MANPAGE		= xlock.1
+
+FLAGBITS    = sun
+BITMAPTYPE	= sun
+PIXMAPTYPE	= sun
+#EYESBITMAP	= s-${BITMAPTYPE}
+EYESBITMAP	= s-grelb
+IMAGEBITMAP	= m-${BITMAPTYPE}
+LIFEBITMAP	= s-${BITMAPTYPE}
+#LIFE1DBITMAP	= t-${BITMAPTYPE}
+LIFE1DBITMAP	= t-x11
+MAZEBITMAP	= l-${BITMAPTYPE}
+PUZZLEBITMAP	= l-${BITMAPTYPE}
+IMAGEPIXMAP	= m-${PIXMAPTYPE}
+PUZZLEPIXMAP	= m-${PIXMAPTYPE}
+
+# Set your ANSI C compiler
+CC		= gcc -Wall
+#CC		= acc
+#CC		= cc
+
+#LINT		= /usr/bin/lint
+LINT		= /usr/5bin/lint
+#LINT		= alint
+
+BITMAPDIR       = ./bitmaps
+PIXMAPDIR       = ./pixmaps
+FLAGDIR         = ./flags
+
+# X include files
+#XINC		= -I/usr/local/include
+#XINC		= -I/usr/include/X11R4
+#XINC		= -I/usr/include/X11R5
+XINC		= -I${OPENWINHOME}/include
+#XINC		= -I${MOTIFHOME}/include
+
+# X libraries
+#XLIBPATH	= -L/usr/local/lib
+#XLIBPATH	= -L/usr/lib/X11R4
+#XLIBPATH	= -L/usr/lib/X11R5
+XLIBPATH	= -L${OPENWINHOME}/lib
+#XLIBPATH	= -L${MOTIFHOME}/lib
+
+# to use full color xpm images, uncomment
+#XPMDEF		= -DHAS_XPM
+#
+# XPM include path, below is a guess, it is assumed that it is in X11/xpm.h
+#XPMINC		= -I/usr/local/include
+#
+# XPM library, the path is a guess
+#XPMLIB		= -L/usr/local/lib -lXpm
+# also see image.c below
+
+# to use for CDE DT saver, uncomment
+#DTSAVERDEF	= -DDT_SAVER
+#
+# CDE DT include path, below is a guess
+#DTSAVERINC	= -I/usr/dt/include
+#
+# CDE DT library, the path is a guess
+#DTSAVERLIB	= -L/usr/dt/lib -lDtSvc
+
+# to use RPLAY audio, uncomment
+#RPLAYDEF	= -DHAS_RPLAY
+#
+# RPLAY include path, below is a guess
+#RPLAYINC	= -I/usr/local/include
+#
+# RPLAY library, the path is a guess
+#RPLAYLIB	= -L/usr/local/lib -lrplay
+#
+# system play
+# SUNOS 4.1.3
+#DEF_PLAY = "/usr/demo/SOUND/play sounds/"
+# IRIX 5.3
+#DEF_PLAY = "/usr/sbin/sfplay sounds/"
+
+# special password defines
+# (Solaris Shadow, Shadow, SunOS Adjunct Password, KERBEROS, or DCE authentication)
+#PASSWDDEF	= -DHAS_SHADOW -DSVR4
+#PASSWDDEF	= -DSUNOS_ADJUNCT_PASSWD
+#PASSWDDEF	= -DKERBEROS
+#PASSWDDEF	= -DDCE_PASSWD
+#
+# special password include path
+# The following is needed for KERBEROS or DCE authentication
+#PASSWDINC	= -I/usr/athena/include
+#PASSWDINC	= -I/usr/include/reentrant
+#
+# special password library (Shadow, KERBEROS, or DCE authentication)
+#PASSWDLIB	= -lshadow
+#PASSWDLIB	= -L/usr/athena/lib -ldes -lkrb
+#PASSWDLIB	= -ldce -lc_r
+#
+# special encryption library
+#CRYPTLIB	= -lcrypt
+#
+# use -lnsl -lsocket if you are using Solaris 2.x's cc
+#MISCLIB	= -lnsl -lsocket
+#
+
+# directory of your app-defaults directory, below is a guess
+LIBDIR		= /usr/local/lib/X11
+
+# miscellaneous defines
+# -DUSE_VROOT		allows xlock to run in root window (may
+#			cause problems with certain window managers)
+# -DALWAYS_ALLOW_ROOT	users can not turn off allowroot
+# -DSYSLOG	for paranoid administrators
+# -DMULTIPLE_ROOT	multiple root users ... security?
+# -DMOUSE_MOTION	password screen displayed with mouse motion
+# -DOLD_EVENT_LOOP	some machines may still need this (fd_set
+#			errors may be a sign)
+# -DSVR4		to eliminate the need for ucb library
+#			advisable on Solaris-2.x
+#
+# For personal use you may want to consider:
+#  -DUSE_XLOCKRC	paranoid admin or unknown shadow passwd alg
+#
+# For labs you may want to consider:
+#  -DAUTO_LOGOUT	enable auto-logout code
+#  -DLOGOUT_BUTTON	enable logout button
+#  -DCLOSEDOWN_LOGOUT	use with above two if using xdm
+#  -DLO_BUTTON_TIME=5	minutes until logout button appears
+#  -DSTAFF_FILE=\"/etc/xlock.staff\"	file of staff who are exempt from above
+
+COPT		= -O2
+
+DEFINES		= -DUSE_VROOT -DALWAYS_ALLOW_ROOT\
+	-DDEF_FILESEARCHPATH=\"$(LIBDIR)/%T/%N%S\"\
+	${XPMDEF} ${DTSAVERDEF} ${RPLAYDEF} ${PASSWDDEF}
+# -DSYSLOG -DMULTIPLE_ROOT\
+# -DDEF_PLAY=\"$(DEF_PLAY)\"\
+#	-DUSE_XLOCKRC\
+#	-DAUTO_LOGOUT -DLOGOUT_BUTTON -DLO_BUTTON_TIME=5\
+#	-DSTAFF_FILE=\"/etc/xlock.staff\"
+
+INCLUDES	= ${XINC} -I. ${XPMINC} ${DTSAVERINC} ${RPLAYINC} ${PASSWDINC}
+
+CFLAGS		= ${COPT} ${DEFINES} ${INCLUDES}
+
+LINTLIBS	= -lm
+
+LIBS		= ${XLIBPATH} -lX11 ${XPMLIB} ${DTSAVERLIB} ${RPLAYLIB} -lm\
+	 ${CRYPTLIB} ${PASSWDLIB} ${MISCLIB}
+
+HDRS		= xlock.h mode.h vroot.h ras.h
+
+SRCS		= xlock.c passwd.c resource.c\
+	utils.c logout.c mode.c ras.c xbm.c color.c\
+	ant.c bat.c blot.c bouboule.c bounce.c braid.c bug.c\
+	clock.c demon.c eyes.c flag.c flame.c forest.c\
+	galaxy.c geometry.c grav.c helix.c hop.c hyper.c\
+	image.c kaleid.c laser.c life.c life1d.c life3d.c lightning.c lissie.c\
+	marquee.c maze.c mountain.c nose.c petal.c puzzle.c pyro.c\
+	qix.c rock.c rotor.c\
+	shape.c slip.c sphere.c spiral.c spline.c swarm.c swirl.c\
+	triangle.c wator.c wire.c world.c worm.c\
+	blank.c random.c
+
+OBJS		=${SRCS:.c=.o}
+
+BITMAPS		= eyes.xbm image.xbm life.xbm life1d.xbm maze.xbm puzzle.xbm
+PIXMAPS		= image.xpm puzzle.xpm
+
+PROGRAM         = xlock
+
+VER             = ${PROGRAM}more
+
+
+all:		${OBJS}
+		${CC} ${COPT} -o ${PROGRAM} ${OBJS} ${LIBS}
+
+debug:	xlock
+#debug:=COPT=-g -DDEBUG
+
+#resource.o:=DEFINES=-DDEF_FILESEARCHPATH=\"$(LIBDIR)/%T/%N%S\"
+
+flag.c: flag.h
+eyes.c: eyes.xbm
+life.c: life.xbm
+life1d.c:	life1d.xbm
+maze.c:	maze.xbm
+
+# change for XPM
+image.c:	image.xbm
+puzzle.c:	puzzle.xbm
+#image.c:	image.xbm image.xpm
+#puzzle.c:	puzzle.xbm puzzle.xpm
+
+flag.h:
+	rm -f flag.h
+	ln -s ${FLAGDIR}/flag-$(FLAGBITS).h flag.h
+ 
+eyes.xbm:
+	rm -f eyes.xbm
+	ln -s ${BITMAPDIR}/$(EYESBITMAP).xbm eyes.xbm
+
+image.xbm:
+	rm -f image.xbm
+	ln -s ${BITMAPDIR}/$(IMAGEBITMAP).xbm image.xbm
+
+life.xbm:
+	rm -f life.xbm
+	ln -s ${BITMAPDIR}/$(LIFEBITMAP).xbm life.xbm
+
+life1d.xbm:
+	rm -f life1d.xbm
+	ln -s ${BITMAPDIR}/$(LIFE1DBITMAP).xbm life1d.xbm
+
+maze.xbm:
+	rm -f maze.xbm
+	ln -s ${BITMAPDIR}/$(MAZEBITMAP).xbm maze.xbm
+ 
+puzzle.xbm:
+	rm -f puzzle.xbm
+	ln -s ${BITMAPDIR}/$(IMAGEBITMAP).xbm puzzle.xbm
+
+image.xpm:
+	rm -f image.xpm
+	ln -s ${PIXMAPDIR}/$(IMAGEPIXMAP).xpm image.xpm
+
+puzzle.xpm:
+	rm -f puzzle.xpm
+	ln -s ${PIXMAPDIR}/$(PUZZLEPIXMAP).xpm puzzle.xpm
+
+tar:	clean.all
+	cd .. ; tar cvf ${VER}.tar ${VER}/*
+
+compress:	tar
+	cd .. ; compress -f ${VER}.tar
+
+gzip:	tar
+	cd .. ; gzip -f ${VER}.tar
+
+tgz:	tar
+	cd .. ; gzip -c ${VER}.tar > `echo ${VER} | cut -c1-8`.tgz ;\
+		rm -f ${VER}.tar
+
+man:
+	nroff -man ${PROGRAM}.man | more
+
+read:
+	more README
+
+lint:
+	${LINT} -ax -DLINT ${DEFINES} ${INCLUDES} ${LINTLIBS} ${SRCS}
+
+clean:
+	rm -f *.o ${PROGRAM} core *~ *% *.bak make.log MakeOut life.xbm maze.xbm image.xbm image.xpm flag.h
+
+clean.all:	clean
+	rm -f Makefile
+
+install:	${PROGRAM}
+	install -s -m $(BINMODE) ${PROGRAM} $(DEST)/bin
+	install -m $(LIBMODE) $(MANPAGE) $(DEST)/man/man1
