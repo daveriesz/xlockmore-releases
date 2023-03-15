@@ -1,0 +1,811 @@
+Path: uunet!tut.cis.ohio-state.edu!zaphod.mps.ohio-state.edu!brutus.cs.uiuc.edu!apple!sun-barr!newstop!sun!cellar.bae.bellcore.com)!aw@garage.bae.bellcore.com
+From: aw@garage.bae.bellcore.com (aw@cellar.bae.bellcore.com)
+Newsgroups: comp.sources.x
+Subject: v07i096: xlock -- lockscreen for X displays, Patch4, Part01/01
+Message-ID: <137221@sun.Eng.Sun.COM>
+Date: 13 Jun 90 22:54:06 GMT
+Sender: news@sun.Eng.Sun.COM
+Lines: 801
+Approved: argv@sun.com
+
+Submitted-by: Andrew Wason (aw@cellar.bae.bellcore.com) <aw@garage.bae.bellcore.com>
+Posting-number: Volume 7, Issue 96
+Archive-name: xlock/patch4
+
+[ Moderator's note: There is no Patch-To: line because the source has
+    passed through too many hands and revisions since it's original posting
+    in Volume 5.  So, let's assume the submitter of this patch is correct
+    and call the current version patch level 4.  that is, you should apply
+    this patch to version 1.3 of xlock...  Discrepincies should be taken
+    up with Andrew Wason, not me.  However, keep me appraised of any
+    conclusions for future postings. --dan ]
+
+This is an unofficial patch to the contrib xlock program
+(patchlevel 1.3 - available from expo.lcs.mit.edu).
+I have tried to contact the author, but never received any response.
+If this isn't the correct place to send these patches,
+please let me know what is.
+
+This patch fixes colormap problems xlock has when run under
+ICCCM compliant window managers (e.g. R4 twm).
+See the file README.patch for more information.
+
+The shar file below contains README.patch and xlock.patch.
+Typing 'patch < xlock.patch' in the source code directory for
+xlock 1.3 will apply the patch.
+
+--------------------------------------------------------------------------------
+Andrew Wason                                        Bell Communications Research
+aw@cellar.bae.bellcore.com                          Piscataway, NJ
+bellcore!cellar!aw
+--------------------------------------------------------------------------------
+
+
+#--------------------------- Cut Here --------------------------
+#!/bin/sh
+#
+# Run this file through sh
+#
+echo README.patch
+sed -e 's/^Z//' > README.patch << 'EOF of README.patch'
+Patching:
+
+  This is an unofficial patch for version 1.3 of xlock.
+  It should only be applied if the file patchlevel.h contains the number 1.3.
+  This patch increases the patchlevel to 1.4.
+  I did not include a "Prereq:" line in the patch, because patch
+  core dumps when I do, so it's up to you to make sure you are patching
+  version 1.3.
+
+Colormap changes:
+
+     Xlock builds it's own colormap which contains colors which make the
+  qix, hop and life modes look appealing (e.g. the stick color in qix moves
+  through different hues as it moves around the screen).  Xlock version 1.3
+  used XInstallColormap()/XUninstallColormap() to forcibly install/uninstall
+  this colormap. This violates ICCCM standards and does not work with
+  ICCCM compliant window managers (e.g. R4 twm). An ICCCM compliant window
+  manager will print an error message and refuse to install the colormap.
+  This makes xlock's colors look like garbage.
+
+     An ICCCM compliant client should use XSetWindowColormap() and let the
+  window manager install the colormap for it.  This will not work for xlock
+  because the xlock window is override_redirect and so the window manager
+  doesn't know it exists and never installs the colormap.
+
+     To solve this problem, this unofficial version of xlock uses XAllocColor()
+  to attempt to allocate the colors it needs out of the default colormap.
+  How many colors xlock is able to allocate depends on what other clients
+  are running. If the root window contains a colorful image, for example,
+  then xlock will not get as many colors. Use the -v option to see how
+  many colors xlock is able to allocate. In most cases, xlock can allocate
+  enough colors to look decent.
+
+      There is a new -install option to xlock which makes it behave the
+  way the 1.3 version did (i.e. use XInstallColormap()/XUninstallColormap()).
+  This is useful for non-ICCCM compliant window managers.
+
+
+Popup windows:
+
+     This patch also fixes a problem xlock has with popup windows.
+  Xlock does not allow any new clients to connect to the locked display,
+  but if a client is already connected but unmapped, and this client maps
+  itself after the screen has been locked, then this client's window will
+  pop up on top of the xlock window and potentially burn-in the screen.
+  An example of this is the xconsole program which is unmapped until it gets
+  a console message. It then maps itself on top of the xlock window.
+
+     This patched version of xlock raises the xlock window every 'timeout'
+  seconds. So any windows which have popped up will be covered again.
+
+
+Andrew Wason
+Bellcore
+aw@cellar.bae.bellcore.com
+EOF of README.patch
+echo "      55     418    2626 README.patch"
+wc README.patch
+
+echo xlock.patch
+sed -e 's/^Z//' > xlock.patch << 'EOF of xlock.patch'
+Index: patchlevel.h
+diff -c xlock.orig/patchlevel.h xlock.new/patchlevel.h
+*** xlock.orig/patchlevel.h	Thu Jun  7 09:49:42 1990
+--- xlock.new/patchlevel.h	Wed Jun 13 16:03:40 1990
+***************
+*** 1 ****
+! 1.3
+--- 1 ----
+! 1.4
+diff -c xlock.orig/HSBmap.c xlock.new/HSBmap.c
+*** xlock.orig/HSBmap.c	Thu Jun  7 09:49:45 1990
+--- xlock.new/HSBmap.c	Fri May 18 19:26:35 1990
+***************
+*** 110,118 ****
+      r = red;
+      g = green;
+      b = blue;
+!     dh = (h2 - h1) / 255.0;
+!     ds = (s2 - s1) / 255.0;
+!     db = (b2 - b1) / 255.0;
+      for (i = start; i <= end; i++) {
+  	hsb2rgb(h1, s1, b1, r++, g++, b++);
+  	h1 += dh;
+--- 110,118 ----
+      r = red;
+      g = green;
+      b = blue;
+!     dh = (h2 - h1) / (double) (end - start);
+!     ds = (s2 - s1) / (double) (end - start);
+!     db = (b2 - b1) / (double) (end - start);
+      for (i = start; i <= end; i++) {
+  	hsb2rgb(h1, s1, b1, r++, g++, b++);
+  	h1 += dh;
+diff -c xlock.orig/README xlock.new/README
+*** xlock.orig/README	Thu Jun  7 09:49:41 1990
+--- xlock.new/README	Wed Jun  6 17:05:36 1990
+***************
+*** 1,3 ****
+--- 1,13 ----
++ This is an unofficially patched version of xlock version 1.3
++ 
++ CHANGES:
++    o use the default colormap instead of forcibly installing a colormap
++    o forcibly install the colormap if the -install option is used
++    o raise the xlock window every 'timeout' seconds (to cover any windows
++      which have popped up)
++ 
++ 
++ ----------------- version 1.3 README ------------------------------------
+  
+  This is the latest version of xlock (sccs version 22.7) patchlevel = 1.3
+  
+diff -c xlock.orig/XCrDynCmap.c xlock.new/XCrDynCmap.c
+*** xlock.orig/XCrDynCmap.c	Thu Jun  7 09:49:45 1990
+--- xlock.new/XCrDynCmap.c	Fri May 18 19:01:46 1990
+***************
+*** 29,85 ****
+  #include <X11/Xutil.h>
+  
+  Status
+! XCreateDynamicColormap(dsp, screen, cmap, visual, colors,
+! 		       count, red, green, blue)
+!     Display    *dsp;
+!     int		screen;
+!     Colormap   *cmap;
+!     Visual    **visual;
+!     XColor     *colors;
+!     int		count;
+!     u_char     *red,
+! 	       *green,
+! 	       *blue;
+  {
+      XVisualInfo vinfo;
+-     int		pixels[256];
+      int		i,
+- 		ncolors,
+  		planes;
+!     unsigned long pmasks;
+!     Status	allocReturn;
+  
+      planes = DisplayPlanes(dsp, screen);
+      if (XMatchVisualInfo(dsp, screen, planes, PseudoColor, &vinfo)) {
+  
+  	*visual = vinfo.visual;
+! 	*cmap = XCreateColormap(dsp, RootWindow(dsp, screen),
+! 				*visual, AllocNone);
+! 	ncolors = vinfo.colormap_size;
+  
+! 	if (count > ncolors)
+! 	    return BadValue;
+  
+! 	allocReturn = XAllocColorCells(dsp, *cmap,
+! 				       False, &pmasks, 0,
+! 				       pixels, count);
+  
+! /*	This should return Success, but it doesn't... Xlib bug?
+!  *	(I'll ignore the return value for now...)
+!  */
+! #ifdef NOTDEF
+! 	if (allocReturn != Success)
+! 	    return allocReturn;
+! #endif				/* NOTDEF */
+  
+! 	for (i = 0; i < count; i++) {
+! 	    colors[i].pixel = pixels[i];
+! 	    colors[i].red = *red++ << 8;
+! 	    colors[i].green = *green++ << 8;
+! 	    colors[i].blue = *blue++ << 8;
+! 	    colors[i].flags = DoRed | DoGreen | DoBlue;
+  	}
+! 	XStoreColors(dsp, *cmap, colors, count);
+  	return Success;
+      } else
+  	return BadMatch;
+--- 29,86 ----
+  #include <X11/Xutil.h>
+  
+  Status
+! XCreateDynamicColormap(dsp, screen, cmap, install, visual, red, green, blue,
+! 		pixels, npixels)
+!     Display		*dsp;
+!     int			screen;
+!     Colormap		*cmap;
+!     int			install;
+!     Visual		**visual;
+!     u_char		*red,
+! 			*green,
+! 			*blue;
+!     unsigned long	pixels[256];	/* returned array of useable pixels 
+! 					   in default colormap */
+!     int			*npixels;
+  {
+      XVisualInfo vinfo;
+      int		i,
+  		planes;
+!     XColor	xcolors[256];
+!     char	flags;
+  
+      planes = DisplayPlanes(dsp, screen);
+      if (XMatchVisualInfo(dsp, screen, planes, PseudoColor, &vinfo)) {
+  
+  	*visual = vinfo.visual;
+! 	if (install)
+! 	    *cmap = XCreateColormap(dsp, RootWindow(dsp, screen),
+! 				*visual, AllocAll);
+! 	else
+! 	    *cmap = DefaultColormap(dsp, screen);
+  
+! 	*npixels = 0;
+! 	flags = DoRed | DoGreen | DoBlue;
+! 	for (i = 0; i < DisplayCells(dsp, screen); i++) {
+! 	    xcolors[i].red = *red++ << 8;
+! 	    xcolors[i].green = *green++ << 8;
+! 	    xcolors[i].blue = *blue++ << 8;
+! 	    xcolors[i].flags = flags;
+  
+! 	    if (install)
+! 		xcolors[i].pixel = i;
+  
+! 	    /* if we successfuly alloc a color, save the pixel,
+! 	       if we fail then we are out of colormap space */
+! 	    else
+! 		if (!XAllocColor(dsp, *cmap, &xcolors[i]))
+! 		    break;
+  
+! 	    pixels[i] = xcolors[i].pixel;
+! 	    (*npixels)++;
+  	}
+! 	if (install)
+! 	    XStoreColors(dsp, *cmap, xcolors, DisplayCells(dsp, screen));
+  	return Success;
+      } else
+  	return BadMatch;
+diff -c xlock.orig/XCrHsbCmap.c xlock.new/XCrHsbCmap.c
+*** xlock.orig/XCrHsbCmap.c	Thu Jun  7 09:49:45 1990
+--- xlock.new/XCrHsbCmap.c	Fri May 18 19:26:10 1990
+***************
+*** 27,47 ****
+  #include <X11/Xos.h>
+  #include <X11/Xlib.h>
+  
+! extern void HSBmap();
+  
+  Status
+! XCreateHSBColormap(dsp, screen, cmap, count, h1, s1, b1, h2, s2, b2, bw)
+!     Display    *dsp;
+!     int         screen;
+!     Colormap   *cmap;		/* colormap return value */
+!     int         count;		/* number of entrys to use */
+!     double      h1,		/* starting hue */
+!                 s1,		/* starting saturation */
+!                 b1,		/* starting brightness */
+!                 h2,		/* ending hue */
+!                 s2,		/* ending saturation */
+!                 b2;		/* ending brightness */
+!     int         bw;		/* Boolean: True = save black and white */
+  {
+      u_char      red[256];
+      u_char      green[256];
+--- 27,50 ----
+  #include <X11/Xos.h>
+  #include <X11/Xlib.h>
+  
+! extern void HSBramp();
+  
+  Status
+! XCreateHSBColormap(dsp, screen, cmap, install, h1, s1, b1, h2, s2, b2, bw,
+! 			pixels, npixels)
+!     Display      *dsp;
+!     int           screen;
+!     Colormap     *cmap;		/* if install, colormap return value */
+!     int           install;	/* true if we should install a colormap */
+!     double        h1,		/* starting hue */
+!                   s1,		/* starting saturation */
+!                   b1,		/* starting brightness */
+!                   h2,		/* ending hue */
+!                   s2,		/* ending saturation */
+!                   b2;		/* ending brightness */
+!     int           bw;		/* Boolean: True = save black and white */
+!     unsigned long pixels[256];	/* return array of useable pixels */
+!     int          *npixels;
+  {
+      u_char      red[256];
+      u_char      green[256];
+***************
+*** 49,61 ****
+      unsigned long pixel;
+      Status      status;
+      Visual     *visual;
+-     XColor      xcolors[256];
+  
+!     if (count > 256)
+! 	return BadValue;
+  
+-     HSBramp(h1, s1, b1, h2, s2, b2, 0, count - 1, red, green, blue);
+- 
+      if (bw) {
+  	pixel = WhitePixel(dsp, screen);
+  	red[pixel] = green[pixel] = blue[pixel] = 0xff;
+--- 52,61 ----
+      unsigned long pixel;
+      Status      status;
+      Visual     *visual;
+  
+!     /* create 3 256 element arrays of rgb values */
+!     HSBramp(h1, s1, b1, h2, s2, b2, 0, DisplayCells(dsp, screen) - 1, red, green, blue);
+  
+      if (bw) {
+  	pixel = WhitePixel(dsp, screen);
+  	red[pixel] = green[pixel] = blue[pixel] = 0xff;
+***************
+*** 63,70 ****
+  	pixel = BlackPixel(dsp, screen);
+  	red[pixel] = green[pixel] = blue[pixel] = 0;
+      }
+!     status = XCreateDynamicColormap(dsp, screen, cmap, &visual, xcolors,
+! 				    count, red, green, blue);
+  
+      return status;
+  }
+--- 63,70 ----
+  	pixel = BlackPixel(dsp, screen);
+  	red[pixel] = green[pixel] = blue[pixel] = 0;
+      }
+!     status = XCreateDynamicColormap(dsp, screen, cmap, install, &visual,
+! 				    red, green, blue, pixels, npixels);
+  
+      return status;
+  }
+diff -c xlock.orig/hopalong.c xlock.new/hopalong.c
+*** xlock.orig/hopalong.c	Thu Jun  7 09:49:43 1990
+--- xlock.new/hopalong.c	Fri May 18 19:01:46 1990
+***************
+*** 29,34 ****
+--- 29,35 ----
+   *		       Mountain View, CA  94043
+   *
+   * Revision History:
++  * 09-May-90: Use Pixels[] array to index into default colormap.
+   * 15-Dec-89: Fix for proper skipping of {White,Black}Pixel() in colors.
+   * 08-Oct-89: Fixed long standing typo bug in RandomInitHop();
+   *	      Fixed bug in memory allocation in inithop();
+***************
+*** 44,49 ****
+--- 45,53 ----
+  #include <X11/Xlib.h>
+  #include <X11/Xutil.h>
+  
++ extern unsigned long Pixels[];
++ extern int NPixels;
++ 
+  static int  centerx,
+  	    centery;		/* center of the screen */
+  static double a,
+***************
+*** 152,162 ****
+      register XPoint *xp = pointBuffer;
+  
+      if (color) {
+! 	XSetForeground(Dsp, Gc, pix++);
+! 	while (pix >= DisplayCells(Dsp, DefaultScreen(Dsp)) ||
+  		pix == WhitePixel(Dsp, DefaultScreen(Dsp)) ||
+  		pix == BlackPixel(Dsp, DefaultScreen(Dsp))) {
+! 	    if (pix >= DisplayCells(Dsp, DefaultScreen(Dsp)))
+  		pix = 0;
+  	    else
+  		pix++;
+--- 156,166 ----
+      register XPoint *xp = pointBuffer;
+  
+      if (color) {
+! 	XSetForeground(Dsp, Gc, Pixels[pix++]);
+! 	while (pix >= NPixels ||
+  		pix == WhitePixel(Dsp, DefaultScreen(Dsp)) ||
+  		pix == BlackPixel(Dsp, DefaultScreen(Dsp))) {
+! 	    if (pix >= NPixels)
+  		pix = 0;
+  	    else
+  		pix++;
+diff -c xlock.orig/life.c xlock.new/life.c
+*** xlock.orig/life.c	Thu Jun  7 09:49:44 1990
+--- xlock.new/life.c	Fri May 18 19:01:46 1990
+***************
+*** 30,35 ****
+--- 30,36 ----
+   *		       Mountain View, CA  94043
+   *
+   * Revision History:
++  * 09-May-90: Use Pixels[] array to index into default colormap.
+   * 07-Feb-90: remove bogus semi-colon after #include line.
+   * 15-Dec-89: Fix for proper skipping of {White,Black}Pixel() in colors.
+   * 08-Oct-89: Moved seconds() to an extern.
+***************
+*** 41,46 ****
+--- 42,50 ----
+  #include <X11/Xutil.h>
+  #include "lifeicon.bit"
+  
++ extern unsigned long Pixels[];
++ extern int NPixels;
++ 
+  static XImage logo = {
+      0, 0,			/* width, height */
+      0, XYBitmap, 0,		/* xoffset, format, data */
+***************
+*** 323,337 ****
+  	register unsigned char *ageptr = agebuf + (loc - buffer);
+  	register unsigned char age = *ageptr;
+  
+! 	while (age >= DisplayCells(Dsp, DefaultScreen(Dsp)) ||
+  		age == WhitePixel(Dsp, DefaultScreen(Dsp)) ||
+  		age == BlackPixel(Dsp, DefaultScreen(Dsp))) {
+! 	    if (age >= DisplayCells(Dsp, DefaultScreen(Dsp)))
+  		age = 0;
+  	    else
+  		age++;
+  	}
+! 	XSetForeground(Dsp, Gc, age);
+  	*ageptr = age + 1;
+      }
+      if (pixels)
+--- 327,341 ----
+  	register unsigned char *ageptr = agebuf + (loc - buffer);
+  	register unsigned char age = *ageptr;
+  
+! 	while (age >= NPixels ||
+  		age == WhitePixel(Dsp, DefaultScreen(Dsp)) ||
+  		age == BlackPixel(Dsp, DefaultScreen(Dsp))) {
+! 	    if (age >= NPixels)
+  		age = 0;
+  	    else
+  		age++;
+  	}
+! 	XSetForeground(Dsp, Gc, Pixels[age]);
+  	*ageptr = age + 1;
+      }
+      if (pixels)
+diff -c xlock.orig/qix.c xlock.new/qix.c
+*** xlock.orig/qix.c	Thu Jun  7 09:49:44 1990
+--- xlock.new/qix.c	Fri May 18 19:01:46 1990
+***************
+*** 29,34 ****
+--- 29,35 ----
+   *		       Mountain View, CA  94043
+   *
+   * Revision History:
++  * 09-May-90: Use Pixels[] array to index into default colormap.
+   * 15-Dec-89: Fix for proper skipping of {White,Black}Pixel() in colors.
+   * 08-Oct-89: Fixed bug in memory allocation in initqix().
+   *	      Moved seconds() to an extern.
+***************
+*** 41,46 ****
+--- 42,50 ----
+  #include <X11/Xlib.h>
+  #include <X11/Xutil.h>
+  
++ extern unsigned long Pixels[];
++ extern int NPixels;
++ 
+  static Display *Dsp;
+  static Window Win;
+  static GC   Gc,
+***************
+*** 156,166 ****
+  	check_bounds_x(x2, &dx2);
+  	check_bounds_y(y2, &dy2);
+  	if (color) {
+! 	    XSetForeground(Dsp, Gc, pix++);
+! 	    while (pix >= DisplayCells(Dsp, DefaultScreen(Dsp)) ||
+  		    pix == WhitePixel(Dsp, DefaultScreen(Dsp)) ||
+  		    pix == BlackPixel(Dsp, DefaultScreen(Dsp))) {
+! 		if (pix >= DisplayCells(Dsp, DefaultScreen(Dsp)))
+  		    pix = 0;
+  		else
+  		    pix++;
+--- 160,170 ----
+  	check_bounds_x(x2, &dx2);
+  	check_bounds_y(y2, &dy2);
+  	if (color) {
+! 	    XSetForeground(Dsp, Gc, Pixels[pix++]);
+! 	    while (pix >= NPixels ||
+  		    pix == WhitePixel(Dsp, DefaultScreen(Dsp)) ||
+  		    pix == BlackPixel(Dsp, DefaultScreen(Dsp))) {
+! 		if (pix >= NPixels)
+  		    pix = 0;
+  		else
+  		    pix++;
+diff -c xlock.orig/xlock.c xlock.new/xlock.c
+*** xlock.orig/xlock.c	Thu Jun  7 09:49:43 1990
+--- xlock.new/xlock.c	Fri May 18 19:01:46 1990
+***************
+*** 29,34 ****
+--- 29,40 ----
+   *		       Mountain View, CA  94043
+   *
+   * Revision History:
++  * 18-May-90: Raise window on reinit() - takes care of dialog boxes that pop
++  *              up on top of xlock window.
++  * 09-May-90: xlock will only install a colormap if the -install option is used
++  *              The default action is to attempt allocate all colorcells out
++  *              of the default colormap. This will satisfy ICCCM compliant
++  *              window managers.
+   * 18-Feb-90: added SunOS3.5 fix.
+   *	      changed -mono -> -color, and -saver -> -lock.
+   *	      allow non-locking screensavers to display on remote machine.
+***************
+*** 148,153 ****
+--- 154,162 ----
+  void	    (*callback) () = NULL;
+  void	    (*init) () = NULL;
+  
++ unsigned long Pixels[256];	/* array of colormap indices for HSB colors */
++ int           NPixels;
++ 
+  char	   *pname;		/* argv[0] */
+  Display	   *dsp = NULL;		/* server display connection */
+  int	    screen;		/* current screen */
+***************
+*** 170,175 ****
+--- 179,185 ----
+  char	   *fontname = NULL;	/* the font used in the password screen */
+  int	    lockprocindex;	/* which proc in LockProcs is selected */
+  Bool	    color = -1;		/* color or mono */
++ Bool        install = -1;	/* install colormap, or use default */
+  Bool	    lock = -1;		/* locked or just saver mode */
+  Bool	    allowroot = -1;	/* allow root password to unlock? */
+  Bool	    xhost = -1;		/* whether or not to lock out all hosts */
+***************
+*** 193,198 ****
+--- 203,209 ----
+  #define DEFAULT_FONTNAME    "-*-lucida-medium-r-normal-sans-24-*-*-*-*-*-*-*"
+  #define BACKUP_FONTNAME		"fixed"
+  #define DEFAULT_COLOR		True
++ #define DEFAULT_INSTALL		False
+  #define DEFAULT_LOCK		True
+  #define DEFAULT_ALLOWROOT	False
+  #define DEFAULT_XHOST		True
+***************
+*** 343,349 ****
+      if (screensaver)
+  	XSetScreenSaver(dsp, timeout, interval, blanking, exposures);
+      XDestroyWindow(dsp, w);
+!     if (color)
+  	XUninstallColormap(dsp, cmap);
+      XFlush(dsp);
+      XCloseDisplay(dsp);
+--- 354,360 ----
+      if (screensaver)
+  	XSetScreenSaver(dsp, timeout, interval, blanking, exposures);
+      XDestroyWindow(dsp, w);
+!     if (color && install)
+  	XUninstallColormap(dsp, cmap);
+      XFlush(dsp);
+      XCloseDisplay(dsp);
+***************
+*** 547,554 ****
+      do {
+  	while (!XPending(dsp)) {
+  	    callback();
+! 	    if (reinit())
+  		init(dsp, w, gc, color, inittime, count);
+  	}
+  	XNextEvent(dsp, &event);
+      } while (event.type != ButtonPress && event.type != KeyPress);
+--- 558,567 ----
+      do {
+  	while (!XPending(dsp)) {
+  	    callback();
+! 	    if (reinit()) {
+  		init(dsp, w, gc, color, inittime, count);
++     		XRaiseWindow(dsp, w);
++ 	    }
+  	}
+  	XNextEvent(dsp, &event);
+      } while (event.type != ButtonPress && event.type != KeyPress);
+***************
+*** 573,581 ****
+      for (i = 1; i < NUMPROCS; i++)
+  	fprintf(stderr, " | %s", LockProcs[i].cmdline_arg);
+      fprintf(stderr, "]\n");
+!     fprintf(stderr, "\t%s\n\t%s\n",
+  	    "[-time n] [-count n] [-nice n] [-font f]",
+! 	"[-color] [-lock] [-root] [-xhost] [-screensaver] [-echokeys] [-v]");
+      exit(1);
+  }
+  
+--- 586,595 ----
+      for (i = 1; i < NUMPROCS; i++)
+  	fprintf(stderr, " | %s", LockProcs[i].cmdline_arg);
+      fprintf(stderr, "]\n");
+!     fprintf(stderr, "\t%s\n\t%s\n\t%s\n",
+  	    "[-time n] [-count n] [-nice n] [-font f]",
+! 	    "[-color] [-install] [-lock] [-root] [-xhost] [-screensaver]",
+! 	    "[-echokeys] [-v]");
+      exit(1);
+  }
+  
+***************
+*** 593,598 ****
+--- 607,614 ----
+  	}
+      }
+      usage("Unknown Mode.");
++ 
++     /* NOTREACHED */
+  }
+  
+  
+***************
+*** 648,653 ****
+--- 664,671 ----
+  	    display = argv[i];
+  	} else if (!strncmp("-color", s, n)) {
+  	    color = !DEFAULT_COLOR;
++ 	} else if (!strncmp("-install", s, n)) {
++ 	    install = !DEFAULT_INSTALL;
+  	} else if (!strncmp("-lock", s, n)) {
+  	    lock = !DEFAULT_LOCK;
+  	} else if (!strncmp("-root", s, n)) {
+***************
+*** 760,775 ****
+--- 778,805 ----
+  	if (font == NULL)
+  	    error("%s: can't even find %s!!!\n", BACKUP_FONTNAME);
+      }
++     if (install == -1)
++ 	install = XGetBoolDefault("install", DEFAULT_INSTALL);
+      screen = DefaultScreen(dsp);
+      if (color)
+  	color = (DisplayCells(dsp, screen) > 2);
+      root = RootWindow(dsp, screen);
+  
++     if (color) {
++ 	if (XCreateHSBColormap(dsp, screen, &cmap, install,
++ 		0.0, 1.0, 1.0, 1.0, 1.0, 1.0, True,
++ 		Pixels, &NPixels) != Success)
++ 	    error("%s: couldn't match PseudoColor visual.");
++     } else
++ 	cmap = DefaultColormap(dsp, screen);
++ 
+      if (verbose) {
+  	fprintf(stderr, "display = %s\n", display);
+  	fprintf(stderr, "font = %s\n", fontname);
+  	fprintf(stderr, "mode = %s\n", LockProcs[lockprocindex].cmdline_arg);
+  	fprintf(stderr, "color = %s\n", sbool(color));
++ 	fprintf(stderr, "#colors = %d\n", NPixels);
++ 	fprintf(stderr, "install = %s\n", sbool(install));
+  	fprintf(stderr, "lock = %s\n", sbool(lock));
+  	fprintf(stderr, "root = %s\n", sbool(allowroot));
+  	fprintf(stderr, "xhost = %s\n", sbool(xhost));
+***************
+*** 779,790 ****
+  	fprintf(stderr, "count = %d\n", count);
+  	fprintf(stderr, "nice = %d\n", nicelevel);
+      }
+-     if (color) {
+- 	if (XCreateHSBColormap(dsp, screen, &cmap, DisplayCells(dsp, screen),
+- 			       0.0, 1.0, 1.0, 1.0, 1.0, 1.0, True) != Success)
+- 	    error("%s: couldn't create colormap.");
+-     } else
+- 	cmap = DefaultColormap(dsp, screen);
+  
+      black.pixel = BlackPixel(dsp, screen);
+      XQueryColor(dsp, cmap, &black);
+--- 809,814 ----
+***************
+*** 803,815 ****
+--- 827,849 ----
+      xswa.background_pixel = black.pixel;
+      xswa.event_mask = KeyPressMask | ButtonPressMask;
+  
++ #ifdef SABER
+      w = XCreateWindow(dsp, root,
+  		      0, 0,
++ 		      500,
++ 		      500,
++ 		      0, CopyFromParent, InputOutput, CopyFromParent,
++ 		      CWCursor | CWOverrideRedirect |
++ 		      CWBackPixel | CWEventMask, &xswa);
++ #else
++     w = XCreateWindow(dsp, root,
++ 		      0, 0,
+  		      DisplayWidth(dsp, screen),
+  		      DisplayHeight(dsp, screen),
+  		      0, CopyFromParent, InputOutput, CopyFromParent,
+  		      CWCursor | CWOverrideRedirect |
+  		      CWBackPixel | CWEventMask, &xswa);
++ #endif
+  
+      xswa.cursor = XCreateFontCursor(dsp, XC_target);
+      xswa.background_pixel = white.pixel;
+***************
+*** 837,843 ****
+--- 871,879 ----
+  	XGetScreenSaver(dsp, &timeout, &interval, &blanking, &exposures);
+  	XSetScreenSaver(dsp, 0, 0, 0, 0);	/* disable screen saver */
+      }
++ #ifndef SABER
+      GrabKeyboardAndMouse();
++ #endif
+  
+      if (lock) {
+  	if (xhost)
+***************
+*** 847,853 ****
+      nice(nicelevel);
+      srandom(getpid());
+  
+!     if (color)
+  	XInstallColormap(dsp, cmap);
+  
+      if (lock)
+--- 883,889 ----
+      nice(nicelevel);
+      srandom(getpid());
+  
+!     if (color && install)
+  	XInstallColormap(dsp, cmap);
+  
+      if (lock)
+diff -c xlock.orig/xlock.man xlock.new/xlock.man
+*** xlock.orig/xlock.man	Thu Jun  7 09:49:42 1990
+--- xlock.new/xlock.man	Wed Jun  6 16:45:38 1990
+***************
+*** 44,49 ****
+--- 44,52 ----
+  [
+  .B \-v
+  ]
++ [
++ .B \-install
++ ]
+  
+  .SH DESCRIPTION
+  .B xlock
+***************
+*** 179,184 ****
+--- 182,194 ----
+  .TP 5
+  .B \-v
+  Verbose mode, tells what options it is going to use.
++ .TP 5
++ .B \-install
++ Forcibly install the colormap.
++ This violates ICCCM standards and will not work with ICCCM
++ compliant window managers.
++ This option exists for backward compatibility with older
++ versions of xlock.
+  
+  .SH BUGS
+  "kill -KILL
+EOF of xlock.patch
+echo "     691    2686   20177 xlock.patch"
+wc xlock.patch
+
+
+dan
+----------------------------------------------------
+O'Reilly && Associates   argv@sun.com / argv@ora.com
+Opinions expressed reflect those of the author only.
