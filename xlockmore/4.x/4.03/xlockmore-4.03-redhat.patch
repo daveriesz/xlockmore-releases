@@ -1,0 +1,13 @@
+--- xlockmore-4.03/Imakefile.redhat	Fri Jul 11 11:28:36 1997
++++ xlockmore-4.03/Imakefile	Fri Jul 11 11:33:34 1997
+@@ -309,8 +309,8 @@
+ #else
+ #ifdef LinuxArchitecture
+        SLEEPDEF = -DHAVE_USLEEP
+-     BITMAPTYPE = linux
+-     PIXMAPTYPE = linux
++     BITMAPTYPE = redhat
++     PIXMAPTYPE = redhat
+ #if HasShadowPasswd && !UseElfFormat
+ EXTRA_LIBRARIES = -lgdbm
+ #endif

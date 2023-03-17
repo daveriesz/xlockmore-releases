@@ -1,0 +1,24 @@
+diff -ur xlockmore-4.03/configure xlockmore-4.03-new/configure
+--- xlockmore-4.03/configure	Mon Jun 23 18:07:21 1997
++++ xlockmore-4.03-new/configure	Thu Jul 17 22:36:15 1997
+@@ -3521,7 +3521,7 @@
+ #define USE_NAS 1
+ EOF
+ 
+-    XLOCKLIBS="${XLOCKLIBS} -lnas"
++    XLOCKLIBS="${XLOCKLIBS} -laudio -lXt"
+     test "x$nas_includes" = xNONE && nas_includes=$ac_nas_includes
+     test "x$nas_libraries" = xNONE && nas_libraries=$ac_nas_libraries
+     ac_cv_path_nas="no_nas= ac_nas_includes=$nas_includes ac_nas_libraries=$nas_libraries"
+diff -ur xlockmore-4.03/configure.in xlockmore-4.03-new/configure.in
+--- xlockmore-4.03/configure.in	Mon Jun 23 18:07:16 1997
++++ xlockmore-4.03-new/configure.in	Thu Jul 17 22:36:31 1997
+@@ -1085,7 +1085,7 @@
+   if test "$sound" = no; then
+     sound=yes
+     AC_DEFINE(USE_NAS)
+-    XLOCKLIBS="${XLOCKLIBS} -lnas"
++    XLOCKLIBS="${XLOCKLIBS} -laudio -lXt"
+     test "x$nas_includes" = xNONE && nas_includes=$ac_nas_includes
+     test "x$nas_libraries" = xNONE && nas_libraries=$ac_nas_libraries
+     ac_cv_path_nas="no_nas= ac_nas_includes=$nas_includes ac_nas_libraries=$nas_libraries"

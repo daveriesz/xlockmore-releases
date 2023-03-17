@@ -1,0 +1,22 @@
+--- xlockmore-4.03/XLock.ad.fortune	Thu Jun 19 22:13:41 1997
++++ xlockmore-4.03/XLock.ad	Fri Jul 11 11:35:00 1997
+@@ -48,7 +48,7 @@
+ 
+ ! For marquee & nose modes
+ !XLock.program: fortune -o
+-XLock.program: fortune -s
++XLock.program: /usr/games/fortune -s
+ !XLock.program: fortune
+ !XLock.program: finger
+ !XLock.messagesfile: fortune.dat
+--- xlockmore-4.03/xlock.h.orig	Tue Jul  8 19:16:39 1997
++++ xlockmore-4.03/xlock.h	Fri Jul 11 11:35:00 1997
+@@ -103,7 +103,7 @@
+ #define DEF_MFONT "-*-times-*-*-*-*-18-*-*-*-*-*-*-*"
+ #endif
+ #ifndef DEF_PROGRAM		/* Try the -o option ;) */
+-#define DEF_PROGRAM "fortune -s"
++#define DEF_PROGRAM "/usr/games/fortune -s"
+ #endif
+ 
+ #ifndef DEF_NONE3D

@@ -1,0 +1,12 @@
+diff -ur xlockmore-4.03/Makefile.in xlockmore-4.03.new/Makefile.in
+--- xlockmore-4.03/Makefile.in	Wed Jun 25 18:52:21 1997
++++ xlockmore-4.03.new/Makefile.in	Thu Jul 17 23:52:09 1997
+@@ -409,7 +409,7 @@
+ 	$(srcdir)/mkinstalldirs $(mandir)
+ 	$(srcdir)/mkinstalldirs $(xapploaddir)
+ 	$(INSTALL_PROGRAM) $(INSTPGMFLAGS) xlock$(E) $(bindir)
+-	$(INSTALL_DATA) xlock.man $(mandir)/xlock.1
++	$(INSTALL_DATA) xlock.man $(mandir)/xlock.1x
+ 	$(INSTALL_DATA) XLock.ad $(xapploaddir)/XLock
+ 	@ $(ECHO) "$@ COMPLETE"
+ 	@ $(ECHO) ""

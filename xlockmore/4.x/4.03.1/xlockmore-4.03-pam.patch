@@ -1,0 +1,181 @@
+--- xlockmore-4.03/passwd.c.orig	Tue Jul  8 18:46:46 1997
++++ xlockmore-4.03/passwd.c	Wed Jul 16 03:02:37 1997
+@@ -12,6 +12,7 @@
+  * Revision History:
+  *
+  * Changes maintained by David Bagley <bagleyd@bigfoot.com>
++ * 25-Jul-96: PAM support added.  Michael K. Johnson <johnsonm@redhat.com>
+  * 25-May-96: When xlock is compiled with shadow passwords it will still
+  *            work on non shadowed systems.  Marek Michalkiewicz
+  *            <marekm@i17linuxb.ists.pwr.wroc.pl>
+@@ -262,6 +263,62 @@
+ /* extern char *crypt(const char *, const char *); */
+ #endif
+ 
++#ifdef USE_PAM
++#include <security/pam_appl.h>
++/* used to pass the password to the conversation function */
++static char *PAM_password;
++
++/* PAM conversation function
++ * Here we assume (for now, at least) that echo on means login name, and
++ * echo off means password.
++ */
++static int PAM_conv (int num_msg,
++                     const struct pam_message **msg,
++                     struct pam_response **resp,
++                     void *appdata_ptr) {
++  int count = 0, replies = 0;
++  struct pam_response *reply = NULL;
++  int size = sizeof(struct pam_response);
++
++  #define GET_MEM if (reply) realloc(reply, size); else reply = malloc(size); \
++  if (!reply) return PAM_CONV_ERR; \
++  size += sizeof(struct pam_response)
++  #define COPY_STRING(s) (s) ? strdup(s) : NULL
++
++  for (count = 0; count < num_msg; count++) {
++    switch (msg[count]->msg_style) {
++      case PAM_PROMPT_ECHO_ON:
++        GET_MEM;
++        reply[replies].resp_retcode = PAM_SUCCESS;
++        reply[replies++].resp = COPY_STRING(user);
++          /* PAM frees resp */
++        break;
++      case PAM_PROMPT_ECHO_OFF:
++        GET_MEM;
++        reply[replies].resp_retcode = PAM_SUCCESS;
++        reply[replies++].resp = COPY_STRING(PAM_password);
++          /* PAM frees resp */
++        break;
++      case PAM_TEXT_INFO:
++        /* ignore it... */
++        break;
++      case PAM_ERROR_MSG:
++      default:
++        /* Must be an error of some sort... */
++        free (reply);
++        return PAM_CONV_ERR;
++    }
++  }
++  if (reply) *resp = reply;
++  return PAM_SUCCESS;
++}
++static struct pam_conv PAM_conversation = {
++    &PAM_conv,
++    NULL
++};
++#endif /* USE_PAM */
++
++
+ #if (defined( USE_XLOCKRC ) || (!defined( OSF1_ENH_SEC ) &&  !defined( HP_PASSWDETC ) && !defined( VMS )))
+ static struct passwd *
+ my_passwd_entry(void)
+@@ -418,7 +475,7 @@
+ }
+ #endif
+ 
+-#if !defined( ultrix ) && !defined( DCE_PASSWD ) && !defined( BSD_AUTH )
++#if !defined( ultrix ) && !defined( DCE_PASSWD ) && !defined( BSD_AUTH ) && !defined( BSD_AUTH )
+ #ifndef USE_XLOCKRC
+ /* This routine is not needed if HAVE_FCNTL_H and USE_MULTIPLE_ROOT */
+ static void
+@@ -686,7 +743,7 @@
+ #endif /* !VMS */
+ }
+ 
+-#endif /* !ultrix && !DCE_PASSWD && !BSD_AUTH */
++#endif /* !ultrix && !DCE_PASSWD && !BSD_AUTH && !USE_PAM*/
+ 
+ 
+ /*-
+@@ -699,6 +756,40 @@
+ {
+ 	int         done;
+ 
++#ifdef USE_PAM
++  /* Use PAM to do authentication.  No session logging, only authentication.
++   * Bail out if there are any errors.
++   * For now, don't try to display strings explaining errors.
++   * Later, we could integrate PAM more by posting errors to the
++   * user.
++   * Query: should we be using PAM_SILENT to shut PAM up?
++   */
++  pam_handle_t *pamh;
++  int pam_error;
++
++  #define PAM_BAIL if (pam_error != PAM_SUCCESS) { \
++     pam_end(pamh, 0); return 0; \
++   }
++  PAM_password = buffer;
++  pam_error = pam_start("xlock", user, &PAM_conversation, &pamh);
++  PAM_BAIL;
++  pam_error = pam_authenticate(pamh, 0);
++  if (pam_error != PAM_SUCCESS) {
++    /* Try as root; bail if no success there either */
++    pam_error = pam_set_item(pamh, PAM_USER, "root");
++    PAM_BAIL;
++    pam_error = pam_authenticate(pamh, 0);
++    PAM_BAIL;
++  }
++  /* Don't do account management or credentials; credentials
++   * aren't needed and account management would just lock up
++   * a computer and require root to come and unlock it.  Blech.
++   */
++  pam_end(pamh, PAM_SUCCESS);
++  /* If this point is reached, the user has been authenticated. */
++  done = True;
++
++#else /* !USE_PAM */
+ #ifdef VMS
+ 	struct ascid password;
+ 
+@@ -870,6 +961,7 @@
+ #endif /* !ultrix */
+ #endif /* !DCE_PASSWD */
+ #endif /* !VMS */
++#endif /* !USE_PAM */
+ 
+ 	return done;
+ }
+@@ -1621,7 +1713,7 @@
+ initPasswd(void)
+ {
+ 	getUserName();
+-#if !defined( ultrix ) && !defined( DCE_PASSWD )
++#if !defined( ultrix ) && !defined( DCE_PASSWD ) && !defined( USE_PAM )
+ 	if (!nolock && !inroot && !inwindow && grabmouse) {
+ #ifdef        BSD_AUTH
+ 		struct passwd *pwd = getpwnam(user);
+@@ -1639,7 +1731,7 @@
+ 			getCryptedRootPasswd();
+ #endif /* !BSD_AUTH */
+ 	}
+-#endif /* !ultrix && !DCE_PASSWD */
++#endif /* !ultrix && !DCE_PASSWD && !USE_PAM */
+ #ifdef DCE_PASSWD
+ 	initDCE();
+ #endif
+--- xlockmore-4.03/Imakefile.orig	Fri Jun 13 21:14:21 1997
++++ xlockmore-4.03/Imakefile	Wed Jul 16 03:02:58 1997
+@@ -221,6 +221,11 @@
+       PASSWDLIB = -l/src/util/Lib/util
+ #endif
+ 
++XCOMM If your system uses PAM, remove the XCOMM from the following lines:
++      PASSWDDEF = -DUSE_PAM
++      PASSWDLIB = -ldl -lpam
++
++
+ XCOMM KERBEROS
+ XCOMM   Kerberbos ver. 4
+ XCOMM      PASSWDDEF = -DHAVE_KRB4
+@@ -268,7 +273,7 @@
+      BITMAPTYPE = sun
+ #else 
+ #if HasShadowPasswd
+-      PASSWDDEF = -DHAVE_SHADOW
++XCOMM      PASSWDDEF = -DHAVE_SHADOW
+ XCOMM   PASSWDLIB = -lshadow
+ #endif
+ #if defined(HPArchitecture) || defined(ApolloArchitecture)

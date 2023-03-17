@@ -1,0 +1,11 @@
+--- xlockmore-4.03/Imakefile.xpm	Fri Jun 13 21:14:21 1997
++++ xlockmore-4.03/Imakefile	Fri Jul 11 11:27:55 1997
+@@ -44,7 +44,7 @@
+ 
+ XCOMM Only the image.c and bat.c modes use this.
+ XCOMM If your system has libXpm, remove the 'XCOMM ' from the next line.
+-XCOMM #define XpmLibrary
++#define XpmLibrary
+ 
+ #ifdef XpmLibrary
+           XPMDEF = -DUSE_XPM
