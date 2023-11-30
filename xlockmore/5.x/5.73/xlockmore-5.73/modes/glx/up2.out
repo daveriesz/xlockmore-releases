@@ -1,0 +1,1712 @@
+make[1]: *** No rule to make target 'html'.  Stop.
+make[1]: *** No rule to make target 'hlp'.  Stop.
+AbacusD.c: In function ‘drawLineText’:
+AbacusD.c:469:39: warning: unused parameter ‘w’ [-Wunused-parameter]
+  469 | static void drawLineText(AbacusWidget w, const char* line, int i)
+      |                          ~~~~~~~~~~~~~^
+AbacusE.c: In function ‘readParseFile’:
+AbacusE.c:693:28: warning: unused parameter ‘fileName’ [-Wunused-parameter]
+  693 | readParseFile(const char * fileName) {
+      |               ~~~~~~~~~~~~~^~~~~~~~
+wabacus.c: In function ‘about’:
+wabacus.c:962:54: warning: unused parameter ‘lParam’ [-Wunused-parameter]
+  962 | about(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+      |                                               ~~~~~~~^~~~~~
+wabacus.c: In function ‘teach’:
+wabacus.c:974:54: warning: unused parameter ‘lParam’ [-Wunused-parameter]
+  974 | teach(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+      |                                               ~~~~~~~^~~~~~
+wabacus.c: In function ‘calculation’:
+wabacus.c:1005:60: warning: unused parameter ‘lParam’ [-Wunused-parameter]
+ 1005 | calculation(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+      |                                                     ~~~~~~~^~~~~~
+wabacus.c: In function ‘demo’:
+wabacus.c:1042:53: warning: unused parameter ‘lParam’ [-Wunused-parameter]
+ 1042 | demo(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+      |                                              ~~~~~~~^~~~~~
+wabacus.c: In function ‘WinMain’:
+wabacus.c:1579:61: warning: unused parameter ‘lpCmdLine’ [-Wunused-parameter]
+ 1579 | WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
+      |                                                       ~~~~~~^~~~~~~~~
+wthreed.c: In function ‘about’:
+wthreed.c:149:54: warning: unused parameter ‘lParam’ [-Wunused-parameter]
+  149 | about(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+      |                                               ~~~~~~~^~~~~~
+wthreed.c: In function ‘WinMain’:
+wthreed.c:565:61: warning: unused parameter ‘lpCmdLine’ [-Wunused-parameter]
+  565 | WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
+      |                                                       ~~~~~~^~~~~~~~~
+Rubik.c: In function ‘findPieces’:
+Rubik.c:1286:24: warning: unused parameter ‘w’ [-Wunused-parameter]
+ 1286 | findPieces(RubikWidget w)
+      |            ~~~~~~~~~~~~^
+RubikS.c: In function ‘printSomePieces’:
+RubikS.c:3574:29: warning: unused parameter ‘w’ [-Wunused-parameter]
+ 3574 | printSomePieces(RubikWidget w)
+      |                 ~~~~~~~~~~~~^
+wrubik.c: In function ‘setPuzzleMove’:
+wrubik.c:2077:46: warning: unused parameter ‘face’ [-Wunused-parameter]
+ 2077 | setPuzzleMove(RubikWidget w, int reason, int face, int position, int direction,
+      |                                          ~~~~^~~~
+wrubik.c:2077:56: warning: unused parameter ‘position’ [-Wunused-parameter]
+ 2077 | setPuzzleMove(RubikWidget w, int reason, int face, int position, int direction,
+      |                                                    ~~~~^~~~~~~~
+wrubik.c:2077:70: warning: unused parameter ‘direction’ [-Wunused-parameter]
+ 2077 | setPuzzleMove(RubikWidget w, int reason, int face, int position, int direction,
+      |                                                                  ~~~~^~~~~~~~~
+wrubik.c:2078:24: warning: unused parameter ‘fast’ [-Wunused-parameter]
+ 2078 |   Boolean control, int fast)
+      |                    ~~~~^~~~
+wrubik.c: In function ‘about’:
+wrubik.c:2118:54: warning: unused parameter ‘lParam’ [-Wunused-parameter]
+ 2118 | about(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+      |                                               ~~~~~~~^~~~~~
+wrubik.c: In function ‘WinMain’:
+wrubik.c:2423:61: warning: unused parameter ‘lpCmdLine’ [-Wunused-parameter]
+ 2423 | WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
+      |                                                       ~~~~~~^~~~~~~~~
+Skewb.c: In function ‘findPieces’:
+Skewb.c:1376:24: warning: unused parameter ‘w’ [-Wunused-parameter]
+ 1376 | findPieces(SkewbWidget w)
+      |            ~~~~~~~~~~~~^
+SkewbGL.c: In function ‘positionCubit’:
+SkewbGL.c:1020:29: warning: unused parameter ‘w’ [-Wunused-parameter]
+ 1020 | positionCubit(SkewbGLWidget w, int face,
+      |               ~~~~~~~~~~~~~~^
+wskewb.c: In function ‘setPuzzleMove’:
+wskewb.c:1376:46: warning: unused parameter ‘face’ [-Wunused-parameter]
+ 1376 | setPuzzleMove(SkewbWidget w, int reason, int face, int position,
+      |                                          ~~~~^~~~
+wskewb.c:1376:56: warning: unused parameter ‘position’ [-Wunused-parameter]
+ 1376 | setPuzzleMove(SkewbWidget w, int reason, int face, int position,
+      |                                                    ~~~~^~~~~~~~
+wskewb.c:1377:7: warning: unused parameter ‘direction’ [-Wunused-parameter]
+ 1377 |   int direction, int control, int fast)
+      |   ~~~~^~~~~~~~~
+wskewb.c:1377:22: warning: unused parameter ‘control’ [-Wunused-parameter]
+ 1377 |   int direction, int control, int fast)
+      |                  ~~~~^~~~~~~
+wskewb.c:1377:35: warning: unused parameter ‘fast’ [-Wunused-parameter]
+ 1377 |   int direction, int control, int fast)
+      |                               ~~~~^~~~
+wskewb.c: In function ‘about’:
+wskewb.c:1409:54: warning: unused parameter ‘lParam’ [-Wunused-parameter]
+ 1409 | about(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+      |                                               ~~~~~~~^~~~~~
+wskewb.c: In function ‘WinMain’:
+wskewb.c:1673:61: warning: unused parameter ‘lpCmdLine’ [-Wunused-parameter]
+ 1673 | WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
+      |                                                       ~~~~~~^~~~~~~~~
+Dino.c: In function ‘findPieces’:
+Dino.c:1354:23: warning: unused parameter ‘w’ [-Wunused-parameter]
+ 1354 | findPieces(DinoWidget w)
+      |            ~~~~~~~~~~~^
+wdino.c: In function ‘setPuzzleMove’:
+wdino.c:1489:45: warning: unused parameter ‘face’ [-Wunused-parameter]
+ 1489 | setPuzzleMove(DinoWidget w, int reason, int face, int position, int direction,
+      |                                         ~~~~^~~~
+wdino.c:1489:55: warning: unused parameter ‘position’ [-Wunused-parameter]
+ 1489 | setPuzzleMove(DinoWidget w, int reason, int face, int position, int direction,
+      |                                                   ~~~~^~~~~~~~
+wdino.c:1489:69: warning: unused parameter ‘direction’ [-Wunused-parameter]
+ 1489 | setPuzzleMove(DinoWidget w, int reason, int face, int position, int direction,
+      |                                                                 ~~~~^~~~~~~~~
+wdino.c:1490:7: warning: unused parameter ‘style’ [-Wunused-parameter]
+ 1490 |   int style, int control, int fast)
+      |   ~~~~^~~~~
+wdino.c:1490:18: warning: unused parameter ‘control’ [-Wunused-parameter]
+ 1490 |   int style, int control, int fast)
+      |              ~~~~^~~~~~~
+wdino.c:1490:31: warning: unused parameter ‘fast’ [-Wunused-parameter]
+ 1490 |   int style, int control, int fast)
+      |                           ~~~~^~~~
+wdino.c: In function ‘about’:
+wdino.c:1524:54: warning: unused parameter ‘lParam’ [-Wunused-parameter]
+ 1524 | about(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+      |                                               ~~~~~~~^~~~~~
+wdino.c: In function ‘WinMain’:
+wdino.c:1868:61: warning: unused parameter ‘lpCmdLine’ [-Wunused-parameter]
+ 1868 | WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
+      |                                                       ~~~~~~^~~~~~~~~
+Pyraminx.c: In function ‘findPieces’:
+Pyraminx.c:2390:27: warning: unused parameter ‘w’ [-Wunused-parameter]
+ 2390 | findPieces(PyraminxWidget w)
+      |            ~~~~~~~~~~~~~~~^
+PyraminxS.c: In function ‘findCenter’:
+PyraminxS.c:2284:27: warning: unused parameter ‘w’ [-Wunused-parameter]
+ 2284 | findCenter(PyraminxWidget w, int start, int value)
+      |            ~~~~~~~~~~~~~~~^
+wpyraminx.c: In function ‘about’:
+wpyraminx.c:1660:54: warning: unused parameter ‘lParam’ [-Wunused-parameter]
+ 1660 | about(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+      |                                               ~~~~~~~^~~~~~
+wpyraminx.c: In function ‘WinMain’:
+wpyraminx.c:1961:61: warning: unused parameter ‘lpCmdLine’ [-Wunused-parameter]
+ 1961 | WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
+      |                                                       ~~~~~~^~~~~~~~~
+Oct.c: In function ‘findPieces’:
+Oct.c:2546:22: warning: unused parameter ‘w’ [-Wunused-parameter]
+ 2546 | findPieces(OctWidget w)
+      |            ~~~~~~~~~~^
+woct.c: In function ‘about’:
+woct.c:1643:54: warning: unused parameter ‘lParam’ [-Wunused-parameter]
+ 1643 | about(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+      |                                               ~~~~~~~^~~~~~
+woct.c: In function ‘WinMain’:
+woct.c:1952:61: warning: unused parameter ‘lpCmdLine’ [-Wunused-parameter]
+ 1952 | WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
+      |                                                       ~~~~~~^~~~~~~~~
+wmball.c: In function ‘about’:
+wmball.c:1516:54: warning: unused parameter ‘lParam’ [-Wunused-parameter]
+ 1516 | about(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+      |                                               ~~~~~~~^~~~~~
+wmball.c: In function ‘WinMain’:
+wmball.c:1804:61: warning: unused parameter ‘lpCmdLine’ [-Wunused-parameter]
+ 1804 | WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
+      |                                                       ~~~~~~^~~~~~~~~
+wcubes.c: In function ‘about’:
+wcubes.c:1607:54: warning: unused parameter ‘lParam’ [-Wunused-parameter]
+ 1607 | about(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+      |                                               ~~~~~~~^~~~~~
+wcubes.c: In function ‘WinMain’:
+wcubes.c:1821:61: warning: unused parameter ‘lpCmdLine’ [-Wunused-parameter]
+ 1821 | WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
+      |                                                       ~~~~~~^~~~~~~~~
+wtriangles.c: In function ‘about’:
+wtriangles.c:1425:54: warning: unused parameter ‘lParam’ [-Wunused-parameter]
+ 1425 | about(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+      |                                               ~~~~~~~^~~~~~
+wtriangles.c: In function ‘WinMain’:
+wtriangles.c:1642:61: warning: unused parameter ‘lpCmdLine’ [-Wunused-parameter]
+ 1642 | WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
+      |                                                       ~~~~~~^~~~~~~~~
+whexagons.c: In function ‘about’:
+whexagons.c:1453:54: warning: unused parameter ‘lParam’ [-Wunused-parameter]
+ 1453 | about(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+      |                                               ~~~~~~~^~~~~~
+whexagons.c: In function ‘WinMain’:
+whexagons.c:1670:61: warning: unused parameter ‘lpCmdLine’ [-Wunused-parameter]
+ 1670 | WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
+      |                                                       ~~~~~~^~~~~~~~~
+wpanex.c: In function ‘about’:
+wpanex.c:1258:54: warning: unused parameter ‘lParam’ [-Wunused-parameter]
+ 1258 | about(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+      |                                               ~~~~~~~^~~~~~
+wpanex.c: In function ‘WinMain’:
+wpanex.c:1433:61: warning: unused parameter ‘lpCmdLine’ [-Wunused-parameter]
+ 1433 | WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
+      |                                                       ~~~~~~^~~~~~~~~
+wmlink.c: In function ‘about’:
+wmlink.c:1604:54: warning: unused parameter ‘lParam’ [-Wunused-parameter]
+ 1604 | about(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+      |                                               ~~~~~~~^~~~~~
+wmlink.c: In function ‘WinMain’:
+wmlink.c:1883:61: warning: unused parameter ‘lpCmdLine’ [-Wunused-parameter]
+ 1883 | WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
+      |                                                       ~~~~~~^~~~~~~~~
+wbarrel.c: In function ‘about’:
+wbarrel.c:1573:54: warning: unused parameter ‘lParam’ [-Wunused-parameter]
+ 1573 | about(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+      |                                               ~~~~~~~^~~~~~
+wbarrel.c: In function ‘WinMain’:
+wbarrel.c:1832:61: warning: unused parameter ‘lpCmdLine’ [-Wunused-parameter]
+ 1832 | WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
+      |                                                       ~~~~~~^~~~~~~~~
+wtetris.c: In function ‘showNextCallback’:
+wtetris.c:686:65: warning: unused parameter ‘lParam’ [-Wunused-parameter]
+  686 | showNextCallback(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+      |                                                          ~~~~~~~^~~~~~
+wtetris.c: In function ‘setGameNext’:
+wtetris.c:1295:26: warning: unused parameter ‘w’ [-Wunused-parameter]
+ 1295 | setGameNext(TetrisWidget w, int reason,
+      |             ~~~~~~~~~~~~~^
+wtetris.c: In function ‘about’:
+wtetris.c:1339:54: warning: unused parameter ‘lParam’ [-Wunused-parameter]
+ 1339 | about(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+      |                                               ~~~~~~~^~~~~~
+wtetris.c: In function ‘WinMain’:
+wtetris.c:1583:61: warning: unused parameter ‘lpCmdLine’ [-Wunused-parameter]
+ 1583 | WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
+      |                                                       ~~~~~~^~~~~~~~~
+wtertris.c: In function ‘showNextCallback’:
+wtertris.c:692:65: warning: unused parameter ‘lParam’ [-Wunused-parameter]
+  692 | showNextCallback(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+      |                                                          ~~~~~~~^~~~~~
+wtertris.c: In function ‘setGameNext’:
+wtertris.c:1322:27: warning: unused parameter ‘w’ [-Wunused-parameter]
+ 1322 | setGameNext(TertrisWidget w, int reason,
+      |             ~~~~~~~~~~~~~~^
+wtertris.c: In function ‘about’:
+wtertris.c:1366:54: warning: unused parameter ‘lParam’ [-Wunused-parameter]
+ 1366 | about(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+      |                                               ~~~~~~~^~~~~~
+wtertris.c: In function ‘WinMain’:
+wtertris.c:1617:61: warning: unused parameter ‘lpCmdLine’ [-Wunused-parameter]
+ 1617 | WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
+      |                                                       ~~~~~~^~~~~~~~~
+whextris.c: In function ‘showNextCallback’:
+whextris.c:695:65: warning: unused parameter ‘lParam’ [-Wunused-parameter]
+  695 | showNextCallback(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+      |                                                          ~~~~~~~^~~~~~
+whextris.c: In function ‘setGameNext’:
+whextris.c:1325:27: warning: unused parameter ‘w’ [-Wunused-parameter]
+ 1325 | setGameNext(HextrisWidget w, int reason,
+      |             ~~~~~~~~~~~~~~^
+whextris.c: In function ‘about’:
+whextris.c:1369:54: warning: unused parameter ‘lParam’ [-Wunused-parameter]
+ 1369 | about(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+      |                                               ~~~~~~~^~~~~~
+whextris.c: In function ‘WinMain’:
+whextris.c:1620:61: warning: unused parameter ‘lpCmdLine’ [-Wunused-parameter]
+ 1620 | WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
+      |                                                       ~~~~~~^~~~~~~~~
+wwelltris.c: In function ‘showNextCallback’:
+wwelltris.c:691:65: warning: unused parameter ‘lParam’ [-Wunused-parameter]
+  691 | showNextCallback(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+      |                                                          ~~~~~~~^~~~~~
+wwelltris.c: In function ‘setGameNext’:
+wwelltris.c:1321:28: warning: unused parameter ‘w’ [-Wunused-parameter]
+ 1321 | setGameNext(WelltrisWidget w, int reason,
+      |             ~~~~~~~~~~~~~~~^
+wwelltris.c: In function ‘about’:
+wwelltris.c:1365:54: warning: unused parameter ‘lParam’ [-Wunused-parameter]
+ 1365 | about(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+      |                                               ~~~~~~~^~~~~~
+wwelltris.c: In function ‘WinMain’:
+wwelltris.c:1616:61: warning: unused parameter ‘lpCmdLine’ [-Wunused-parameter]
+ 1616 | WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
+      |                                                       ~~~~~~^~~~~~~~~
+abacus/Abacus.h
+abacus/AbacusP.h
+abacus/xwin.h
+abacus/file.h
+abacus/timer.h
+abacus/rngs.h
+abacus/sound.h
+abacus/version.h
+abacus/xgui.h
+abacus/pixmaps/doc/Abacus001.png
+abacus/pixmaps/doc/Abacus002.png
+abacus/pixmaps/doc/Abacus003.png
+abacus/pixmaps/doc/Abacus004.png
+abacus/pixmaps/doc/Abacus005.png
+abacus/pixmaps/doc/Abacus006.png
+abacus/pixmaps/doc/Abacus007.png
+abacus/pixmaps/doc/Abacus008.png
+abacus/pixmaps/doc/Abacus009.png
+abacus/pixmaps/doc/Abacus010.png
+abacus/pixmaps/doc/Abacus011.png
+abacus/pixmaps/doc/Abacus012.png
+abacus/pixmaps/mouse-l.xbm
+abacus/pixmaps/mouse-r.xbm
+abacus/pixmaps/144x144/abacus.png
+abacus/pixmaps/144x144/abacus.xpm
+abacus/pixmaps/16x16/abacus.png
+abacus/pixmaps/16x16/abacus.xpm
+abacus/pixmaps/192x192/abacus.png
+abacus/pixmaps/192x192/abacus.xpm
+abacus/pixmaps/22x22/abacus.png
+abacus/pixmaps/22x22/abacus.xpm
+abacus/pixmaps/24x24/abacus.png
+abacus/pixmaps/24x24/abacus.xpm
+abacus/pixmaps/32x32/abacus.png
+abacus/pixmaps/32x32/abacus.xpm
+abacus/pixmaps/36x36/abacus.png
+abacus/pixmaps/36x36/abacus.xpm
+abacus/pixmaps/48x48/abacus.png
+abacus/pixmaps/48x48/abacus.xpm
+abacus/pixmaps/64x64/abacus.png
+abacus/pixmaps/64x64/abacus.xbm
+abacus/pixmaps/64x64/abacus.xpm
+abacus/pixmaps/72x72/abacus.png
+abacus/pixmaps/72x72/abacus.xpm
+abacus/pixmaps/96x96/abacus.png
+abacus/pixmaps/96x96/abacus.xpm
+abacus/pixmaps/check.xbm
+abacus/pixmaps/box.xbm
+abacus/pixmaps/up.xbm
+abacus/pixmaps/down.xbm
+abacus/bump.au
+abacus/move.au
+abacus/drip.au
+abacus/play.sh
+abacus/Abacus.c
+abacus/AbacusU.c
+abacus/AbacusC.c
+abacus/AbacusD.c
+abacus/AbacusM.c
+abacus/AbacusT.c
+abacus/AbacusF.c
+abacus/AbacusE.c
+abacus/xabacus.c
+abacus/xwin.c
+abacus/file.c
+abacus/timer.c
+abacus/rngs.c
+abacus/sound.c
+abacus/xgui.c
+abacus/Imakefile
+abacus/xabacus.man
+abacus/xabacus.html
+abacus/Abacus.ad
+abacus/Abacus.ps
+abacus/abacusDemo.xml
+abacus/configure
+abacus/Makefile.in
+abacus/configure.ac
+abacus/config.guess
+abacus/config.sub
+abacus/config.cygport
+abacus/install-sh
+abacus/mkinstalldirs
+abacus/AUTHORS
+abacus/ChangeLog
+abacus/COPYING
+abacus/NEWS
+abacus/INSTALL
+abacus/README
+abacus/TODO
+abacus/vms/README.vms
+abacus/vms/xabacus.hlp
+abacus/vms/make.com
+abacus/vms/mmov.com
+abacus/vms/vms_amd.c
+abacus/vms/vms_amd.h
+abacus/vms/vms_mmov.c
+abacus/win32/Makefile
+abacus/win32/wabacus.rc
+abacus/win32/bump.wav
+abacus/win32/move.wav
+abacus/win32/drip.wav
+abacus/win32/wabacus.ini
+abacus/win32/abacus.ico
+abacus/po/AbacusT.pot
+abacus/po/de/AbacusT.po
+abacus/po/es/AbacusT.po
+abacus/po/fr/AbacusT.po
+abacus/po/nb/AbacusT.po
+abacus/po/nl/AbacusT.po
+dial/Dial.h
+dial/DialP.h
+dial/DialSq.h
+dial/DialSqP.h
+dial/xwin.h
+dial/version.h
+dial/xgui.h
+dial/pixmaps/mouse-l.xbm
+dial/pixmaps/mouse-r.xbm
+dial/pixmaps/16x16/dial.png
+dial/pixmaps/16x16/dial.xpm
+dial/pixmaps/22x22/dial.png
+dial/pixmaps/22x22/dial.xpm
+dial/pixmaps/24x24/dial.xpm
+dial/pixmaps/32x32/dial.png
+dial/pixmaps/32x32/dial.xpm
+dial/pixmaps/48x48/dial.png
+dial/pixmaps/48x48/dial.xpm
+dial/pixmaps/64x64/dial.xbm
+dial/pixmaps/64x64/dial.xpm
+dial/pixmaps/check.xbm
+dial/pixmaps/box.xbm
+dial/pixmaps/up.xbm
+dial/pixmaps/down.xbm
+dial/Dial.c
+dial/DialSq.c
+dial/xdial.c
+dial/xwin.c
+dial/xgui.c
+dial/Imakefile
+dial/Dial.ad
+dial/DialSq.ad
+dial/configure
+dial/Makefile.in
+dial/configure.ac
+dial/config.guess
+dial/config.sub
+dial/config.cygport
+dial/install-sh
+dial/mkinstalldirs
+dial/AUTHORS
+dial/ChangeLog
+dial/COPYING
+dial/NEWS
+dial/vms/README.vms
+dial/vms/make.com
+threed/Threed.h
+threed/ThreedP.h
+threed/xwin.h
+threed/file.h
+threed/timer.h
+threed/sound.h
+threed/version.h
+threed/xgui.h
+threed/pixmaps/16x16/threed.png
+threed/pixmaps/16x16/threed.xpm
+threed/pixmaps/22x22/threed.png
+threed/pixmaps/22x22/threed.xpm
+threed/pixmaps/24x24/threed.png
+threed/pixmaps/24x24/threed.xpm
+threed/pixmaps/32x32/threed.png
+threed/pixmaps/32x32/threed.xpm
+threed/pixmaps/48x48/threed.png
+threed/pixmaps/48x48/threed.xpm
+threed/pixmaps/64x64/threed.xbm
+threed/pixmaps/64x64/threed.xpm
+threed/pixmaps/check.xbm
+threed/pixmaps/box.xbm
+threed/pixmaps/up.xbm
+threed/pixmaps/down.xbm
+threed/bump.au
+threed/move.au
+threed/play.sh
+threed/Threed.c
+threed/ThreedM.c
+threed/xthreed.c
+threed/xwin.c
+threed/file.c
+threed/timer.c
+threed/sound.c
+threed/xgui.c
+threed/Imakefile
+threed/xthreed.man
+threed/xthreed.html
+threed/Threed.ad
+threed/threed.dat
+threed/configure
+threed/Makefile.in
+threed/configure.ac
+threed/config.guess
+threed/config.sub
+threed/config.cygport
+threed/install-sh
+threed/mkinstalldirs
+threed/AUTHORS
+threed/ChangeLog
+threed/COPYING
+threed/NEWS
+threed/INSTALL
+threed/README
+threed/TODO
+threed/vms/README.vms
+threed/vms/xthreed.hlp
+threed/vms/make.com
+threed/vms/mmov.com
+threed/vms/vms_amd.c
+threed/vms/vms_amd.h
+threed/vms/vms_mmov.c
+threed/win32/Makefile
+threed/win32/wthreed.rc
+threed/win32/bump.wav
+threed/win32/move.wav
+threed/win32/wthreed.ini
+threed/win32/threed.ico
+rubik/Rubik.h
+rubik/RubikP.h
+rubik/Rubik2d.h
+rubik/Rubik2dP.h
+rubik/Rubik3d.h
+rubik/Rubik3dP.h
+rubik/RubikGL.h
+rubik/RubikGLP.h
+rubik/xwin.h
+rubik/file.h
+rubik/timer.h
+rubik/rngs.h
+rubik/sound.h
+rubik/version.h
+rubik/xgui.h
+rubik/pixmaps/mouse-l.xbm
+rubik/pixmaps/mouse-r.xbm
+rubik/pixmaps/16x16/rubik.png
+rubik/pixmaps/16x16/rubik.xpm
+rubik/pixmaps/22x22/rubik.png
+rubik/pixmaps/22x22/rubik.xpm
+rubik/pixmaps/24x24/rubik.png
+rubik/pixmaps/24x24/rubik.xpm
+rubik/pixmaps/32x32/rubik.png
+rubik/pixmaps/32x32/rubik.xpm
+rubik/pixmaps/48x48/rubik.png
+rubik/pixmaps/48x48/rubik.xpm
+rubik/pixmaps/64x64/rubik.xbm
+rubik/pixmaps/64x64/rubik.xpm
+rubik/pixmaps/check.xbm
+rubik/pixmaps/box.xbm
+rubik/pixmaps/up.xbm
+rubik/pixmaps/down.xbm
+rubik/move.au
+rubik/play.sh
+rubik/Rubik.c
+rubik/RubikS.c
+rubik/RubikU.c
+rubik/Rubik2d.c
+rubik/Rubik3d.c
+rubik/RubikGL.c
+rubik/RubikF.c
+rubik/xrubik.c
+rubik/xwin.c
+rubik/file.c
+rubik/timer.c
+rubik/rngs.c
+rubik/sound.c
+rubik/xgui.c
+rubik/Imakefile
+rubik/xrubik.man
+rubik/xrubik.html
+rubik/Rubik.ad
+rubik/rubik.scores
+rubik/configure
+rubik/Makefile.in
+rubik/configure.ac
+rubik/config.guess
+rubik/config.sub
+rubik/config.cygport
+rubik/install-sh
+rubik/mkinstalldirs
+rubik/AUTHORS
+rubik/ChangeLog
+rubik/COPYING
+rubik/NEWS
+rubik/INSTALL
+rubik/README
+rubik/TODO
+rubik/vms/README.vms
+rubik/vms/xrubik.hlp
+rubik/vms/make.com
+rubik/vms/mmov.com
+rubik/vms/vms_amd.c
+rubik/vms/vms_amd.h
+rubik/vms/vms_mmov.c
+rubik/win32/Makefile
+rubik/win32/wrubik.rc
+rubik/win32/move.wav
+rubik/win32/wrubik.ini
+rubik/win32/rubik.ico
+skewb/Skewb.h
+skewb/SkewbP.h
+skewb/Skewb2d.h
+skewb/Skewb2dP.h
+skewb/Skewb3d.h
+skewb/Skewb3dP.h
+skewb/SkewbGL.h
+skewb/SkewbGLP.h
+skewb/xwin.h
+skewb/file.h
+skewb/timer.h
+skewb/rngs.h
+skewb/sound.h
+skewb/version.h
+skewb/xgui.h
+skewb/pixmaps/mouse-l.xbm
+skewb/pixmaps/mouse-r.xbm
+skewb/pixmaps/16x16/skewb.png
+skewb/pixmaps/16x16/skewb.xpm
+skewb/pixmaps/22x22/skewb.png
+skewb/pixmaps/22x22/skewb.xpm
+skewb/pixmaps/24x24/skewb.png
+skewb/pixmaps/24x24/skewb.xpm
+skewb/pixmaps/32x32/skewb.png
+skewb/pixmaps/32x32/skewb.xpm
+skewb/pixmaps/48x48/skewb.png
+skewb/pixmaps/48x48/skewb.xpm
+skewb/pixmaps/64x64/skewb.xbm
+skewb/pixmaps/64x64/skewb.xpm
+skewb/pixmaps/check.xbm
+skewb/pixmaps/box.xbm
+skewb/pixmaps/up.xbm
+skewb/pixmaps/down.xbm
+skewb/move.au
+skewb/play.sh
+skewb/Skewb.c
+skewb/SkewbS.c
+skewb/SkewbU.c
+skewb/Skewb2d.c
+skewb/Skewb3d.c
+skewb/SkewbGL.c
+skewb/SkewbF.c
+skewb/xskewb.c
+skewb/xwin.c
+skewb/file.c
+skewb/timer.c
+skewb/rngs.c
+skewb/sound.c
+skewb/xgui.c
+skewb/Imakefile
+skewb/xskewb.man
+skewb/xskewb.html
+skewb/Skewb.ad
+skewb/skewb.scores
+skewb/configure
+skewb/Makefile.in
+skewb/configure.ac
+skewb/config.guess
+skewb/config.sub
+skewb/config.cygport
+skewb/install-sh
+skewb/mkinstalldirs
+skewb/AUTHORS
+skewb/ChangeLog
+skewb/COPYING
+skewb/NEWS
+skewb/INSTALL
+skewb/README
+skewb/TODO
+skewb/vms/README.vms
+skewb/vms/xskewb.hlp
+skewb/vms/make.com
+skewb/vms/mmov.com
+skewb/vms/vms_amd.c
+skewb/vms/vms_amd.h
+skewb/vms/vms_mmov.c
+skewb/win32/Makefile
+skewb/win32/wskewb.rc
+skewb/win32/move.wav
+skewb/win32/wskewb.ini
+skewb/win32/skewb.ico
+dino/Dino.h
+dino/DinoP.h
+dino/Dino2d.h
+dino/Dino2dP.h
+dino/Dino3d.h
+dino/Dino3dP.h
+dino/DinoGL.h
+dino/DinoGLP.h
+dino/xwin.h
+dino/file.h
+dino/timer.h
+dino/rngs.h
+dino/sound.h
+dino/version.h
+dino/xgui.h
+dino/pixmaps/mouse-l.xbm
+dino/pixmaps/mouse-r.xbm
+dino/pixmaps/16x16/dino.png
+dino/pixmaps/16x16/dino.xpm
+dino/pixmaps/22x22/dino.png
+dino/pixmaps/22x22/dino.xpm
+dino/pixmaps/24x24/dino.png
+dino/pixmaps/24x24/dino.xpm
+dino/pixmaps/32x32/dino.png
+dino/pixmaps/32x32/dino.xpm
+dino/pixmaps/48x48/dino.png
+dino/pixmaps/48x48/dino.xpm
+dino/pixmaps/64x64/dino.xbm
+dino/pixmaps/64x64/dino.xpm
+dino/pixmaps/check.xbm
+dino/pixmaps/box.xbm
+dino/pixmaps/up.xbm
+dino/pixmaps/down.xbm
+dino/move.au
+dino/play.sh
+dino/Dino.c
+dino/DinoS.c
+dino/DinoU.c
+dino/Dino2d.c
+dino/Dino3d.c
+dino/DinoGL.c
+dino/DinoF.c
+dino/xdino.c
+dino/xwin.c
+dino/file.c
+dino/timer.c
+dino/rngs.c
+dino/sound.c
+dino/xgui.c
+dino/Imakefile
+dino/xdino.man
+dino/xdino.html
+dino/Dino.ad
+dino/dino.scores
+dino/configure
+dino/Makefile.in
+dino/configure.ac
+dino/config.guess
+dino/config.sub
+dino/config.cygport
+dino/install-sh
+dino/mkinstalldirs
+dino/AUTHORS
+dino/ChangeLog
+dino/COPYING
+dino/NEWS
+dino/INSTALL
+dino/README
+dino/TODO
+dino/vms/README.vms
+dino/vms/xdino.hlp
+dino/vms/make.com
+dino/vms/mmov.com
+dino/vms/vms_amd.c
+dino/vms/vms_amd.h
+dino/vms/vms_mmov.c
+dino/win32/Makefile
+dino/win32/wdino.rc
+dino/win32/move.wav
+dino/win32/wdino.ini
+dino/win32/dino.ico
+pyraminx/Pyraminx.h
+pyraminx/PyraminxP.h
+pyraminx/xwin.h
+pyraminx/file.h
+pyraminx/timer.h
+pyraminx/rngs.h
+pyraminx/sound.h
+pyraminx/version.h
+pyraminx/xgui.h
+pyraminx/pixmaps/mouse-l.xbm
+pyraminx/pixmaps/mouse-r.xbm
+pyraminx/pixmaps/16x16/pyraminx.png
+pyraminx/pixmaps/16x16/pyraminx.xpm
+pyraminx/pixmaps/22x22/pyraminx.png
+pyraminx/pixmaps/22x22/pyraminx.xpm
+pyraminx/pixmaps/24x24/pyraminx.png
+pyraminx/pixmaps/24x24/pyraminx.xpm
+pyraminx/pixmaps/32x32/pyraminx.png
+pyraminx/pixmaps/32x32/pyraminx.xpm
+pyraminx/pixmaps/48x48/pyraminx.png
+pyraminx/pixmaps/48x48/pyraminx.xpm
+pyraminx/pixmaps/64x64/pyraminx.xbm
+pyraminx/pixmaps/64x64/pyraminx.xpm
+pyraminx/pixmaps/check.xbm
+pyraminx/pixmaps/box.xbm
+pyraminx/pixmaps/up.xbm
+pyraminx/pixmaps/down.xbm
+pyraminx/move.au
+pyraminx/play.sh
+pyraminx/Pyraminx.c
+pyraminx/PyraminxS.c
+pyraminx/PyraminxU.c
+pyraminx/PyraminxF.c
+pyraminx/xpyraminx.c
+pyraminx/xwin.c
+pyraminx/file.c
+pyraminx/timer.c
+pyraminx/rngs.c
+pyraminx/sound.c
+pyraminx/xgui.c
+pyraminx/Imakefile
+pyraminx/xpyraminx.man
+pyraminx/xpyraminx.html
+pyraminx/Pyraminx.ad
+pyraminx/pyraminx.scores
+pyraminx/configure
+pyraminx/Makefile.in
+pyraminx/configure.ac
+pyraminx/config.guess
+pyraminx/config.sub
+pyraminx/config.cygport
+pyraminx/install-sh
+pyraminx/mkinstalldirs
+pyraminx/AUTHORS
+pyraminx/ChangeLog
+pyraminx/COPYING
+pyraminx/NEWS
+pyraminx/INSTALL
+pyraminx/README
+pyraminx/TODO
+pyraminx/vms/README.vms
+pyraminx/vms/xpyraminx.hlp
+pyraminx/vms/make.com
+pyraminx/vms/mmov.com
+pyraminx/vms/vms_amd.c
+pyraminx/vms/vms_amd.h
+pyraminx/vms/vms_mmov.c
+pyraminx/win32/Makefile
+pyraminx/win32/wpyraminx.rc
+pyraminx/win32/move.wav
+pyraminx/win32/wpyraminx.ini
+pyraminx/win32/pyraminx.ico
+oct/Oct.h
+oct/OctP.h
+oct/xwin.h
+oct/file.h
+oct/timer.h
+oct/rngs.h
+oct/sound.h
+oct/version.h
+oct/xgui.h
+oct/xgui.h
+oct/pixmaps/mouse-l.xbm
+oct/pixmaps/mouse-r.xbm
+oct/pixmaps/16x16/oct.png
+oct/pixmaps/16x16/oct.xpm
+oct/pixmaps/22x22/oct.png
+oct/pixmaps/22x22/oct.xpm
+oct/pixmaps/24x24/oct.png
+oct/pixmaps/24x24/oct.xpm
+oct/pixmaps/32x32/oct.png
+oct/pixmaps/32x32/oct.xpm
+oct/pixmaps/48x48/oct.png
+oct/pixmaps/48x48/oct.xpm
+oct/pixmaps/64x64/oct.xbm
+oct/pixmaps/64x64/oct.xpm
+oct/pixmaps/check.xbm
+oct/pixmaps/box.xbm
+oct/pixmaps/up.xbm
+oct/pixmaps/down.xbm
+oct/move.au
+oct/play.sh
+oct/Oct.c
+oct/OctS.c
+oct/OctU.c
+oct/OctF.c
+oct/xoct.c
+oct/xwin.c
+oct/file.c
+oct/timer.c
+oct/rngs.c
+oct/sound.c
+oct/xgui.c
+oct/Imakefile
+oct/xoct.man
+oct/xoct.html
+oct/Oct.ad
+oct/oct.scores
+oct/configure
+oct/Makefile.in
+oct/configure.ac
+oct/config.guess
+oct/config.sub
+oct/config.cygport
+oct/install-sh
+oct/mkinstalldirs
+oct/AUTHORS
+oct/ChangeLog
+oct/COPYING
+oct/NEWS
+oct/INSTALL
+oct/README
+oct/TODO
+oct/vms/README.vms
+oct/vms/xoct.hlp
+oct/vms/make.com
+oct/vms/mmov.com
+oct/vms/vms_amd.c
+oct/vms/vms_amd.h
+oct/vms/vms_mmov.c
+oct/win32/Makefile
+oct/win32/woct.rc
+oct/win32/move.wav
+oct/win32/woct.ini
+oct/win32/oct.ico
+mball/Mball.h
+mball/MballP.h
+mball/xwin.h
+mball/file.h
+mball/timer.h
+mball/rngs.h
+mball/sound.h
+mball/version.h
+mball/xgui.h
+mball/pixmaps/mouse-l.xbm
+mball/pixmaps/mouse-r.xbm
+mball/pixmaps/16x16/mball.png
+mball/pixmaps/16x16/mball.xpm
+mball/pixmaps/22x22/mball.png
+mball/pixmaps/22x22/mball.xpm
+mball/pixmaps/24x24/mball.png
+mball/pixmaps/24x24/mball.xpm
+mball/pixmaps/32x32/mball.png
+mball/pixmaps/32x32/mball.xpm
+mball/pixmaps/48x48/mball.png
+mball/pixmaps/48x48/mball.xpm
+mball/pixmaps/64x64/mball.xbm
+mball/pixmaps/64x64/mball.xpm
+mball/pixmaps/check.xbm
+mball/pixmaps/box.xbm
+mball/pixmaps/up.xbm
+mball/pixmaps/down.xbm
+mball/move.au
+mball/play.sh
+mball/Mball.c
+mball/MballS.c
+mball/MballU.c
+mball/xmball.c
+mball/xwin.c
+mball/file.c
+mball/timer.c
+mball/rngs.c
+mball/sound.c
+mball/xgui.c
+mball/convMball.pl
+mball/Imakefile
+mball/xmball.man
+mball/xmball.html
+mball/Mball.ad
+mball/mball.scores
+mball/configure
+mball/Makefile.in
+mball/configure.ac
+mball/config.guess
+mball/config.sub
+mball/config.cygport
+mball/install-sh
+mball/mkinstalldirs
+mball/AUTHORS
+mball/ChangeLog
+mball/COPYING
+mball/NEWS
+mball/INSTALL
+mball/README
+mball/TODO
+mball/vms/README.vms
+mball/vms/xmball.hlp
+mball/vms/make.com
+mball/vms/mmov.com
+mball/vms/vms_amd.c
+mball/vms/vms_amd.h
+mball/vms/vms_mmov.c
+mball/win32/Makefile
+mball/win32/wmball.rc
+mball/win32/move.wav
+mball/win32/wmball.ini
+mball/win32/mball.ico
+cubes/Cubes.h
+cubes/CubesP.h
+cubes/xwin.h
+cubes/file.h
+cubes/timer.h
+cubes/rngs.h
+cubes/sound.h
+cubes/picture.h
+cubes/version.h
+cubes/xgui.h
+cubes/pixmaps/mouse-l.xbm
+cubes/pixmaps/mouse-r.xbm
+cubes/pixmaps/16x16/cubes.png
+cubes/pixmaps/16x16/cubes.xpm
+cubes/pixmaps/22x22/cubes.png
+cubes/pixmaps/22x22/cubes.xpm
+cubes/pixmaps/24x24/cubes.png
+cubes/pixmaps/24x24/cubes.xpm
+cubes/pixmaps/32x32/cubes.png
+cubes/pixmaps/32x32/cubes.xpm
+cubes/pixmaps/48x48/cubes.png
+cubes/pixmaps/48x48/cubes.xpm
+cubes/pixmaps/64x64/cubes.xbm
+cubes/pixmaps/64x64/cubes.xpm
+cubes/pixmaps/check.xbm
+cubes/pixmaps/box.xbm
+cubes/pixmaps/up.xbm
+cubes/pixmaps/down.xbm
+cubes/mandrill.xbm
+cubes/mandrill.xpm
+cubes/bump.au
+cubes/drip.au
+cubes/play.sh
+cubes/Cubes.c
+cubes/CubesS.c
+cubes/CubesU.c
+cubes/xcubes.c
+cubes/xwin.c
+cubes/file.c
+cubes/timer.c
+cubes/rngs.c
+cubes/sound.c
+cubes/picture.c
+cubes/xgui.c
+cubes/Imakefile
+cubes/xcubes.man
+cubes/xcubes.html
+cubes/Cubes.ad
+cubes/cubes.scores
+cubes/configure
+cubes/Makefile.in
+cubes/configure.ac
+cubes/config.guess
+cubes/config.sub
+cubes/config.cygport
+cubes/install-sh
+cubes/mkinstalldirs
+cubes/AUTHORS
+cubes/ChangeLog
+cubes/COPYING
+cubes/NEWS
+cubes/INSTALL
+cubes/README
+cubes/TODO
+cubes/vms/README.vms
+cubes/vms/xcubes.hlp
+cubes/vms/make.com
+cubes/vms/mmov.com
+cubes/vms/vms_amd.c
+cubes/vms/vms_amd.h
+cubes/vms/vms_mmov.c
+cubes/win32/Makefile
+cubes/win32/wcubes.rc
+cubes/win32/mandrill.bmp
+cubes/win32/bump.wav
+cubes/win32/drip.wav
+cubes/win32/wcubes.ini
+cubes/win32/cubes.ico
+triangles/Triangles.h
+triangles/TrianglesP.h
+triangles/xwin.h
+triangles/file.h
+triangles/timer.h
+triangles/rngs.h
+triangles/sound.h
+triangles/picture.h
+triangles/version.h
+triangles/xgui.h
+triangles/pixmaps/mouse-l.xbm
+triangles/pixmaps/mouse-r.xbm
+triangles/pixmaps/16x16/triangles.png
+triangles/pixmaps/16x16/triangles.xpm
+triangles/pixmaps/22x22/triangles.png
+triangles/pixmaps/22x22/triangles.xpm
+triangles/pixmaps/24x24/triangles.png
+triangles/pixmaps/24x24/triangles.xpm
+triangles/pixmaps/32x32/triangles.png
+triangles/pixmaps/32x32/triangles.xpm
+triangles/pixmaps/48x48/triangles.png
+triangles/pixmaps/48x48/triangles.xpm
+triangles/pixmaps/64x64/triangles.xbm
+triangles/pixmaps/64x64/triangles.xpm
+triangles/pixmaps/check.xbm
+triangles/pixmaps/box.xbm
+triangles/pixmaps/up.xbm
+triangles/pixmaps/down.xbm
+triangles/bump.au
+triangles/play.sh
+triangles/Triangles.c
+triangles/TrianglesU.c
+triangles/xtriangles.c
+triangles/xwin.c
+triangles/file.c
+triangles/timer.c
+triangles/rngs.c
+triangles/sound.c
+triangles/picture.c
+triangles/xgui.c
+triangles/Imakefile
+triangles/xtriangles.man
+triangles/xtriangles.html
+triangles/Triangles.ad
+triangles/triangles.scores
+triangles/configure
+triangles/Makefile.in
+triangles/configure.ac
+triangles/config.guess
+triangles/config.sub
+triangles/config.cygport
+triangles/install-sh
+triangles/mkinstalldirs
+triangles/AUTHORS
+triangles/ChangeLog
+triangles/COPYING
+triangles/NEWS
+triangles/INSTALL
+triangles/README
+triangles/TODO
+triangles/vms/README.vms
+triangles/vms/xtriangles.hlp
+triangles/vms/make.com
+triangles/vms/mmov.com
+triangles/vms/vms_amd.c
+triangles/vms/vms_amd.h
+triangles/vms/vms_mmov.c
+triangles/win32/Makefile
+triangles/win32/wtriangles.rc
+triangles/win32/bump.wav
+triangles/win32/wtriangles.ini
+triangles/win32/triangles.ico
+hexagons/Hexagons.h
+hexagons/HexagonsP.h
+hexagons/xwin.h
+hexagons/file.h
+hexagons/timer.h
+hexagons/rngs.h
+hexagons/sound.h
+hexagons/picture.h
+hexagons/version.h
+hexagons/xgui.h
+hexagons/pixmaps/mouse-l.xbm
+hexagons/pixmaps/mouse-r.xbm
+hexagons/pixmaps/16x16/hexagons.png
+hexagons/pixmaps/16x16/hexagons.xpm
+hexagons/pixmaps/22x22/hexagons.png
+hexagons/pixmaps/22x22/hexagons.xpm
+hexagons/pixmaps/24x24/hexagons.png
+hexagons/pixmaps/24x24/hexagons.xpm
+hexagons/pixmaps/32x32/hexagons.png
+hexagons/pixmaps/32x32/hexagons.xpm
+hexagons/pixmaps/48x48/hexagons.png
+hexagons/pixmaps/48x48/hexagons.xpm
+hexagons/pixmaps/64x64/hexagons.xbm
+hexagons/pixmaps/64x64/hexagons.xpm
+hexagons/pixmaps/check.xbm
+hexagons/pixmaps/box.xbm
+hexagons/pixmaps/up.xbm
+hexagons/pixmaps/down.xbm
+hexagons/bump.au
+hexagons/play.sh
+hexagons/Hexagons.c
+hexagons/HexagonsS.c
+hexagons/HexagonsU.c
+hexagons/xhexagons.c
+hexagons/xwin.c
+hexagons/file.c
+hexagons/timer.c
+hexagons/rngs.c
+hexagons/sound.c
+hexagons/picture.c
+hexagons/xgui.c
+hexagons/Imakefile
+hexagons/xhexagons.man
+hexagons/xhexagons.html
+hexagons/Hexagons.ad
+hexagons/hexagons.scores
+hexagons/configure
+hexagons/Makefile.in
+hexagons/configure.ac
+hexagons/config.guess
+hexagons/config.sub
+hexagons/config.cygport
+hexagons/install-sh
+hexagons/mkinstalldirs
+hexagons/AUTHORS
+hexagons/ChangeLog
+hexagons/COPYING
+hexagons/NEWS
+hexagons/INSTALL
+hexagons/README
+hexagons/TODO
+hexagons/vms/README.vms
+hexagons/vms/xhexagons.hlp
+hexagons/vms/make.com
+hexagons/vms/mmov.com
+hexagons/vms/vms_amd.c
+hexagons/vms/vms_amd.h
+hexagons/vms/vms_mmov.c
+hexagons/win32/Makefile
+hexagons/win32/whexagons.rc
+hexagons/win32/bump.wav
+hexagons/win32/whexagons.ini
+hexagons/win32/hexagons.ico
+panex/Panex.h
+panex/PanexP.h
+panex/xwin.h
+panex/file.h
+panex/timer.h
+panex/rngs.h
+panex/sound.h
+panex/version.h
+panex/xgui.h
+panex/pixmaps/mouse-l.xbm
+panex/pixmaps/mouse-r.xbm
+panex/pixmaps/16x16/panex.png
+panex/pixmaps/16x16/panex.xpm
+panex/pixmaps/22x22/panex.png
+panex/pixmaps/22x22/panex.xpm
+panex/pixmaps/24x24/panex.png
+panex/pixmaps/24x24/panex.xpm
+panex/pixmaps/32x32/panex.png
+panex/pixmaps/32x32/panex.xpm
+panex/pixmaps/48x48/panex.png
+panex/pixmaps/48x48/panex.xpm
+panex/pixmaps/64x64/panex.png
+panex/pixmaps/64x64/panex.xbm
+panex/pixmaps/64x64/panex.xpm
+panex/pixmaps/check.xbm
+panex/pixmaps/box.xbm
+panex/pixmaps/up.xbm
+panex/pixmaps/down.xbm
+panex/move.au
+panex/drip.au
+panex/play.sh
+panex/Panex.c
+panex/PanexS.c
+panex/PanexU.c
+panex/xpanex.c
+panex/xwin.c
+panex/file.c
+panex/timer.c
+panex/rngs.c
+panex/sound.c
+panex/xgui.c
+panex/Imakefile
+panex/xpanex.man
+panex/xpanex.html
+panex/Panex.ad
+panex/panex.scores
+panex/configure
+panex/Makefile.in
+panex/configure.ac
+panex/config.guess
+panex/config.sub
+panex/config.cygport
+panex/install-sh
+panex/mkinstalldirs
+panex/AUTHORS
+panex/ChangeLog
+panex/COPYING
+panex/NEWS
+panex/INSTALL
+panex/README
+panex/TODO
+panex/vms/README.vms
+panex/vms/xpanex.hlp
+panex/vms/make.com
+panex/vms/mmov.com
+panex/vms/vms_amd.c
+panex/vms/vms_amd.h
+panex/vms/vms_mmov.c
+panex/win32/Makefile
+panex/win32/wpanex.rc
+panex/win32/move.wav
+panex/win32/drip.wav
+panex/win32/wpanex.ini
+panex/win32/panex.ico
+mlink/Mlink.h
+mlink/MlinkP.h
+mlink/xwin.h
+mlink/file.h
+mlink/timer.h
+mlink/rngs.h
+mlink/sound.h
+mlink/picture.h
+mlink/version.h
+mlink/xgui.h
+mlink/pixmaps/mouse-l.xbm
+mlink/pixmaps/mouse-r.xbm
+mlink/pixmaps/16x16/mlink.png
+mlink/pixmaps/16x16/mlink.xpm
+mlink/pixmaps/22x22/mlink.png
+mlink/pixmaps/22x22/mlink.xpm
+mlink/pixmaps/24x24/mlink.png
+mlink/pixmaps/24x24/mlink.xpm
+mlink/pixmaps/32x32/mlink.png
+mlink/pixmaps/32x32/mlink.xpm
+mlink/pixmaps/48x48/mlink.png
+mlink/pixmaps/48x48/mlink.xpm
+mlink/pixmaps/64x64/mlink.xbm
+mlink/pixmaps/64x64/mlink.xpm
+mlink/pixmaps/check.xbm
+mlink/pixmaps/box.xbm
+mlink/pixmaps/up.xbm
+mlink/pixmaps/down.xbm
+mlink/mandrill.xbm
+mlink/mandrill.xpm
+mlink/bump.au
+mlink/move.au
+mlink/play.sh
+mlink/Mlink.c
+mlink/MlinkS.c
+mlink/MlinkU.c
+mlink/xmlink.c
+mlink/xwin.c
+mlink/file.c
+mlink/timer.c
+mlink/rngs.c
+mlink/sound.c
+mlink/picture.c
+mlink/xgui.c
+mlink/Imakefile
+mlink/xmlink.man
+mlink/xmlink.html
+mlink/Mlink.ad
+mlink/mlink.scores
+mlink/configure
+mlink/Makefile.in
+mlink/configure.ac
+mlink/config.guess
+mlink/config.sub
+mlink/config.cygport
+mlink/install-sh
+mlink/mkinstalldirs
+mlink/AUTHORS
+mlink/ChangeLog
+mlink/COPYING
+mlink/NEWS
+mlink/INSTALL
+mlink/README
+mlink/TODO
+mlink/vms/README.vms
+mlink/vms/xmlink.hlp
+mlink/vms/make.com
+mlink/vms/mmov.com
+mlink/vms/vms_amd.c
+mlink/vms/vms_amd.h
+mlink/vms/vms_mmov.c
+mlink/win32/Makefile
+mlink/win32/wmlink.rc
+mlink/win32/mandrill.bmp
+mlink/win32/bump.wav
+mlink/win32/move.wav
+mlink/win32/wmlink.ini
+mlink/win32/mlink.ico
+barrel/Barrel.h
+barrel/BarrelP.h
+barrel/xwin.h
+barrel/file.h
+barrel/timer.h
+barrel/rngs.h
+barrel/sound.h
+barrel/picture.h
+barrel/version.h
+barrel/xgui.h
+barrel/pixmaps/mouse-l.xbm
+barrel/pixmaps/mouse-r.xbm
+barrel/pixmaps/16x16/barrel.png
+barrel/pixmaps/16x16/barrel.xpm
+barrel/pixmaps/22x22/barrel.png
+barrel/pixmaps/22x22/barrel.xpm
+barrel/pixmaps/24x24/barrel.png
+barrel/pixmaps/24x24/barrel.xpm
+barrel/pixmaps/32x32/barrel.png
+barrel/pixmaps/32x32/barrel.xpm
+barrel/pixmaps/48x48/barrel.png
+barrel/pixmaps/48x48/barrel.xpm
+barrel/pixmaps/64x64/barrel.xbm
+barrel/pixmaps/64x64/barrel.xpm
+barrel/pixmaps/check.xbm
+barrel/pixmaps/box.xbm
+barrel/pixmaps/up.xbm
+barrel/pixmaps/down.xbm
+barrel/mandrill.xbm
+barrel/mandrill.xpm
+barrel/bump.au
+barrel/move.au
+barrel/play.sh
+barrel/Barrel.c
+barrel/BarrelS.c
+barrel/BarrelU.c
+barrel/xbarrel.c
+barrel/xwin.c
+barrel/file.c
+barrel/timer.c
+barrel/rngs.c
+barrel/sound.c
+barrel/picture.c
+barrel/xgui.c
+barrel/Imakefile
+barrel/xbarrel.man
+barrel/xbarrel.html
+barrel/Barrel.ad
+barrel/barrel.scores
+barrel/configure
+barrel/Makefile.in
+barrel/configure.ac
+barrel/config.guess
+barrel/config.sub
+barrel/config.cygport
+barrel/install-sh
+barrel/mkinstalldirs
+barrel/AUTHORS
+barrel/ChangeLog
+barrel/COPYING
+barrel/NEWS
+barrel/INSTALL
+barrel/README
+barrel/TODO
+barrel/vms/README.vms
+barrel/vms/xbarrel.hlp
+barrel/vms/make.com
+barrel/vms/mmov.com
+barrel/vms/vms_amd.c
+barrel/vms/vms_amd.h
+barrel/vms/vms_mmov.c
+barrel/win32/Makefile
+barrel/win32/wbarrel.rc
+barrel/win32/mandrill.bmp
+barrel/win32/bump.wav
+barrel/win32/move.wav
+barrel/win32/wbarrel.ini
+barrel/win32/barrel.ico
+tetris/Tetris.h
+tetris/TetrisP.h
+tetris/TetrisN.h
+tetris/TetrisNP.h
+tetris/xwin.h
+tetris/file.h
+tetris/timer.h
+tetris/rngs.h
+tetris/sound.h
+tetris/polyomino.h
+tetris/image.h
+tetris/version.h
+tetris/xgui.h
+tetris/pixmaps/16x16/tetris.png
+tetris/pixmaps/16x16/tetris.xpm
+tetris/pixmaps/22x22/tetris.png
+tetris/pixmaps/22x22/tetris.xpm
+tetris/pixmaps/24x24/tetris.png
+tetris/pixmaps/24x24/tetris.xpm
+tetris/pixmaps/32x32/tetris.png
+tetris/pixmaps/32x32/tetris.xpm
+tetris/pixmaps/48x48/tetris.png
+tetris/pixmaps/48x48/tetris.xpm
+tetris/pixmaps/64x64/tetris.xbm
+tetris/pixmaps/64x64/tetris.xpm
+tetris/pixmaps/64x64/ticon.xbm
+tetris/pixmaps/check.xbm
+tetris/pixmaps/box.xbm
+tetris/pixmaps/up.xbm
+tetris/pixmaps/down.xbm
+tetris/bump.au
+tetris/play.sh
+tetris/Tetris.c
+tetris/TetrisN.c
+tetris/xtetris.c
+tetris/xwin.c
+tetris/file.c
+tetris/timer.c
+tetris/rngs.c
+tetris/sound.c
+tetris/polyomino.c
+tetris/image.c
+tetris/xgui.c
+tetris/Imakefile
+tetris/tetris.man
+tetris/tetris.html
+tetris/Tetris.ad
+tetris/tetris.scores
+tetris/configure
+tetris/Makefile.in
+tetris/configure.ac
+tetris/config.guess
+tetris/config.sub
+tetris/config.cygport
+tetris/install-sh
+tetris/mkinstalldirs
+tetris/AUTHORS
+tetris/ChangeLog
+tetris/COPYING
+tetris/NEWS
+tetris/INSTALL
+tetris/README
+tetris/TODO
+tetris/vms/README.vms
+tetris/vms/tetris.hlp
+tetris/vms/make.com
+tetris/vms/mmov.com
+tetris/vms/vms_amd.c
+tetris/vms/vms_amd.h
+tetris/vms/vms_mmov.c
+tetris/win32/Makefile
+tetris/win32/wtetris.rc
+tetris/win32/bump.wav
+tetris/win32/wtetris.ini
+tetris/win32/tetris.ico
+tertris/Tertris.h
+tertris/TertrisP.h
+tertris/TertrisN.h
+tertris/TertrisNP.h
+tertris/xwin.h
+tertris/file.h
+tertris/timer.h
+tertris/rngs.h
+tertris/sound.h
+tertris/polyiamond.h
+tertris/image.h
+tertris/version.h
+tertris/xgui.h
+tertris/pixmaps/16x16/tertris.png
+tertris/pixmaps/16x16/tertris.xpm
+tertris/pixmaps/22x22/tertris.png
+tertris/pixmaps/22x22/tertris.xpm
+tertris/pixmaps/24x24/tertris.png
+tertris/pixmaps/24x24/tertris.xpm
+tertris/pixmaps/32x32/tertris.png
+tertris/pixmaps/32x32/tertris.xpm
+tertris/pixmaps/48x48/tertris.png
+tertris/pixmaps/48x48/tertris.xpm
+tertris/pixmaps/64x64/tertris.xbm
+tertris/pixmaps/64x64/tertris.xpm
+tertris/pixmaps/check.xbm
+tertris/pixmaps/box.xbm
+tertris/pixmaps/up.xbm
+tertris/pixmaps/down.xbm
+tertris/bump.au
+tertris/play.sh
+tertris/Tertris.c
+tertris/TertrisN.c
+tertris/xtertris.c
+tertris/xwin.c
+tertris/file.c
+tertris/timer.c
+tertris/rngs.c
+tertris/sound.c
+tertris/polyiamond.c
+tertris/xgui.c
+tertris/Imakefile
+tertris/tertris.man
+tertris/tertris.html
+tertris/Tertris.ad
+tertris/tertris.scores
+tertris/configure
+tertris/Makefile.in
+tertris/configure.ac
+tertris/config.guess
+tertris/config.sub
+tertris/config.cygport
+tertris/install-sh
+tertris/mkinstalldirs
+tertris/AUTHORS
+tertris/ChangeLog
+tertris/COPYING
+tertris/NEWS
+tertris/INSTALL
+tertris/README
+tertris/TODO
+tertris/vms/README.vms
+tertris/vms/tertris.hlp
+tertris/vms/make.com
+tertris/vms/mmov.com
+tertris/vms/vms_amd.c
+tertris/vms/vms_amd.h
+tertris/vms/vms_mmov.c
+tertris/win32/Makefile
+tertris/win32/wtertris.rc
+tertris/win32/bump.wav
+tertris/win32/wtertris.ini
+tertris/win32/tertris.ico
+hextris/Hextris.h
+hextris/HextrisP.h
+hextris/HextrisN.h
+hextris/HextrisNP.h
+hextris/xwin.h
+hextris/file.h
+hextris/timer.h
+hextris/rngs.h
+hextris/sound.h
+hextris/polyhex.h
+hextris/image.h
+hextris/version.h
+hextris/xgui.h
+hextris/pixmaps/16x16/hextris.png
+hextris/pixmaps/16x16/hextris.xpm
+hextris/pixmaps/22x22/hextris.png
+hextris/pixmaps/22x22/hextris.xpm
+hextris/pixmaps/24x24/hextris.png
+hextris/pixmaps/24x24/hextris.xpm
+hextris/pixmaps/32x32/hextris.png
+hextris/pixmaps/32x32/hextris.xpm
+hextris/pixmaps/48x48/hextris.png
+hextris/pixmaps/48x48/hextris.xpm
+hextris/pixmaps/64x64/hextris.xbm
+hextris/pixmaps/64x64/hextris.xpm
+hextris/pixmaps/check.xbm
+hextris/pixmaps/box.xbm
+hextris/pixmaps/up.xbm
+hextris/pixmaps/down.xbm
+hextris/bump.au
+hextris/play.sh
+hextris/Hextris.c
+hextris/HextrisN.c
+hextris/xhextris.c
+hextris/xwin.c
+hextris/file.c
+hextris/timer.c
+hextris/rngs.c
+hextris/sound.c
+hextris/polyhex.c
+hextris/xgui.c
+hextris/Imakefile
+hextris/hextris.man
+hextris/hextris.html
+hextris/Hextris.ad
+hextris/hextris.scores
+hextris/configure
+hextris/Makefile.in
+hextris/configure.ac
+hextris/config.guess
+hextris/config.sub
+hextris/config.cygport
+hextris/install-sh
+hextris/mkinstalldirs
+hextris/AUTHORS
+hextris/ChangeLog
+hextris/COPYING
+hextris/NEWS
+hextris/INSTALL
+hextris/README
+hextris/TODO
+hextris/vms/README.vms
+hextris/vms/hextris.hlp
+hextris/vms/make.com
+hextris/vms/mmov.com
+hextris/vms/vms_amd.c
+hextris/vms/vms_amd.h
+hextris/vms/vms_mmov.c
+hextris/win32/Makefile
+hextris/win32/whextris.rc
+hextris/win32/bump.wav
+hextris/win32/whextris.ini
+hextris/win32/hextris.ico
+welltris/Welltris.h
+welltris/WelltrisP.h
+welltris/WelltrisN.h
+welltris/WelltrisNP.h
+welltris/xwin.h
+welltris/file.h
+welltris/timer.h
+welltris/rngs.h
+welltris/sound.h
+welltris/polyomino.h
+welltris/image.h
+welltris/version.h
+welltris/xgui.h
+welltris/pixmaps/16x16/welltris.png
+welltris/pixmaps/16x16/welltris.xpm
+welltris/pixmaps/22x22/welltris.png
+welltris/pixmaps/22x22/welltris.xpm
+welltris/pixmaps/24x24/welltris.png
+welltris/pixmaps/24x24/welltris.xpm
+welltris/pixmaps/32x32/welltris.png
+welltris/pixmaps/32x32/welltris.xpm
+welltris/pixmaps/48x48/welltris.png
+welltris/pixmaps/48x48/welltris.xpm
+welltris/pixmaps/64x64/welltris.xbm
+welltris/pixmaps/64x64/welltris.xpm
+welltris/pixmaps/check.xbm
+welltris/pixmaps/box.xbm
+welltris/pixmaps/up.xbm
+welltris/pixmaps/down.xbm
+welltris/bump.au
+welltris/drip.au
+welltris/play.sh
+welltris/Welltris.c
+welltris/WelltrisN.c
+welltris/xwelltris.c
+welltris/xwin.c
+welltris/file.c
+welltris/timer.c
+welltris/rngs.c
+welltris/sound.c
+welltris/polyomino.c
+welltris/image.c
+welltris/xgui.c
+welltris/Imakefile
+welltris/welltris.man
+welltris/welltris.html
+welltris/Welltris.ad
+welltris/welltris.scores
+welltris/configure
+welltris/Makefile.in
+welltris/configure.ac
+welltris/config.guess
+welltris/config.sub
+welltris/config.cygport
+welltris/install-sh
+welltris/mkinstalldirs
+welltris/AUTHORS
+welltris/ChangeLog
+welltris/COPYING
+welltris/NEWS
+welltris/INSTALL
+welltris/README
+welltris/TODO
+welltris/vms/README.vms
+welltris/vms/welltris.hlp
+welltris/vms/make.com
+welltris/vms/mmov.com
+welltris/vms/vms_amd.c
+welltris/vms/vms_amd.h
+welltris/vms/vms_mmov.c
+welltris/win32/Makefile
+welltris/win32/wwelltris.rc
+welltris/win32/bump.wav
+welltris/win32/drip.wav
+welltris/win32/wwelltris.ini
+welltris/win32/welltris.ico
